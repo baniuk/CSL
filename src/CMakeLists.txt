@@ -1,1 +1,1 @@
-add_subdirectory(Error)
+add_subdirectory(setError)

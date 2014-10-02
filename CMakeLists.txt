@@ -3,7 +3,7 @@
 set(ROOT_PROJECT_NAME "LabView_Extensions")
 
 cmake_minimum_required (VERSION 2.8.3)
-project(${(ROOT_PROJECT_NAME})
+project(${ROOT_PROJECT_NAME})
 
 # set additional compiler flags
 IF (${WIN32})
