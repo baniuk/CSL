@@ -7,8 +7,8 @@
 
 /**
 * \class setError
-* \brief Prosta klasa pomocnicz obsługująca zwracanie błędów do LV
-* \details W związku z tym że pamięć na opis błedu allokowana jest po stronie LabView i ma ona stałą i niezmienną
+* \brief Prosta klasa pomocnicza obsługująca zwracanie błędów do LV
+* \details W związku z tym ze pamięć na opis błedu allokowana jest po stronie LabView i ma ona stałą i niezmienną
 * wielkość określoną przez stałą MAX_ERROR_STRING istnieje niebezpieczeństwo przekroczenia tej pamięci przy
 * zwracaniu komunikatu z błedem. Rolą tej klasy jest ograniczenie długości zwracanego łańcucha. Ze względu na lokalny
 * charakter błedu nie ma potrzeby czynienia go "obiektem". Wystarczy jedna metoda statyczna

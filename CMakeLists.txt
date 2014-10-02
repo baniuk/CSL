@@ -7,7 +7,7 @@ project(${ROOT_PROJECT_NAME})
 
 # set additional compiler flags
 IF (${WIN32})
-	# defaul RELEASE flags /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MP /MD /O2 /Ob2 /D NDEBUG
+	# default RELEASE flags /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MP /MD /O2 /Ob2 /D NDEBUG
 	SET(EXTRA_COMPILER_FLAGS "/MP")
 ELSEIF (${UNIX})
 	SET(EXTRA_COMPILER_FLAGS "") 

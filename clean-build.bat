@@ -12,9 +12,7 @@ IF EXIST bin rmdir bin /s /q
 IF EXIST lib rmdir lib /s/q
 
 rem recreate dirs
-mkdir doc
 mkdir bin
-rem mkdir lib
 
 rem start build process from bin dir
 cd bin

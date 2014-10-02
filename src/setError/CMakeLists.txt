@@ -8,5 +8,5 @@ include_directories(${${ROOT_PROJECT_NAME}_SOURCE_DIR}/include)
 add_library(setError STATIC setError.cpp)
 set_target_properties(setError
 	PROPERTIES
-	ARCHIVE_OUTPUT_DIRECTORY "${${ROOT_PROJECT_NAME}_SOURCE_DIR}/lib"
-	COMPILE_FLAGS "/D_CRT_SECURE_NO_WARNINGS")
+	ARCHIVE_OUTPUT_DIRECTORY "${${ROOT_PROJECT_NAME}_SOURCE_DIR}/lib")
+target_compile_options(setError PUBLIC "/D_CRT_SECURE_NO_WARNINGS")

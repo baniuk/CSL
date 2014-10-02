@@ -1,5 +1,8 @@
-/** \mainpage LAbView DLL tools 
+/** \mainpage LabView DLL tools 
 * 
-* \section Error 
-* Klasa obsługi błedów
+* \section Outputs
+* \subsection Definicje
+* -# definitions.h - \copybrief definitions.h
+* \subsection static_lib Bibiloteki statyczne
+* -# setError - \copybrief setError
 */
