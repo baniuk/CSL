@@ -1,0 +1,7 @@
+To build project use:
+
+./clean-build.bat - clears everything and run cmake and then make
+
+or
+
+run cmake manually from any dir you want to be build dir. Outputs will be localted in lib direcrory.

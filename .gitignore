@@ -1,0 +1,13 @@
+# Ignore build dir and CMake stuff
+
+[Bb]in
+lib
+doc
+MSVC
+
+# cmake stuff
+
+CMakeFiles
+CMakeCache.txt
+*.cmake
+Makefile

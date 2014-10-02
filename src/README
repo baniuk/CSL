@@ -1,0 +1,2 @@
+Sources for every project module in separate dirs.
+Includes specific to project can be in src dir. In include dir should be only externally avaiable includes 
