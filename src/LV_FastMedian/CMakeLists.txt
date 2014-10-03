@@ -14,5 +14,5 @@ add_dependencies(${LOCAL_PROJECT_NAME} setError)
 # dodatkowe ustawienia projektu
 set_target_properties(${LOCAL_PROJECT_NAME}
 	PROPERTIES
-	LIBRARY_OUTPUT_DIRECTORY "${${ROOT_PROJECT_NAME}_SOURCE_DIR}/lib")
+	RUNTIME_OUTPUT_DIRECTORY "${${ROOT_PROJECT_NAME}_SOURCE_DIR}/lib")
 # target_compile_options(setError PUBLIC "/D_CRT_SECURE_NO_WARNINGS")

@@ -13,7 +13,6 @@
 #include <crtdbg.h>
 #include <vector>
 #include <algorithm>
-#include <iostream>
 
 #ifndef SAFE_DELETE
 #define SAFE_DELETE(p)       { if(p) { delete[] (p);     (p)=nullptr; } }
@@ -139,12 +138,12 @@ void FastMedian_Huang(	OBRAZ *image,
 					  unsigned short *tabout,
 					  unsigned short mask)
 {
-	unsigned int *hist=NULL;				// histogram obszaru filtrowanego
-	unsigned short *window = NULL;			// dane z okna maski
+	unsigned int *hist = nullptr;				// histogram obszaru filtrowanego
+	unsigned short *window = nullptr;			// dane z okna maski
 	unsigned short mdm;						// wartoœæ mediany w oknie
 	unsigned int lmdm;					// liczba elementów obrazu o wartoœciach mniejszych od mdm
-	unsigned short *left_column = NULL;		// lewa kolumna okna
-	unsigned short *right_column = NULL;	// prawa kolumna okna
+	unsigned short *left_column = nullptr;		// lewa kolumna okna
+	unsigned short *right_column = nullptr;	// prawa kolumna okna
 	unsigned int r,k;						// indeksy bierz¹cej pozycji okna na obrazie (œrodka)
 	unsigned short mask_center = (mask+1)/2;// œrodek maski (indeks)
 	unsigned short bok_maski = (mask-1)/2;	// rozmiar boku maski ca³a maska to 2*bok + 1
@@ -201,7 +200,8 @@ void FastMedian_Huang(	OBRAZ *image,
 					lmdm-=hist[mdm];
 				}
 			else
-				while(lmdm+hist[mdm]<=th) {
+				while(lmdm+hist[mdm]<=th)
+				{
 					lmdm+=hist[mdm];
 					_ASSERT(mdm<65535);
 					mdm++;
