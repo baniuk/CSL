@@ -5,6 +5,8 @@ set(ROOT_PROJECT_NAME "LabView_Extensions")
 cmake_minimum_required (VERSION 2.8.3)
 project(${ROOT_PROJECT_NAME})
 
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
 # set additional compiler flags
 IF (${WIN32})
 	# default RELEASE flags /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MP /MD /O2 /Ob2 /D NDEBUG
