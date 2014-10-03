@@ -1,4 +1,4 @@
-/**
+ï»¿/**
 * \file    fastMEdian.h
 * \brief	Headers and definitions for LV_FastMedian.dll
 * \author  PB
@@ -8,33 +8,47 @@
 #ifndef fastMedian_h__
 #define fastMedian_h__
 
+#include "setError/setError.h"
+
 /**
-* Struktura opisuj¹ca obraz lub bardziej generalnie obszar pamiêci
+* \struct OBRAZ
+* \brief Struktura opisujÄ…ca obraz lub bardziej generalnie obszar pamiÄ™ci
+* \remarks Stosowana lokalnie w LV_FastMedian
 */
 struct OBRAZ
 {
-	const unsigned short *tab; /** wska¿nik na tablicê z obrazem */
-	unsigned int rows; /** iloœæ rzêdów */
-	unsigned int cols; /** iloœæ kolumn */
-	unsigned int tabsize;	/** iloœæ elementów tablicy = rows*cols */
+	const unsigned short *tab; /** wskaÅ¼nik na tablicÄ™ z obrazem */
+	unsigned int rows; /** iloÅ›Ä‡ rzÄ™dÃ³w */
+	unsigned int cols; /** iloÅ›Ä‡ kolumn */
+	unsigned int tabsize;	/** iloÅ›Ä‡ elementÃ³w tablicy = rows*cols */
 };
 
+/// Filtruje obraz medianÄ…
 void FastMedian_Huang(	OBRAZ *image,
 					  unsigned short *tabout,
 					  unsigned short mask);
 
+/// Dokonuje konwersji z pozycji [x,y] do liniowej
 inline unsigned short getPoint(OBRAZ *image, unsigned int r, unsigned int k);
+/// Zwraca medianÄ™ z wektora
 unsigned short getMedian(const unsigned short *tab, unsigned int tabsize);
+/// Zwraca medianÄ™ z histogramu
 unsigned short getMedianHist(const unsigned int *hist, unsigned int tabsize);
-
+/// Kopiuje kwadratowÄ… maskÄ™ z obrazu liniowego
 void CopyWindow(OBRAZ *input_image,
 				unsigned short mask,
 				unsigned int current_row,
 				unsigned int current_col,
 				unsigned short *out,
 				unsigned int *hist);
+/// Kopiuje jednÄ… kolumnÄ™ obrazu
 void CopyOneColumn( OBRAZ *input_image, unsigned short mask, int r, int k, unsigned short *out );
-
+/// Exported method for median filtering using fast median alghoritm
+extern "C" __declspec(dllexport) retCode LV_MedFilt(const UINT16* input_image,
+													UINT16* output_image,
+													UINT16 nrows, UINT16 ncols,
+													UINT16 mask,
+													char* errDesc);
 /// Number of gray levels in the image
 #define GRAYSCALE 65536
 

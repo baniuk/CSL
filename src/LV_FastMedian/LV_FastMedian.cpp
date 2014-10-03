@@ -1,15 +1,13 @@
-/**
+ï»¿/**
 * \file    LV_FastMedian.cpp
 * \brief	Implementation of Fast Median based on ISAR project
 * \details Exports the following functions:
-* - LV_MedFilt31 - Filtering using fixed mas 31x31
 * - LV_MedFilt  - Filtering using any mask
 * \author  PB
 * \date    2012/09/08
 */
 
 #include "LV_FastMedian/LV_FastMedian.h"
-#include "setError/setError.h"
 #include <crtdbg.h>
 #include <vector>
 #include <algorithm>
@@ -19,12 +17,12 @@
 #endif
 
 /**
-* \brief Zwraca wartoœæ z tablicy na pozycji [r,k], przy za³ozeniu ¿e tablica jest interpretowana jako 2D
-* \param[in] image		struktura opisuj¹ca obraz
-* \param[in] r			rz¹d
+* \brief Zwraca wartoÅ›Ä‡ z tablicy na pozycji [r,k], przy zaÅ‚ozeniu Å¼e tablica jest interpretowana jako 2D
+* \param[in] image		struktura opisujÄ…ca obraz
+* \param[in] r			rzÄ…d
 * \param[in] k			kolumna
-* \return wartoœæ na pozycji tab[r,k]
-* \remarks W obrazie dane uk³adane sa rzedami, zgodnie z C_MatrixContainer
+* \return wartoÅ›Ä‡ na pozycji tab[r,k]
+* \remarks W obrazie dane ukÅ‚adane sa rzedami, zgodnie z C_MatrixContainer
 */
 inline unsigned short getPoint(OBRAZ *image, unsigned int r, unsigned int k)
 {
@@ -33,10 +31,10 @@ inline unsigned short getPoint(OBRAZ *image, unsigned int r, unsigned int k)
 }
 
 /**
-* \brief Zwraca medianê z wektora wartoœci
-* \param[in] tab		tablica wartoœci
+* \brief Zwraca medianÄ™ z wektora wartoÅ›ci
+* \param[in] tab		tablica wartoÅ›ci
 * \param[in] tabsize		rozmiar tablicy
-* \return wartoœæ mediany
+* \return wartoÅ›Ä‡ mediany
 */
 unsigned short getMedian(const unsigned short *tab, unsigned int tabsize)
 {
@@ -46,75 +44,80 @@ unsigned short getMedian(const unsigned short *tab, unsigned int tabsize)
 }
 
 /**
-* \brief Kopiuje okno o rozmiarze 2*halfmedian+1 z obrazka wejœciowego do tablicy out.
-* \details Kopiuje rzêdami jak na obrazie oryginalnym dodatkowow tworzy histogram
-* \param[in] input_image		obraz wejœciowy
+* \brief Kopiuje okno o rozmiarze 2*halfmedian+1 z obrazka wejÅ›ciowego do tablicy out.
+* \details Kopiuje rzÄ™dami jak na obrazie oryginalnym dodatkowo tworzy histogram
+* \param[in] input_image		obraz wejÅ›ciowy
 * \param[in] mask				nieparzysty rozmiar maski
-* \param[in] current_row		indeks rzêdu dla którego wyci¹æ okno - indeks w którym jest œrodek okna
-* \param[in] current_col		indeks kolumny dla której wyci¹æ okno - indeks w którym jest œrodek okna
-* \param[out] out				tablica wyjœciowa o rozmiarze maski
+* \param[in] current_row		indeks rzÄ™du dla ktÃ³rego wyciÄ…Ä‡ okno - indeks w ktÃ³rym jest Å›rodek okna
+* \param[in] current_col		indeks kolumny dla ktÃ³rej wyciÄ…Ä‡ okno - indeks w ktÃ³rym jest Å›rodek okna
+* \param[out] out				tablica wyjÅ›ciowa o rozmiarze maski
 * \param[out] hist				tablica z histogramem okna
-* \remarks Funkcja czyœci tablicê hist. Jeœli okno wystaje poza obszar obrazu to wpisywane s¹ 0 do okna
-* \todo T¹ funkcjê mo¿na przyspieszyæ u¿ywaj¹c kopiowania ca³ych rzêdów !!
+* \remarks Funkcja czyÅ›ci tablicÄ™ hist. JeÅ›li okno wystaje poza obszar obrazu to wpisywane sÄ… 0 do okna
+* \todo TÄ… funkcjÄ™ moÅ¼na przyspieszyÄ‡ uÅ¼ywajÄ…c kopiowania caÅ‚ych rzÄ™dÃ³w !!
 */
-void CopyWindow( OBRAZ *input_image, unsigned short mask, unsigned int current_row, unsigned int current_col, unsigned short *out, unsigned int *hist )
+void CopyWindow( OBRAZ *input_image,
+				unsigned short mask,
+				unsigned int current_row,
+				unsigned int current_col,
+				unsigned short *out,
+				unsigned int *hist )
 {
-	int wr,wk;			// indeksy wewn¹trz okna
+	int wr,wk;			// indeksy wewnÄ…trz okna
 	unsigned short bok_maski = (mask-1)/2;
 	unsigned int l;	// licznik
-	memset(hist, 0, GRAYSCALE*sizeof(unsigned int));	// szybkie zerowanie pamiêci histogramu (dla kazdego rzêdu procedura dzia³a od pocz¹tku)
+	memset(hist, 0, GRAYSCALE*sizeof(unsigned int));	// szybkie zerowanie pamiÄ™ci histogramu (dla kazdego rzÄ™du procedura dziaÅ‚a od poczÄ…tku)
 	for (wr = static_cast<int>(current_row)-bok_maski,l=0;wr<static_cast<int>(current_row)+bok_maski+1;wr++)
 		for (wk = static_cast<int>(current_col)-bok_maski;wk<static_cast<int>(current_col)+bok_maski+1;wk++)
 		{
-			if(wr<0 || wk<0 || wk>=static_cast<int>(input_image->cols) || wr>=static_cast<int>(input_image->rows))	// jeœli okno wystaje poza obraz to wpisywane s¹ w to miejsce zera
+			if(wr<0 || wk<0 || wk>=static_cast<int>(input_image->cols) || wr>=static_cast<int>(input_image->rows))	// jeÅ›li okno wystaje poza obraz to wpisywane sÄ… w to miejsce zera
 				out[l] = 0;
 			else
-				out[l] = getPoint(input_image,wr,wk);	// kopiowanie danych z obrazu do osobnej tablicy reprezentuj¹cej okno
+				out[l] = getPoint(input_image,wr,wk);	// kopiowanie danych z obrazu do osobnej tablicy reprezentujÄ…cej okno
 			hist[out[l]]++;	// obliczam histogram
 			l++;
 		}
 }
 
 /**
-* \brief Zwraca medianê z wektora reprezentowanego przez jego histogram
+* \brief Zwraca medianÄ™ z wektora reprezentowanego przez jego histogram
 * \param[in] hist		tablica z histogramem
 * \param[in] tabsize		rozmiar tablicy
-* \return wartoœæ mediany
+* \return wartoÅ›Ä‡ mediany
 * \remarks Na podstawie http://mathematics.blurtit.com/q6132160.html
 */
 unsigned short getMedianHist( const unsigned int *hist, unsigned int tabsize )
 {
 	unsigned int cum_hist[GRAYSCALE]; // histogram kumulacyjny
-	unsigned short cum_index[GRAYSCALE];	// indeksy z histo które wchodz¹ w sklad kumulacyjnego (niezerowe wartoœci histogramu)
+	unsigned short cum_index[GRAYSCALE];	// indeksy z histo ktÃ³re wchodzÄ… w sklad kumulacyjnego (niezerowe wartoÅ›ci histogramu)
 	unsigned short licznik;
 	unsigned short a=0;
 	unsigned short M;
 	unsigned int prev_cum;
 
-	while(a<GRAYSCALE-1 && 0==hist[a])	// jeœli pierwszy element histo jest 0, to szukamy pierwszego niezerowego, a sprawdzam w zakresie 0-65535 (uwaga na przepe³nienie)
+	while(a<GRAYSCALE-1 && 0==hist[a])	// jeÅ›li pierwszy element histo jest 0, to szukamy pierwszego niezerowego, a sprawdzam w zakresie 0-65535 (uwaga na przepeÅ‚nienie)
 		a++;
-	if(a==GRAYSCALE-1)	// to znaczy ¿e w histo s¹ same 0, koñczymy, zwracaj¹c medianê
+	if(a==GRAYSCALE-1)	// to znaczy Å¼e w histo sÄ… same 0, koÅ„czymy, zwracajÄ…c medianÄ™
 		return 0;
 
-	// jeœli normalny histogram to wycinamy wartoœci niezerowe
-	cum_hist[0] = hist[a];	// pierwsza wartoœæ niezerowa
+	// jeÅ›li normalny histogram to wycinamy wartoÅ›ci niezerowe
+	cum_hist[0] = hist[a];	// pierwsza wartoÅ›Ä‡ niezerowa
 	cum_index[0] = a;	// oraz jej indeks
-	licznik = 1;	// od nastêpniej wartoœci bo zerowa ju¿ ustawiona powy¿ej
-	// obliczanie kumulacyjnego ale tylko z wartoœci niezerowych
-	for(unsigned int b=a+1;b<GRAYSCALE;b++)	// uwaga na przepe³nienie - b nie mo¿e byæ szort
+	licznik = 1;	// od nastÄ™pniej wartoÅ›ci bo zerowa juÅ¼ ustawiona powyÅ¼ej
+	// obliczanie kumulacyjnego ale tylko z wartoÅ›ci niezerowych
+	for(unsigned int b=a+1;b<GRAYSCALE;b++)	// uwaga na przepeÅ‚nienie - b nie moÅ¼e byÄ‡ szort
 		if (hist[b]>0)
 		{
-			cum_hist[licznik] = cum_hist[licznik-1] + hist[b]; // niezerowa wartoœæ
-			cum_index[licznik] = b; // oraz jej index w histo (jasnoœæ piksela)
+			cum_hist[licznik] = cum_hist[licznik-1] + hist[b]; // niezerowa wartoÅ›Ä‡
+			cum_index[licznik] = b; // oraz jej index w histo (jasnoÅ›Ä‡ piksela)
 			licznik++;
 		}
 		--licznik;	// indeks ostatniego elementu w cum_hist i cum_indeks
 		M = cum_hist[licznik]/2;
-		// do którego przedzia³u trafia M?
+		// do ktÃ³rego przedziaÅ‚u trafia M?
 		for(a=0;a<=licznik;a++)
 			if(M<cum_hist[a])
 				break;
-		if(0==a)	// czyli nale¿y do pierwszego przedzia³u
+		if(0==a)	// czyli naleÅ¼y do pierwszego przedziaÅ‚u
 			prev_cum = 0;
 		else
 			prev_cum = cum_hist[a-1];
@@ -124,13 +127,13 @@ unsigned short getMedianHist( const unsigned int *hist, unsigned int tabsize )
 }
 
 /**
-* \brief Filtruje obraz median¹
+* \brief Filtruje obraz medianÄ…
 * \details Na podstawie Huang, A Fast Two-Dimensional Median Filtering Algorithm.
-* \param[in] image		obraz wejœciowy
-* \param[out] tabout	wskaŸnik na tablice wyjœciow¹ z przefiltrowanym obrazem o rozmiarze obrazu wejœciowego
+* \param[in] image		obraz wejÅ›ciowy
+* \param[out] tabout	wskaÅºnik na tablice wyjÅ›ciowÄ… z przefiltrowanym obrazem o rozmiarze obrazu wejÅ›ciowego
 * \param[in] mask		rozmiar maski, maska nieparzysta i kwadratowa
-* \remarks Na rogach obrazu pojawiaj¹ siê zera. Pozatym mo¿na procedurê jeszcze przyspieszyæ modyfikuj¹c pierwsz¹ medianê (mo¿e na containerze bêdzie szybsza (getMedian)
-* oraz modyfikuj¹c pobieranie wartoœci okna poprzez kopiowanie ca³ych rzedów na raz (s¹ liniowo w pamiêci).
+* \remarks Na rogach obrazu pojawiajÄ… siÄ™ zera. Pozatym moÅ¼na procedurÄ™ jeszcze przyspieszyÄ‡ modyfikujÄ…c pierwszÄ… medianÄ™ (moÅ¼e na containerze bÄ™dzie szybsza (getMedian)
+* oraz modyfikujÄ…c pobieranie wartoÅ›ci okna poprzez kopiowanie caÅ‚ych rzedÃ³w na raz (sÄ… liniowo w pamiÄ™ci).
 * \todo Add progress feature
 * \todo Add error_codes support
 */
@@ -140,59 +143,59 @@ void FastMedian_Huang(	OBRAZ *image,
 {
 	unsigned int *hist = nullptr;				// histogram obszaru filtrowanego
 	unsigned short *window = nullptr;			// dane z okna maski
-	unsigned short mdm;						// wartoœæ mediany w oknie
-	unsigned int lmdm;					// liczba elementów obrazu o wartoœciach mniejszych od mdm
+	unsigned short mdm;						// wartoÅ›Ä‡ mediany w oknie
+	unsigned int lmdm;					// liczba elementÃ³w obrazu o wartoÅ›ciach mniejszych od mdm
 	unsigned short *left_column = nullptr;		// lewa kolumna okna
 	unsigned short *right_column = nullptr;	// prawa kolumna okna
-	unsigned int r,k;						// indeksy bierz¹cej pozycji okna na obrazie (œrodka)
-	unsigned short mask_center = (mask+1)/2;// œrodek maski (indeks)
-	unsigned short bok_maski = (mask-1)/2;	// rozmiar boku maski ca³a maska to 2*bok + 1
+	unsigned int r,k;						// indeksy bierzÄ…cej pozycji okna na obrazie (Å›rodka)
+	unsigned short mask_center = (mask+1)/2;// Å›rodek maski (indeks)
+	unsigned short bok_maski = (mask-1)/2;	// rozmiar boku maski caÅ‚a maska to 2*bok + 1
 	unsigned int l;							// licznik
-	unsigned short picval;					// pomocnicza wartoœæ piksela obrazu
+	unsigned short picval;					// pomocnicza wartoÅ›Ä‡ piksela obrazu
 	unsigned int th = (mask*mask)/2;			// parametr pomocniczy
 
-	hist = new unsigned int[GRAYSCALE];		// zak³adam g³êbiê 16 bit
+	hist = new unsigned int[GRAYSCALE];		// zakÅ‚adam gÅ‚Ä™biÄ™ 16 bit
 	left_column = new unsigned short[mask];	// lewa kolumna poprzedniej pozycji maski (maska jest zawsze kwadratowa)
 	right_column = new unsigned short[mask];// prawa kolumna bierzacej maski
 	window = new unsigned short[static_cast<unsigned int>(mask)*mask];
 	/*
-	* Przegl¹danie obrazu po rzêdach a procedura szybkiej filtracji po
-	* kolumnach. Dla kazdego nowego rzêdu powtarza siê wszystko od pocz¹tku.
+	* PrzeglÄ…danie obrazu po rzÄ™dach a procedura szybkiej filtracji po
+	* kolumnach. Dla kazdego nowego rzÄ™du powtarza siÄ™ wszystko od poczÄ…tku.
 	*/
-	for (r = 0;r<image->rows;r++)	// g³ówna pêtla po rzêdach obrazu
+	for (r = 0;r<image->rows;r++)	// gÅ‚Ã³wna pÄ™tla po rzÄ™dach obrazu
 	{
-		// -------------------- inicjalizacja parametrów dla ka¿dego rzêdu --------------------------
+		// -------------------- inicjalizacja parametrÃ³w dla kaÅ¼dego rzÄ™du --------------------------
 		k = 0;
-		CopyWindow(image,mask,r,k,window,hist);	// kopiowanie okna skrajnego lewego dla danego rzêdu
-		// 		mdm = getMedian(window,static_cast<unsigned int>(mask)*mask);	// znajdujê medianê z okna
+		CopyWindow(image,mask,r,k,window,hist);	// kopiowanie okna skrajnego lewego dla danego rzÄ™du
+		// 		mdm = getMedian(window,static_cast<unsigned int>(mask)*mask);	// znajdujÄ™ medianÄ™ z okna
 		mdm = getMedianHist(hist,GRAYSCALE);
-		tabout[r*image->cols+k] = mdm;	// ustawiam wyjœcie przy za³o¿eniu ¿e tabout jaest taka sama jak tabin
+		tabout[r*image->cols+k] = mdm;	// ustawiam wyjÅ›cie przy zaÅ‚oÅ¼eniu Å¼e tabout jaest taka sama jak tabin
 		// obliczanie lmdm
 		for(l=0,lmdm=0;l<static_cast<unsigned int>(mask)*mask;l++)
 			if(window[l]<mdm)
 				lmdm++;
-		for (k = 0+1;k<image->cols;k++)	// g³ówna pêtla po kolumnach obrazu, dla pierwszej pozycji k=mask_center obliczane jest osobno
+		for (k = 0+1;k<image->cols;k++)	// gÅ‚Ã³wna pÄ™tla po kolumnach obrazu, dla pierwszej pozycji k=mask_center obliczane jest osobno
 		{
 			// modyfikacja histogramu - Na podstawie Huang, A Fast Two-Dimensional Median Filtering Algorithm
 
-			CopyOneColumn(image,mask,static_cast<int>(r)-bok_maski,static_cast<int>(k)-bok_maski-1,left_column); //pobieranie lewej kolumny poprzedniego (k-1) okna (podajê [r,k] pocz¹tku kolumny
-			CopyOneColumn(image,mask,static_cast<int>(r)-bok_maski,static_cast<int>(k)+bok_maski,right_column);	// prawa kolumna bierz¹cego k okna
+			CopyOneColumn(image,mask,static_cast<int>(r)-bok_maski,static_cast<int>(k)-bok_maski-1,left_column); //pobieranie lewej kolumny poprzedniego (k-1) okna (podajÄ™ [r,k] poczÄ…tku kolumny
+			CopyOneColumn(image,mask,static_cast<int>(r)-bok_maski,static_cast<int>(k)+bok_maski,right_column);	// prawa kolumna bierzÄ…cego k okna
 			// liczenie mediany
-			for(l=0;l<mask;l++)	// po wszystkich wartoœciach kolumny
+			for(l=0;l<mask;l++)	// po wszystkich wartoÅ›ciach kolumny
 			{
 				picval = left_column[l];
-				_ASSERT(hist[picval]>0);	// jeœli =0 to po odjêciu przepe³nienie
+				_ASSERT(hist[picval]>0);	// jeÅ›li =0 to po odjÄ™ciu przepeÅ‚nienie
 				hist[ picval ]--;	// kasowanie lewej kolumny z histogtramu
 				if (picval<mdm)
 					lmdm--;
 				picval = right_column[l];
-				_ASSERT(hist[picval]<65535);	// jeœli =65535 to po odjêciu przepe³nienie
+				_ASSERT(hist[picval]<65535);	// jeÅ›li =65535 to po odjÄ™ciu przepeÅ‚nienie
 				hist[picval]++;		// dodawanie prawej kolummny
 				if (picval<mdm)
 					lmdm++;
-			}	// koniec pêtli po kolumnach okna
+			}	// koniec pÄ™tli po kolumnach okna
 			if (lmdm>th)
-				while (lmdm>th)	// zmiana wzglêdem orygina³u !!! FUCK !!
+				while (lmdm>th)	// zmiana wzglÄ™dem oryginaÅ‚u !!! FUCK !!
 				{
 					_ASSERT(mdm>0);
 					mdm--;
@@ -207,9 +210,9 @@ void FastMedian_Huang(	OBRAZ *image,
 					mdm++;
 				}
 
-				tabout[r*image->cols+k] = mdm;	// ustawiam wyjœcie przy za³o¿eniu ¿e tabout jaest taka sama jak tabin
-		} // koniec pêtli po kolumnach obrazu
-	} // koniec pêtli po rzêdach
+				tabout[r*image->cols+k] = mdm;	// ustawiam wyjÅ›cie przy zaÅ‚oÅ¼eniu Å¼e tabout jaest taka sama jak tabin
+		} // koniec pÄ™tli po kolumnach obrazu
+	} // koniec pÄ™tli po rzÄ™dach
 
 	SAFE_DELETE(hist);
 	SAFE_DELETE(left_column);
@@ -218,22 +221,22 @@ void FastMedian_Huang(	OBRAZ *image,
 }
 
 /**
-* \brief kopiuje jedn¹ kolumnê zaczynaj¹c od pozycji poz
+* \brief kopiuje jednÄ… kolumnÄ™ zaczynajÄ…c od pozycji poz
 * \details Na podstawie Huang, A Fast Two-Dimensional Median Filtering Algorithm
-* \param[in] input_image		obraz wejœciowy
+* \param[in] input_image		obraz wejÅ›ciowy
 * \param[in] mask		rozmiar maski, maska nieparzysta i kwadratowa
-* \param[in] r			rz¹d startowy
+* \param[in] r			rzÄ…d startowy
 * \param[in] k			kolumna startowa
-* \param[out] out		tablica o rozmiarze mask z kolumn¹
-* \remarks Procedura dopuszcza ujemne kolumny i rzêdy, co odpowiada sytuacji gdy kolumna nie miesci siê
-* na obrazie, czyli dla berzegów
+* \param[out] out		tablica o rozmiarze mask z kolumnÄ…
+* \remarks Procedura dopuszcza ujemne kolumny i rzÄ™dy, co odpowiada sytuacji gdy kolumna nie miesci siÄ™
+* na obrazie, czyli dla berzegÃ³w
 */
 void CopyOneColumn( OBRAZ *input_image, unsigned short mask, int r, int k, unsigned short *out )
 {
 	unsigned short a;
 	for (a=0;a<mask;a++)
 	{
-		if(r<0 || r>=static_cast<int>(input_image->rows) || k<0 || k>=static_cast<int>(input_image->cols))	// jeœli rz¹d lub kolumna poza obrazem t owpisywane s¹ 0
+		if(r<0 || r>=static_cast<int>(input_image->rows) || k<0 || k>=static_cast<int>(input_image->cols))	// jeÅ›li rzÄ…d lub kolumna poza obrazem t owpisywane sÄ… 0
 			out[a] = 0;
 		else
 			out[a] = getPoint(input_image,r,k);
@@ -246,13 +249,14 @@ void CopyOneColumn( OBRAZ *input_image, unsigned short mask, int r, int k, unsig
 * \details Assumes that input image is 1D array. Any positive and non-zero mask can be used. Returns filtered copy of
 * input image (the same size)
 * \param[in] input_image 1D input image
-* \param[out] output_image	pointer to array of size of input image with result
-* \param[in] nrows	number of rows (height)
-* \param[in] ncols number of cols (width)
+* \param[out] output_image	pointer to array of size of input image
+* \param[in] nrows	number of rows (height) of input/output image
+* \param[in] ncols number of cols (width) of input/output image
 * \return operation status, LV_OK on success, LV_FAIL on:
 * \li mask is 0
 * \li mask is negative
 * \retval retCode
+* \remarks Returned image has the same size as input image
 */
 extern "C" __declspec(dllexport) retCode LV_MedFilt(const UINT16* input_image,
 													UINT16* output_image,
@@ -263,11 +267,11 @@ extern "C" __declspec(dllexport) retCode LV_MedFilt(const UINT16* input_image,
 	_ASSERT(input_image);
 	_ASSERT(output_image);
 	if(0==mask)
-		return setError::throwError("FastMedian::Maska równa 0",&errDesc);
+		return setError::throwError("FastMedian::Maska rÃ³wna 0",&errDesc);
 	if(mask<0)
 		return setError::throwError("FastMedian::Maska mniejsza od 0",&errDesc);
 
-	OBRAZ obraz;	// lokalna kopia obrazu wejœciowego (p³ytka)
+	OBRAZ obraz;	// lokalna kopia obrazu wejÅ›ciowego (pÅ‚ytka)
 	obraz.tab = input_image;
 	obraz.rows = nrows;
 	obraz.cols = ncols;
