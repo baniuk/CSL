@@ -11,6 +11,7 @@
 #define definitions_h__
 
 /**
+* \enum retCode
 * Definiuje możliwe wartości zwracane przez każdą funkcję w DLL
 * \todo Zastanowić się nad sensem <b>enum classes</b> z C++11
 */
