@@ -8,13 +8,13 @@
 #include "setError/setError.h"
 
 /**
-* \brief Zwraca sformatowany ≥aÒcuch b≥edu o okreslonej d≥ugoúci
-* \details Automatycznie kontroluje d≥ugoúÊ ≥aÒcucha opisujπcego b≥πd aby nie dopuúciÊ do przekroczenia pamiÍci
-* przydzielonej w LV na ten ≥aÒcuch. Za d≥ugi komunikat jet przycinany bez zwracania jakiejkolwiek informacji o
-* przekroczeniu dozwolonej d≥ugoúci \c MAX_ERROR_STRING
-* \param[in] _errorDesc - laÒcuch z opisem b≥Ídu
-* \param[out] _formattedErrorDesc - sformatowany (skrÛcony) ≥aÒcuch \c _errorDesc
-* \return kod b≥edu \c LV_FAIL
+* \brief Zwraca sformatowany ≈Ça≈Ñcuch b≈Çedu o okreslonej d≈Çugo≈õci
+* \details Automatycznie kontroluje d≈Çugo≈õƒá ≈Ça≈Ñcucha opisujƒÖcego b≈ÇƒÖd aby nie dopu≈ìciƒá do przekroczenia pamiƒôci
+* przydzielonej w LV na ten ≈Ça≈Ñcuch. Za d≈Çugi komunikat jest przycinany bez zwracania jakiejkolwiek informacji o
+* przekroczeniu dozwolonej d≈Çugo≈ìci \c MAX_ERROR_STRING
+* \param[in] _errorDesc - la≈Ñcuch z opisem b≈Çƒôdu
+* \param[out] _formattedErrorDesc - sformatowany (skr√≥cony) ≈Ça≈Ñcuch \c _errorDesc
+* \return kod b≈Çƒôdu \c LV_FAIL
 * \retval retCode
 * \author PB
 * \date 2014/10/02
@@ -23,9 +23,12 @@
 retCode setError::throwError(const char* _errorDesc, char** _formattedErrorDesc)
 {
 	std::string errDesc(_errorDesc);	// c++ string copy of const char* string
-	if (errDesc.length() > MAX_ERROR_STRING-1)	// jeúli za d≥ugi to tniemy (+ miejsce na \0)
+	if (errDesc.length() > MAX_ERROR_STRING-1)	// je≈ìli za d¬≥ugi to tniemy (+ miejsce na \0)
 		errDesc.resize(MAX_ERROR_STRING-1);
-	// kopiowanie skrÛconego ≥aÒcucha do pamiÍci LV
-	std::strcpy(*_formattedErrorDesc, errDesc.c_str());	// errDesc na pewno jest krÛtszy niø MAX_ERROR_STRING
+	// kopiowanie skr√≥conego ¬≥a√±cucha do pami√™ci LV
+	std::strcpy(*_formattedErrorDesc, errDesc.c_str());	// errDesc na pewno jest kr√≥tszy ni≈º MAX_ERROR_STRING
 	return retCode::LV_FAIL;
 }
+/** \example setError_example.cpp
+* Przyk≈Çad u≈ºycia klasy setError to zwr√≥cenia b≈Çedu w funkcji DLL-a
+*/
