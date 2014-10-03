@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
 TEST(setError,_returnValue)
 {
 	char tab[MAX_ERROR_STRING];
-	char* ptr = static_cast<char*>(tab);
+	char* ptr = tab;
 	EXPECT_EQ(retCode::LV_FAIL, setError::throwError("Opis bledu",&ptr));
 }
 
