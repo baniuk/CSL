@@ -2,7 +2,7 @@
 
 set(ROOT_PROJECT_NAME "LabView_Extensions")
 
-cmake_minimum_required (VERSION 2.8.3)
+cmake_minimum_required (VERSION 3.0.2)
 project(${ROOT_PROJECT_NAME})
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)

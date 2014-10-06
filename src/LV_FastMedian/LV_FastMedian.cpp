@@ -5,6 +5,7 @@
 * - LV_MedFilt  - Filtering using any mask
 * \author  PB
 * \date    2012/09/08
+* \version 1.0 Initial version based on ISAR project
 */
 
 #include "LV_FastMedian/LV_FastMedian.h"

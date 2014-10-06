@@ -1,6 +1,6 @@
 # rzeczy do zmiany
 set(LOCAL_PROJECT_NAME LV_FastMedian)
-set(VERSION_MAJOR 1)
+set(VERSION_MAJOR 1) # wersje powinny być skorelowane z /version w pliku
 set(VERSION_MINOR 0)
 
 configure_file(
