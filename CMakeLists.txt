@@ -26,6 +26,8 @@ file(MAKE_DIRECTORY lib)
 # create doc output directory that can be removed by clean-build
 file(MAKE_DIRECTORY doc)
 
+enable_language(RC)
+
 include(ExternalProject)
 add_subdirectory(External_dep)
 
