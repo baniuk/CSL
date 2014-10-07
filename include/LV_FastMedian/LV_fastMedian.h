@@ -1,0 +1,55 @@
+﻿/**
+* \file    fastMEdian.h
+* \brief	Headers and definitions for LV_FastMedian.dll
+* \author  PB
+* \date    2012/09/08
+*/
+
+#ifndef fastMedian_h__
+#define fastMedian_h__
+
+#include "setError/setError.h"
+
+/**
+* \struct OBRAZ
+* \brief Struktura opisująca obraz lub bardziej generalnie obszar pamięci
+* \remarks Stosowana lokalnie w LV_FastMedian
+*/
+struct OBRAZ
+{
+	const unsigned short *tab; /** wskażnik na tablicę z obrazem */
+	unsigned int rows; /** ilość rzędów */
+	unsigned int cols; /** ilość kolumn */
+	unsigned int tabsize;	/** ilość elementów tablicy = rows*cols */
+};
+
+/// Filtruje obraz medianą
+void FastMedian_Huang(	OBRAZ *image,
+					  unsigned short *tabout,
+					  unsigned short mask);
+
+/// Dokonuje konwersji z pozycji [x,y] do liniowej
+inline unsigned short getPoint(OBRAZ *image, unsigned int r, unsigned int k);
+/// Zwraca medianę z wektora
+unsigned short getMedian(const unsigned short *tab, unsigned int tabsize);
+/// Zwraca medianę z histogramu
+unsigned short getMedianHist(const unsigned int *hist, unsigned int tabsize);
+/// Kopiuje kwadratową maskę z obrazu liniowego
+void CopyWindow(OBRAZ *input_image,
+				unsigned short mask,
+				unsigned int current_row,
+				unsigned int current_col,
+				unsigned short *out,
+				unsigned int *hist);
+/// Kopiuje jedną kolumnę obrazu
+void CopyOneColumn( OBRAZ *input_image, unsigned short mask, int r, int k, unsigned short *out );
+/// Exported method for median filtering using fast median alghoritm
+extern "C" __declspec(dllexport) retCode LV_MedFilt(const UINT16* input_image,
+													UINT16* output_image,
+													UINT16 nrows, UINT16 ncols,
+													UINT16 mask,
+													char* errDesc);
+/// Number of gray levels in the image
+#define GRAYSCALE 65536
+
+#endif // fastMedian_h__

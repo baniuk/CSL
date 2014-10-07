@@ -1,1 +1,2 @@
 add_subdirectory(setError)
+add_subdirectory(LV_FastMedian)
