@@ -2,11 +2,10 @@
 set(LOCAL_PROJECT_NAME setError_Tests)
 
 project(${LOCAL_PROJECT_NAME})
-# get directory prefixes for libs and includes of external tools
 ExternalProject_Get_Property(googletest binary_dir)
 set(GTest_LIB ${binary_dir})
 ExternalProject_Get_Property(googletest source_dir)
-set(GTest_SRC ${source_dir}) 		
+set(GTest_SRC ${source_dir}) 	
 
 include_directories(${GTest_SRC}/include ${${ROOT_PROJECT_NAME}_SOURCE_DIR}/include)
 add_executable(${LOCAL_PROJECT_NAME} setError_Tests.cpp)

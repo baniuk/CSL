@@ -4,9 +4,9 @@ cmake_minimum_required (VERSION 3.0.2)
 
 # do ustawienia
 set(ROOT_PROJECT_NAME "LabView_Extensions")
-set(PBToolset_GIT_REPOSITORY https://github.com/baniuk/PBToolset.git) 
-#set(PBToolset_GIT_REPOSITORY C:/Users/Piotr/Documents/Projekty/PBToolset)
-set(PBToolset_GIT_TAG master)
+#set(PBToolset_GIT_REPOSITORY https://github.com/baniuk/PBToolset.git) 
+set(PBToolset_GIT_REPOSITORY C:/Users/Piotr/Documents/Projekty/PBToolset)
+set(PBToolset_GIT_TAG feature/DumpAll)
 
 project(${ROOT_PROJECT_NAME})
 
