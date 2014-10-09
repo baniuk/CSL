@@ -8,6 +8,7 @@
 #include <windows.h>
 #include "gtest/gtest.h"
 #include "definitions.h"
+#include "MatlabExchange/C_MatlabExchange.hpp"
 
 using namespace std;
 
@@ -77,46 +78,27 @@ protected:
 * \post Wynik nagrany na dysku, weryfikacja w Matlabie
 * \author PB
 * \date 2014/10/02
+* \todo Finish this test
 */
 TEST_F(DLL_Tests,_FastMedian)
 {
 	ASSERT_FALSE(init_error); // expect no error during initialization
-	unsigned short *input_image;	// input image
-	unsigned short *output_image;
-	// Przygotowanie danych dla funkcji
-	// Tymczasowe readbinary i konwersja do formatu dla
-	/*
-	C_MATRIX_LOAD(tmp_input_image,"../../../../tests/LV_FastMedian/data/testimag1.dat"); // load test file
-	tmp_input_image.Normalize(0,1);	// normalization
-	input_image = new unsigned short[tmp_input_image.GetNumofElements()];
-	if(input_image==NULL)
-	{
-	cerr << "Error in memory allocation" << endl;
-	init_error = TRUE;
-	}
-	for(unsigned int a=0;a<tmp_input_image.GetNumofElements();a++)
-	input_image[a] = static_cast<unsigned short>(floor(65535*tmp_input_image.data[a]+0.5));
-	output_image = new unsigned short[tmp_input_image.GetNumofElements()];
-	if(output_image==NULL)
-	{
-	cerr << "Error in memory allocation" << endl;
-	init_error = TRUE;
-	}
+	std::unique_ptr<double[]> data;
+	unsigned int rows,cols;
+	char err[MAX_ERROR_STRING];
+	C_MatlabExchange::ReadData("imag2.dat",data, rows, cols);
+	// konwersja INT
+	UINT16* inTab = new UINT16[rows*cols];
+	for (unsigned int a=0;a<rows*cols;a++)
+		inTab[a] = static_cast<UINT16>(data[a]);
 
-	// wywołanie funkcji
-	LV_MedFilt31(input_image,output_image,tmp_input_image._rows,tmp_input_image._cols);
-	// nagranie wyjścia
-	C_DumpAll dump("../../../../tests/LV_FastMedian/data/test_out.dat");
-	C_Matrix_Container out;
-	out.AllocateData(tmp_input_image._rows,tmp_input_image._cols);
-	for(unsigned int a=0;a<tmp_input_image.GetNumofElements();a++)
-	out.data[a] = static_cast<double>(output_image[a]);
-	dump.AddEntry(&out,"outimage");
-	dump.AddEntry(&tmp_input_image,"inimage");
+	// tablica wyjściowa
+	UINT16 *outTab = new UINT16[rows*cols];
+	pLV_MedFilt(inTab, outTab, rows, cols, 31, err);
 
-	SAFE_DELETE(input_image);
-	SAFE_DELETE(output_image);
-
-	cout << "Results in /data/test_out.dat" << endl;
-	*/
+	C_MatlabExchange out("FastMedian.out");
+	out.AddEntry2D<UINT16>(outTab,rows,cols,"filtered_image");
+	std::cout << "Check FastMedian.out for results" << std::endl;
+	delete[] inTab;
+	delete[] outTab;
 }
