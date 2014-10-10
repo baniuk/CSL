@@ -1,9 +1,18 @@
 # CMake build script for PBToolset
 
-set(ROOT_PROJECT_NAME "LabView_Extensions")
+cmake_minimum_required (VERSION 3.0.2)
 
-cmake_minimum_required (VERSION 2.8.3)
+find_package(Subversion REQUIRED)
+
+# do ustawienia
+set(ROOT_PROJECT_NAME "LabView_Extensions")
+set(PBToolset_GIT_REPOSITORY https://github.com/baniuk/PBToolset.git) 
+#set(PBToolset_GIT_REPOSITORY i:/Projekty/PBToolset)
+set(PBToolset_GIT_TAG master)
+
 project(${ROOT_PROJECT_NAME})
+
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # set additional compiler flags
 IF (${WIN32})
@@ -23,6 +32,8 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${EXTRA_COMPILER_FLAGS}" CACHE STRING ""
 file(MAKE_DIRECTORY lib)
 # create doc output directory that can be removed by clean-build
 file(MAKE_DIRECTORY doc)
+
+enable_language(RC)
 
 include(ExternalProject)
 add_subdirectory(External_dep)

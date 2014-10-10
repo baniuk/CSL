@@ -1,3 +1,10 @@
+/**
+* \file setError.h
+* \brief Definicja klasy setError
+* \author PB
+* \date 2014/10/02
+*/
+
 #ifndef setError_h__
 #define setError_h__
 
@@ -18,6 +25,7 @@
 * \author PB
 * \date 2014/02/05
 * \see definitions.h
+* \see setError_example.cpp
 */
 class setError
 {
