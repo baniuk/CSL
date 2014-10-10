@@ -17,18 +17,23 @@
 * \param[out] output obraz wyjściowy
 * \param[in] rows liczba wierszy obrazów
 * \param[in] cols liczba kolumn obrazów
+* \param[in] w parametr \c w
+* \param[in] k parametr \c k
 * \retval \c void
 * \author PB
 * \date 2014/10/10
 * \warning Obraz wyjściowy musi być rozmiaru obrazu wejściowego
 */
-void Sauv( const UINT16* input, UINT16* output, unsigned int rows, unsigned int cols )
+void Sauv( const UINT16* input, UINT16* output, unsigned int rows, unsigned int cols, unsigned int w, double k )
 {
 	_ASSERT(output);	// obraz wyjściowy alokowany na zewnątrz
 
 	std::size_t nEl = rows*cols;	// liczba elementów macierzy
 	UINT16 max, min;				// wartości min max dla macierzy wejściowej
 	double R;
+	unsigned int pom;
+	bool xlonger;
+	int d,r,j=0,g;
 
 	UINT32* owe2 = new UINT32[nEl]; //obraz wejściowy do kwadratu
 	UINT32* II = new UINT32[nEl]; //Integral image
@@ -47,11 +52,126 @@ void Sauv( const UINT16* input, UINT16* output, unsigned int rows, unsigned int 
 	CII<UINT32>(owe2, II2, rows, cols);
 	CII<UINT16>(input, II, rows, cols);
 
-	// call SAUVOLA
+	//Podział obrazu
+	if(w < cols && w < rows) //Sprawdzamy czy obraz jest większy od maski, inaczej dalsze liczenie nie ma sensu
+	{
+		if(cols > rows) 
+		{
+			pom = cols - w;
+			xlonger = true;
+		}
+		else
+		{
+			pom = rows - w;
+			xlonger = false;
+		}
+		d = (int)(pom / 1);
+		r = pom % (int)1; //=0
+		for(int i = 0; i < 1; i++)
+		{
+			g = pom - 1;
+
+//			if(r > 0)
+//			{
+//				r--;
+//				g++;
+//			}
+			if(xlonger)
+			{
+				sav.imin = (int)(w / 2.0) + 1;
+				sav.imax = rows - (int)(w / 2.0) - 1;
+				sav.jmin = (int)(w / 2.0);
+				sav.jmax = g + (int)(w / 2.0);
+			}
+			else
+			{
+				sav.imin = (int)(w / 2.0) + 1;
+				sav.imax = g + (int)(w / 2.0) + 1;
+				sav.jmin = (int)(w / 2.0) + 2;
+				sav.jmax = cols - (int)(w / 2.0);
+			}
+			sav.w = (int)w;
+			sav.k = k;
+			sav.R = R;
+			sav.II = II;
+			sav.II2 = II2;
+			sav.owe = input;
+			sav.owy = output;
+
+			j = g + 1;
+		}
+		sav.imin = (int)(w / 2.0) + 1;
+		sav.jmin = (int)(w / 2.0) + 1;
+
+
+		SAUVOLA(sav);
+		
+	}	
 
 	delete[] owe2;
 	delete[] II;
 	delete[] II2;
+}
+
+void SAUVOLA(SAV& s)
+{
+
+
+	int i, j, imin, imax, jmin, jmax, fW, w;
+	double k, R;
+	double wspW, wspW2, srednia, suma1, odSt, t;
+	C_Image_Container *II, *II2, *owe, *owy;
+	unsigned long w2;
+	imin = s->imin;
+	imax = s->imax;
+	jmin = s->jmin;
+	jmax = s->jmax;
+	w = s->w;
+	k = s->k;
+	R = s->R;
+	II = s->II;
+	II2 = s->II2;
+	owe = s->owe;
+	owy = s->owy;
+	wspW = 1 / pow(w, 2.0);
+	wspW2 = 1 / (pow(w, 2.0) - 1);
+	w2 = pow(w, 2.0);
+	fW = int(w / 2.0);
+
+	for(i = imin; i <= imax; i++)
+	{
+		for(j = jmin; j <= jmax; j++)
+		{
+
+
+			srednia = 
+				(II->data[(i + fW) * owe->_cols + j + fW] +
+				II->data[(i - fW - 1) * owe->_cols + j - fW - 1] -
+				II->data[(i - fW - 1) * owe->_cols + j + fW] -
+				II->data[(i + fW) * owe->_cols + j - fW - 1]) *
+				wspW;
+
+
+			suma1 =
+				II2->data[(i + fW) * owe->_cols + j + fW] +
+				II2->data[(i - fW - 1) * owe->_cols + j - fW - 1] -
+				II2->data[(i - fW - 1) * owe->_cols + j + fW] -
+				II2->data[(i + fW) * owe->_cols + j - fW - 1];
+
+
+
+			odSt = sqrt(wspW2 * (suma1 - w2 * pow(srednia, 2)));
+			t = srednia * (1 + k * ((odSt / R) - 1));
+
+
+
+			if(owe->data[i * (owe->_cols) + j] > t)
+				owy->data[i * (owe->_cols) + j] = 1;
+
+
+		}
+	}
+	return(0);
 }
 
 //

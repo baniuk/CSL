@@ -32,12 +32,14 @@ struct SAV
 	UINT16* owy;
 	UINT32* II;
 	UINT32* II2;
-};
+} sav;
 
 /// Compute Integral Image - liczy Integral Image
 void CII(const UINT32* input, UINT32* output, unsigned int rows, unsigned int cols);
 /// Wykonuje przygotowania do progowania Sauvola
-void Sauv(const UINT16* input, UINT16* output, unsigned int rows, unsigned int cols);
+void Sauv(const UINT16* input, UINT16* output, unsigned int rows, unsigned int cols, unsigned int w, double k);
+/// Progowanie
+void SAUVOLA(SAV& s);
 
 /**
 * \brief Czyści pamięć, wupełniając ją zerami
