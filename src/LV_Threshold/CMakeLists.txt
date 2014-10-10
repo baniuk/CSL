@@ -8,12 +8,22 @@ configure_file(
   ${CMAKE_CURRENT_BINARY_DIR}/resources.rc
   @ONLY)
 
+# set include directory - patch to have include files in VC project (in add_library)
+set(INC_DIR ${${ROOT_PROJECT_NAME}_SOURCE_DIR}/include/${LOCAL_PROJECT_NAME})
+
 project(${LOCAL_PROJECT_NAME})
 # includes in source files must be relative to ./include dir. Includes specific to 
 # given project are in separate subdirectories
 include_directories(${${ROOT_PROJECT_NAME}_SOURCE_DIR}/include)
-add_library(${LOCAL_PROJECT_NAME}_static STATIC LV_Threshold.cpp)
-add_library(${LOCAL_PROJECT_NAME} SHARED dllmain.cpp LV_Threshold_DLL_Wrapper.cpp ${CMAKE_CURRENT_BINARY_DIR}/resources.rc)
+# budowanie biblioteki statycznej
+add_library(${LOCAL_PROJECT_NAME}_static STATIC 
+			LV_Threshold.cpp
+			${INC_DIR}/LV_Threshold.h)
+# budowanie DLL (linkuje static)
+add_library(${LOCAL_PROJECT_NAME} SHARED 
+			dllmain.cpp LV_Threshold_DLL_Wrapper.cpp
+			${CMAKE_CURRENT_BINARY_DIR}/resources.rc
+			${INC_DIR}/LV_Threshold_DLL_Wrapper.h)
 
 # Linkowanie z innymi bibliotekami
 target_link_libraries(${LOCAL_PROJECT_NAME} setError ${LOCAL_PROJECT_NAME}_static)
