@@ -6,9 +6,9 @@ find_package(Subversion REQUIRED)
 
 # do ustawienia
 set(ROOT_PROJECT_NAME "LabView_Extensions")
-#set(PBToolset_GIT_REPOSITORY https://github.com/baniuk/PBToolset.git) 
-set(PBToolset_GIT_REPOSITORY i:/Projekty/PBToolset)
-set(PBToolset_GIT_TAG feature/DumpAll)
+set(PBToolset_GIT_REPOSITORY https://github.com/baniuk/PBToolset.git) 
+#set(PBToolset_GIT_REPOSITORY i:/Projekty/PBToolset)
+set(PBToolset_GIT_TAG master)
 
 project(${ROOT_PROJECT_NAME})
 
