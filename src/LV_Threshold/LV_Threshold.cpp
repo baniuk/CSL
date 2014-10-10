@@ -1,7 +1,7 @@
 ﻿/**
 * \file    LV_Threshold.cpp
 * \brief	Implementation of Savuola thresholding
-* \details Contains static functions for testing purposes. Exported methods are in DLL_Wrapper
+* \details Contains static functions for testing purposes. Exported methods that call this library are in DLL_Wrapper
 * \author  PB
 * \date    2014/10/10
 * \version 1.0 Initial version based on ISAR project

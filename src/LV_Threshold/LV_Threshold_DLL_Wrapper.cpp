@@ -24,6 +24,7 @@
 * \retval retCode
 * \remarks Returned image has the same size as input image
 * \see (static) method
+* \todo Finish
 */
 extern "C" __declspec(dllexport) retCode LV_Thresh(const UINT16* input_image,
 													UINT16* output_image,
@@ -33,6 +34,6 @@ extern "C" __declspec(dllexport) retCode LV_Thresh(const UINT16* input_image,
 {
 	_ASSERT(input_image);
 	_ASSERT(output_image);
-
+	// here call to static method - almost direct without any conversion
 	return retCode::LV_OK;
 }
