@@ -36,10 +36,10 @@ void Sauv( const UINT16* input, UINT16* output, unsigned int rows, unsigned int 
 	SAV sav;
 
 	UINT32* owe2 = new UINT32[nEl]; //obraz wejściowy do kwadratu
-	UINT32* II = new UINT32[nEl]; //Integral image
-	clearMem<UINT32>(II, nEl);
-	UINT32* II2 = new UINT32[nEl]; //Integral image kwadratów
-	clearMem<UINT32>(II2, nEl);
+	double* II = new double[nEl]; //Integral image
+	clearMem<double>(II, nEl);
+	double* II2 = new double[nEl]; //Integral image kwadratów
+	clearMem<double>(II2, nEl);
 	clearMem<UINT16>(output, nEl);
 
 	getMinMax<UINT16>(input, nEl, min, max);

@@ -30,8 +30,8 @@ struct SAV
 	double R;
 	const UINT16* owe;
 	UINT16* owy;
-	UINT32* II;
-	UINT32* II2;
+	double* II;
+	double* II2;
 	unsigned int rows, cols;
 };
 
@@ -94,7 +94,7 @@ void getMinMax(const T* input, std::size_t siz, T& _min, T& _max)
 * \warning Macierz \c output musi być wyzerowana
 */
 template<typename T>
-void CII( const T* input, UINT32* output, unsigned int rows, unsigned int cols )
+void CII( const T* input, double* output, unsigned int rows, unsigned int cols )
 {
 	_ASSERT(output);	// jeśli nie ma pamięci zaalokowanej
 	std::size_t i,j;
