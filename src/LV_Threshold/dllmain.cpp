@@ -1,5 +1,5 @@
 /**
-* \file    dllmain.cpp
+* \file    LV_Threshold/dllmain.cpp
 * \brief	Main entry to DLL
 * \author  PB
 * \date    2014/10/10
