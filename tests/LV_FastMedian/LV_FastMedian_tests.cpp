@@ -78,7 +78,6 @@ protected:
 * \post Wynik nagrany na dysku, weryfikacja w Matlabie
 * \author PB
 * \date 2014/10/02
-* \todo Finish this test
 */
 TEST_F(DLL_Tests,_FastMedian)
 {
