@@ -25,14 +25,15 @@ struct SAV
 {
 	unsigned int imin, imax;
 	unsigned int jmin, jmax;
-	int w;
+	unsigned int w;
 	double k;
 	double R;
-	UINT16* owe;
+	const UINT16* owe;
 	UINT16* owy;
 	UINT32* II;
 	UINT32* II2;
-} sav;
+	unsigned int rows, cols;
+};
 
 /// Compute Integral Image - liczy Integral Image
 void CII(const UINT32* input, UINT32* output, unsigned int rows, unsigned int cols);

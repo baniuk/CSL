@@ -17,7 +17,8 @@
 extern "C" __declspec(dllexport) retCode LV_Thresh(const UINT16* input_image,
 													UINT16* output_image,
 													UINT16 nrows, UINT16 ncols,
-													UINT16 mask,
+													unsigned int w,
+													double k,
 													char* errDesc);
 													
 #endif // LV_Threshold_DLL_Warper_h__
