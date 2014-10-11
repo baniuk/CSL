@@ -14,7 +14,7 @@
 using namespace std;
 
 /// \copydoc ::LV_Thresh
-typedef void (*pLV_Thresh_t)(UINT16*, UINT16*, UINT16, unsigned int, double, char*);
+typedef retCode (*pLV_Thresh_t)(UINT16*, UINT16*, UINT16, UINT16, unsigned int, double, char*);
 
 int main(int argc, char* argv[])
 {
@@ -74,15 +74,67 @@ protected:
 };
 
 /**
-* \test
-* \brief
-* \post
+* \test DLL_Tests,_Threshold
+* \brief Same as _Threshold_1 but on dll
+* \pre im8bit.dat image
+* \post LV_Threshold_tests_DLL.out
 * \author PB
 * \date 2014/10/11
 */
 TEST_F(DLL_Tests,_Threshold)
 {
 	ASSERT_FALSE(init_error); // expect no error during initialization
+	std::unique_ptr<double[]> data;
+	retCode ret;
+	unsigned int rows,cols;
+	char err[MAX_ERROR_STRING];
+	C_MatlabExchange::ReadData("im8bit.dat",data, rows, cols);
+	// konwersja INT
+	UINT16* inTab = new UINT16[rows*cols];
+	for (unsigned int a=0;a<rows*cols;a++)
+		inTab[a] = static_cast<UINT16>(data[a]);
+
+	// tablica wyjściowa
+	UINT16 *outTab = new UINT16[rows*cols];
+	ret = pLV_Thresh(inTab, outTab, rows, cols, 23, 0.05, err);
+	ASSERT_EQ(ret, retCode::LV_OK);
+
+	C_MatlabExchange out("LV_Threshold_tests_DLL.out");
+	out.AddEntry2D<UINT16>(outTab,rows,cols,"Sauv_DLL");
+	std::cout << "Check LV_Threshold_tests_DLL.out for results" << std::endl;
+	delete[] inTab;
+	delete[] outTab;
+}
+
+/**
+* \test DLL_Tests,_WrongParam
+* \brief Mask too big
+* \pre im8bit.dat image
+* \post none
+* \author PB
+* \date 2014/10/11
+*/
+TEST_F(DLL_Tests,_WrongParam)
+{
+	ASSERT_FALSE(init_error); // expect no error during initialization
+	std::unique_ptr<double[]> data;
+	retCode ret;
+	unsigned int rows,cols;
+	char err[MAX_ERROR_STRING];
+	C_MatlabExchange::ReadData("im8bit.dat",data, rows, cols);
+	// konwersja INT
+	UINT16* inTab = new UINT16[rows*cols];
+	for (unsigned int a=0;a<rows*cols;a++)
+		inTab[a] = static_cast<UINT16>(data[a]);
+
+	// tablica wyjściowa
+	UINT16 *outTab = new UINT16[rows*cols];
+	ret = pLV_Thresh(inTab, outTab, rows, cols, 1001, 0.05, err);
+	ASSERT_EQ(ret, retCode::LV_FAIL);
+	std::cout << err << std::endl;
+
+	delete[] inTab;
+	delete[] outTab;
 }
 
 /**
