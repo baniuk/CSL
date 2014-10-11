@@ -1,5 +1,5 @@
 ﻿/**
-* \file    TEST_LV_FastMEdian.cpp
+* \file    LV_FastMedian_tests.cpp
 * \brief	Tests of public and private functions in LV_FastMedian.dll
 * \author  PB
 * \date    2014/01/22

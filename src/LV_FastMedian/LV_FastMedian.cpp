@@ -253,6 +253,8 @@ void CopyOneColumn( OBRAZ *input_image, unsigned short mask, int r, int k, unsig
 * \param[out] output_image	pointer to array of size of input image
 * \param[in] nrows	number of rows (height) of input/output image
 * \param[in] ncols number of cols (width) of input/output image
+* \param[in] mask filter mask uneven and nonzero
+* \param[out] errDesc Error description
 * \return operation status, LV_OK on success, LV_FAIL on:
 * \li mask is 0
 * \li mask is negative

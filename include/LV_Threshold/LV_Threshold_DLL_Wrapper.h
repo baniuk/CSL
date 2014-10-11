@@ -1,7 +1,7 @@
 ﻿/**
 * \file    LV_Threshold_DLL_Wrapper.h
 * \brief	Warper for dLL file
-* \detail Wrapper for DLL. Contains only exported method that directly calls methods from static lib
+* \details Wrapper for DLL. Contains only exported method that directly calls methods from static lib
 * Only for testing purposes.
 * \author  PB
 * \date    2014/10/10
