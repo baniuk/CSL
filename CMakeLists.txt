@@ -1,4 +1,4 @@
-# CMake build script for PBToolset
+# CMake build script for CASELOT
 
 cmake_minimum_required (VERSION 3.0.2)
 

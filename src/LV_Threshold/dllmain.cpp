@@ -1,8 +1,8 @@
 /**
-* \file    LV_FastMedian/dllmain.cpp
+* \file    LV_Threshold/dllmain.cpp
 * \brief	Main entry to DLL
 * \author  PB
-* \date    2014/01/22
+* \date    2014/10/10
 */
 
 #include <windows.h>
