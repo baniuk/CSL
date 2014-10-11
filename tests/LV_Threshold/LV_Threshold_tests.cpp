@@ -142,3 +142,32 @@ TEST(STATIC_Test,_Threshold_2)
 	delete[] inTab;
 	delete[] outTab;
 }
+
+/**
+* \test STATIC_Test,_Threshold_3
+* \brief Tests main procedre from static lib
+* \pre Image \c 100_01_91_005.dat
+* \post File \c LV_Threshold_tests_3.out
+* \author PB
+* \date 2014/10/11
+*/
+TEST(STATIC_Test,_Threshold_3)
+{
+	std::unique_ptr<double[]> data;
+	unsigned int rows,cols;
+	char err[MAX_ERROR_STRING];
+
+	ASSERT_NO_THROW(C_MatlabExchange::ReadData("100_01_91_005.dat",data, rows, cols));
+	// konwersja INT
+	UINT16* inTab = new UINT16[rows*cols];
+	UINT16* outTab = new UINT16[rows*cols];
+	for (unsigned int a=0;a<rows*cols;a++)
+		inTab[a] = static_cast<UINT16>(data[a]);
+
+	Sauv(inTab, outTab, rows, cols, 91, 0.05);
+	C_MatlabExchange out("LV_Threshold_tests_3.out");
+	out.AddEntry2D<UINT16>(outTab, rows, cols, "im_100_01");
+	out.AddEntry2D<UINT16>(inTab, rows, cols, "in");
+	delete[] inTab;
+	delete[] outTab;
+}
