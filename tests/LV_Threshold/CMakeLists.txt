@@ -7,6 +7,9 @@ configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/imag2.dat
 configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/im8bit.dat 
 				${CMAKE_CURRENT_BINARY_DIR}/im8bit.dat
 				COPYONLY)
+configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/100_01_91_005.dat 
+				${CMAKE_CURRENT_BINARY_DIR}/100_01_91_005.dat
+				COPYONLY)
 
 project(${LOCAL_PROJECT_NAME})
 ExternalProject_Get_Property(googletest binary_dir)

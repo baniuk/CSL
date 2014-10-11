@@ -32,7 +32,7 @@ void Sauv( const UINT16* input, UINT16* output, unsigned int rows, unsigned int 
 	UINT16 max, min;				// wartości min max dla macierzy wejściowej
 	double R;
 	unsigned int pom, g;
-	bool xlonger;
+	bool xlonger = false;
 	SAV sav;
 
 	UINT32* owe2 = new UINT32[nEl]; //obraz wejściowy do kwadratu
@@ -40,13 +40,14 @@ void Sauv( const UINT16* input, UINT16* output, unsigned int rows, unsigned int 
 	clearMem<UINT32>(II, nEl);
 	UINT32* II2 = new UINT32[nEl]; //Integral image kwadratów
 	clearMem<UINT32>(II2, nEl);
+	clearMem<UINT16>(output, nEl);
 
 	getMinMax<UINT16>(input, nEl, min, max);
 	R = ((max - min) / 2.0);
 
 	//Wyliczanie owe2 (kwadraty wejścia)
 	for(std::size_t i = 0; i < nEl; i++)
-		owe2[i] = input[i] * input[i];
+		owe2[i] = (UINT32)input[i] * (UINT32)input[i];
 
 	//Liczenie Integral Images
 	CII<UINT32>(owe2, II2, rows, cols);
@@ -108,16 +109,15 @@ void Sauv( const UINT16* input, UINT16* output, unsigned int rows, unsigned int 
 */
 void SAUVOLA(SAV& s)
 {
-	unsigned int i, j, fW;
+	unsigned long i, j, fW;
 	double wspW, wspW2, srednia, suma1, odSt, t;
 	unsigned long w2;
-	wspW = 1 / pow(s.w, 2.0);
-	wspW2 = 1 / (pow(s.w, 2.0) - 1);
-	w2 = (unsigned long)pow(s.w, 2.0);
-	fW = (unsigned int)(s.w / 2.0);
+	wspW = 1.0 / pow((double)s.w, 2);
+	wspW2 = 1.0 / (pow((double)s.w, 2) - 1);
+	w2 = (unsigned long)pow((double)s.w, 2);
+	fW = (unsigned long)(s.w / 2.0);
 
 	for(i = s.imin; i <= s.imax; i++)
-	{
 		for(j = s.jmin; j <= s.jmax; j++)
 		{
 			srednia =
@@ -139,5 +139,4 @@ void SAUVOLA(SAV& s)
 			if(s.owe[i * (s.cols) + j] > t)
 				s.owy[i * (s.cols) + j] = 1;
 		}
-	}
 }
