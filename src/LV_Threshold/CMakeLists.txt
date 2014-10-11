@@ -1,5 +1,5 @@
-﻿# rzeczy do zmiany
-set(LOCAL_PROJECT_NAME LV_FastMedian)
+# rzeczy do zmiany
+set(LOCAL_PROJECT_NAME LV_Threshold)
 set(VERSION_MAJOR 1) # wersje powinny być skorelowane z /version w pliku
 set(VERSION_MINOR 0)
 
@@ -8,21 +8,25 @@ configure_file(
   ${CMAKE_CURRENT_BINARY_DIR}/resources.rc
   @ONLY)
 
-# set include directory - patch to have include files in VC project  (in add_library)
+# set include directory - patch to have include files in VC project (in add_library)
 set(INC_DIR ${${ROOT_PROJECT_NAME}_SOURCE_DIR}/include/${LOCAL_PROJECT_NAME})
 
 project(${LOCAL_PROJECT_NAME})
 # includes in source files must be relative to ./include dir. Includes specific to 
 # given project are in separate subdirectories
 include_directories(${${ROOT_PROJECT_NAME}_SOURCE_DIR}/include)
-# budowanie DLL
-add_library(${LOCAL_PROJECT_NAME} SHARED
- 			dllmain.cpp LV_FastMedian.cpp 
- 			${LV_FastMedian_BINARY_DIR}/resources.rc 
- 			${INC_DIR}/LV_fastMedian.h)
+# budowanie biblioteki statycznej
+add_library(${LOCAL_PROJECT_NAME}_static STATIC 
+			LV_Threshold.cpp
+			${INC_DIR}/LV_Threshold.h)
+# budowanie DLL (linkuje static)
+add_library(${LOCAL_PROJECT_NAME} SHARED 
+			dllmain.cpp LV_Threshold_DLL_Wrapper.cpp
+			${CMAKE_CURRENT_BINARY_DIR}/resources.rc
+			${INC_DIR}/LV_Threshold_DLL_Wrapper.h)
 
 # Linkowanie z innymi bibliotekami
-target_link_libraries(${LOCAL_PROJECT_NAME} setError)
+target_link_libraries(${LOCAL_PROJECT_NAME} setError ${LOCAL_PROJECT_NAME}_static)
 add_dependencies(${LOCAL_PROJECT_NAME} setError)
 
 # instalacja - kopiowanie wyników do katalogu po nmake install (nie potrzebne do testów)
