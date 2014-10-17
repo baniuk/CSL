@@ -1,8 +1,19 @@
 # CMake build script for CASELOT
 
 cmake_minimum_required (VERSION 3.0.2)
+# check for external dependencies - OpenCV
+# OpenCV must be installed and env variable OPENCV_DIR must be st poining to OpenCVConfig.cmake
+IF(NOT DEFINED ENV{OPENCV_DIR}) 
+	message(FATAL_ERROR "Env variable OPENCV_DIR not set. It must point to location of OpenCVConfig.cmake file") 
+ELSE ()
+	# for OpenCV find package
+	set(OpenCV_DIR $ENV{OPENCV_DIR}) 
+ENDIF() 
 
+# set additional cmake modules and check dependencies
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake-modules)
 find_package(Subversion REQUIRED)
+find_package(OpenCV REQUIRED)
 
 # do ustawienia
 set(ROOT_PROJECT_NAME "LabView_Extensions")
