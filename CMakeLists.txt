@@ -2,7 +2,12 @@
 
 cmake_minimum_required (VERSION 3.0.2)
 # check for external dependencies - OpenCV
-# OpenCV must be installed and env variable OPENCV_DIR must be st poining to OpenCVConfig.cmake
+# OpenCV must be installed and env variable OPENCV_DIR must be st poining to OpenCVConfig.cmake Moreover correct bin (dlls) dir must be set in PATH
+# vc8 = Visual Studio 2005
+# vc9 = Visual Studio 2008
+# vc10 = Visual Studio 2010
+# vc11 = Visual Studio 2012
+# vc12 = Visual Studio 2013
 IF(NOT DEFINED ENV{OPENCV_DIR}) 
 	message(FATAL_ERROR "Env variable OPENCV_DIR not set. It must point to location of OpenCVConfig.cmake file") 
 ELSE ()
