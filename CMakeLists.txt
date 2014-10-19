@@ -15,6 +15,28 @@ ELSE ()
 	set(OpenCV_DIR $ENV{OPENCV_DIR}) 
 ENDIF() 
 
+# If these variables are set in env build is performed offline:
+# 	PBToolset_GIT_REPOSITORY - path to PBToolset git repository (local)
+#	GTest_SVN_REPOSITORY - any value (gtest must be in /external_dep/gtest)
+# WARNING - Paths must be in unix mode /
+IF(DEFINED ENV{PBToolset_GIT_REPOSITORY})
+	set(PBToolset_GIT_REPOSITORY $ENV{PBToolset_GIT_REPOSITORY})
+	message("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+	message("Use local PBToolset repo " ${PBToolset_GIT_REPOSITORY})
+	message("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+ELSE ()
+	set(PBToolset_GIT_REPOSITORY https://github.com/baniuk/PBToolset.git) 
+ENDIF()
+set(PBToolset_GIT_TAG master)
+IF(DEFINED ENV{GTest_SVN_REPOSITORY})
+	set(GTest_SVN_REPOSITORY "")
+	message("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+	message("Use local gtest repo " External_dep/gtest)
+	message("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+ELSE ()
+	set(GTest_SVN_REPOSITORY http://googletest.googlecode.com/svn/trunk/) 
+ENDIF()
+
 # set additional cmake modules and check dependencies
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake-modules)
 find_package(Subversion REQUIRED)
@@ -22,12 +44,8 @@ find_package(OpenCV REQUIRED)
 
 # do ustawienia
 set(ROOT_PROJECT_NAME "LabView_Extensions")
-set(PBToolset_GIT_REPOSITORY https://github.com/baniuk/PBToolset.git) 
-#set(PBToolset_GIT_REPOSITORY i:/Projekty/PBToolset)
-set(PBToolset_GIT_TAG master)
 
 project(${ROOT_PROJECT_NAME})
-
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # set additional compiler flags

@@ -10,7 +10,7 @@ ExternalProject_Add(	googletest
 						SOURCE_DIR ${CMAKE_SOURCE_DIR}/External_dep/gtest
 						BINARY_DIR ${CMAKE_SOURCE_DIR}/bin/External_dep/gtest
 						STAMP_DIR ${ROOT_PROJECT_SOURCE_DIR}/bin/External_dep/gtest/stamp
-						SVN_REPOSITORY http://googletest.googlecode.com/svn/trunk/
+						SVN_REPOSITORY ${GTest_SVN_REPOSITORY}
 						# Force separate output paths for debug and release builds to allow easy
 						# identification of correct lib in subsequent TARGET_LINK_LIBRARIES commands
 						CMAKE_ARGS -DCMAKE_CXX_FLAGS='-D_VARIADIC_MAX=10'
