@@ -8,8 +8,6 @@ configure_file(
   ${CMAKE_CURRENT_BINARY_DIR}/resources.rc
   @ONLY)
 
-ExternalProject_Get_Property(PBToolset binary_dir)
-set(PBToolset_LIB ${binary_dir})
 ExternalProject_Get_Property(PBToolset source_dir)
 set(PBToolset_SRC ${source_dir}) 
 ExternalProject_Get_Property(levmar source_dir)
@@ -27,15 +25,20 @@ add_library(${LOCAL_PROJECT_NAME}_static STATIC
 			C_LineInterp.cpp ${INC_DIR}/C_LineInterp.h
 			C_LineWeldApprox.cpp ${INC_DIR}/C_LineWeldApprox.h
 			C_Levmar_Warp.cpp ${INC_DIR}/C_Levmar_Warp.h
-			interpol.c ${INC_DIR}/interpol.h
-			coeff.c ${INC_DIR}/coeff.h
+			interpol.cpp ${INC_DIR}/interpol.h
+			coeff.cpp ${INC_DIR}/coeff.h
 			C_LinearWeld.cpp ${INC_DIR}/C_LinearWeld.h
 			C_WeldlineDetect.cpp ${INC_DIR}/C_WeldlineDetect.h
 			C_WeldPos.cpp ${INC_DIR}/C_WeldPos.h
 			${INC_DIR}/C_CircBuff.h
 			C_Matrix_Container.cpp ${INC_DIR}/C_Matrix_Container.h)
 target_link_libraries(	${LOCAL_PROJECT_NAME}_static
-						${CMAKE_SOURCE_DIR}/lib/Geom${CMAKE_FIND_LIBRARY_SUFFIXES})
+						${CMAKE_SOURCE_DIR}/lib/Geom${CMAKE_FIND_LIBRARY_SUFFIXES}
+						${CMAKE_SOURCE_DIR}/lib/levmar${CMAKE_FIND_LIBRARY_SUFFIXES}
+						${CMAKE_SOURCE_DIR}/lib/f2c${CMAKE_FIND_LIBRARY_SUFFIXES}
+						${CMAKE_SOURCE_DIR}/lib/blas${CMAKE_FIND_LIBRARY_SUFFIXES}
+						${CMAKE_SOURCE_DIR}/lib/tmglib${CMAKE_FIND_LIBRARY_SUFFIXES}
+						${CMAKE_SOURCE_DIR}/lib/lapack${CMAKE_FIND_LIBRARY_SUFFIXES})
 # budowanie DLL (linkuje static)
 add_library(${LOCAL_PROJECT_NAME} SHARED 
 			dllmain.cpp LV_WeldDetectApprox_DLL_Wrapper.cpp
