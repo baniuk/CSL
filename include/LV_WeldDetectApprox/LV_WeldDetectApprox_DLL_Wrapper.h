@@ -13,12 +13,10 @@
 #include "setError/setError.h"
 #include "definitions.h"
 
-/// Exported method for median filtering using fast median alghoritm
-// extern "C" __declspec(dllexport) retCode LV_Thresh(const UINT16* input_image,
-// 													UINT16* output_image,
-// 													UINT16 nrows, UINT16 ncols,
-// 													unsigned int w,
-// 													double k,
-// 													char* errDesc);
+/// Exported method for weld detection using approximation
+ extern "C" __declspec(dllexport) retCode LV_WeldDetectApprox(	const UINT16* input_image,
+ 												   				UINT16* output_image,
+ 												   				UINT16 nrows, UINT16 ncols,
+ 												   				char* errDesc);
 													
-#endif // LV_Threshold_DLL_Warper_h__
+#endif // LV_WeldDetectApprox_DLL_Warper_h__

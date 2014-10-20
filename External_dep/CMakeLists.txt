@@ -44,4 +44,49 @@ ExternalProject_Add(	PBToolset
 						INSTALL_COMMAND ""
 						# Wrap download, configure and build steps in a script to log output
 						# LOG_DOWNLOAD ON
-					)					
+					)		
+
+ExternalProject_Add(	clapack
+						# wszystko ląduje w Third_party/clapack
+						SOURCE_DIR ${CMAKE_SOURCE_DIR}/External_dep/clapack
+						# GIT_REPOSITORY ${PBToolset_GIT_REPOSITORY}
+						# GIT_TAG ${PBToolset_GIT_TAG}
+						# Force separate output paths for debug and release builds to allow easy
+						# identification of correct lib in subsequent TARGET_LINK_LIBRARIES commands
+						# set all libs in main dir lib
+						CMAKE_ARGS -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+							-DCMAKE_CXX_FLAGS="/w" # jest duzo ostrzezen - blokada
+							-DCMAKE_C_FLAGS="/w"
+							-DCOMMON_EXT_LIB_OUTPUT=${CMAKE_SOURCE_DIR}/lib 	# zmienna definiująca cel dla bin lib zewnętrznych
+							-DROOT_PROJECT_SOURCE_DIR=${CMAKE_SOURCE_DIR}	# root dla projektu 9zakłada że wszystkie projekty mają taka sama strukturę)
+							-DCMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG:PATH=${CMAKE_SOURCE_DIR}/lib # biblioteki wewnętrzne tego projektu, w tym przypadku wyrzucane tez do lib (ale niekoniecznie musi tak byc, tka jest łatwiej bo nie ma problemu ze sciezkami)
+							-DCMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE:PATH=${CMAKE_SOURCE_DIR}/lib
+							-Wno-dev
+						# Disable install step
+						TEST_BEFORE_INSTALL 0
+						INSTALL_COMMAND  ren ..\\..\\..\\..\\..\\lib\\libf2c.lib f2c.lib # nazwa sie nie zgadza i levmar nie linkuje
+						# Wrap download, configure and build steps in a script to log output
+						# LOG_DOWNLOAD ON
+					)		
+
+ExternalProject_Add(	levmar
+						# wszystko ląduje w Third_party/levmar
+						SOURCE_DIR ${CMAKE_SOURCE_DIR}/External_dep/levmar-2.6
+						# GIT_REPOSITORY ${PBToolset_GIT_REPOSITORY}
+						# GIT_TAG ${PBToolset_GIT_TAG}
+						# Force separate output paths for debug and release builds to allow easy
+						# identification of correct lib in subsequent TARGET_LINK_LIBRARIES commands
+						# set all libs in main dir lib
+						CMAKE_ARGS -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+							-DLAPACKBLAS_DIR=${CMAKE_SOURCE_DIR}/lib
+							-DCOMMON_EXT_LIB_OUTPUT=${CMAKE_SOURCE_DIR}/lib 	# zmienna definiująca cel dla bin lib zewnętrznych
+							-DROOT_PROJECT_SOURCE_DIR=${CMAKE_SOURCE_DIR}	# root dla projektu 9zakłada że wszystkie projekty mają taka sama strukturę)
+							-DCMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG:PATH=${CMAKE_SOURCE_DIR}/lib # biblioteki wewnętrzne tego projektu, w tym przypadku wyrzucane tez do lib (ale niekoniecznie musi tak byc, tka jest łatwiej bo nie ma problemu ze sciezkami)
+							-DCMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE:PATH=${CMAKE_SOURCE_DIR}/lib
+							-Wno-dev
+						# Disable install step
+						TEST_BEFORE_INSTALL 0
+						INSTALL_COMMAND ""
+						# Wrap download, configure and build steps in a script to log output
+						# LOG_DOWNLOAD ON
+					)												
