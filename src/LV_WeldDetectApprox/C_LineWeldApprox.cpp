@@ -1,15 +1,15 @@
-/**
+Ôªø/**
 * \file    C_LineWeldApprox.cpp
-* \brief	ZbiÛr podstawowch funkcji do detekcji linii spawu
-* \details ZbiÛr podstawowch funkcji do detekcji linii spawu
+* \brief	Zbi√≥r podstawowch funkcji do detekcji linii spawu
+* \details Zbi√≥r podstawowch funkcji do detekcji linii spawu
 * \author  PB
 * \date    2012/03/01
 */
 #include "LV_WeldDetectApprox/C_LineWeldApprox.h"
 
 /**
-* Standardowy konstruktor obiektu dokonujπcego aproxymacji linii spawu i przechowujacego wynik. Klasa przechowuje wyniki minimalizacji oraz uzyskane parametry.
-* Pozosta≥e dane jak w, y, x nie sπ przechowywane celem zaoszczÍdzenia miejsca.
+* Standardowy konstruktor obiektu dokonujƒÖcego aproxymacji linii spawu i przechowujacego wynik. Klasa przechowuje wyniki minimalizacji oraz uzyskane parametry.
+* Pozosta≈Çe dane jak w, y, x nie sƒÖ przechowywane celem zaoszczƒôdzenia miejsca.
 * \param[in] _typeApprox Rodzaj krzywej do aproxymacji - zgodne z eApproxFcn
 * \param[in] _y table of data to be fit
 * \param[in] _x values of domain of y. Approximation function is evaluated for these data and fitted to y
@@ -27,8 +27,8 @@ C_LineWeldApprox::C_LineWeldApprox()
 	p = copy_y = ub = lb = NULL;
 }
 /**
-* Standardowy konstruktor obiektu dokonujπcego aproxymacji linii spawu i przechowujacego wynik. Klasa przechowuje wyniki minimalizacji oraz uzyskane parametry.
-* Pozosta≥e dane jak w, y, x nie sπ przechowywane celem zaoszczÍdzenia miejsca.
+* Standardowy konstruktor obiektu dokonujƒÖcego aproxymacji linii spawu i przechowujacego wynik. Klasa przechowuje wyniki minimalizacji oraz uzyskane parametry.
+* Pozosta≈Çe dane jak w, y, x nie sƒÖ przechowywane celem zaoszczƒôdzenia miejsca.
 * \param[in] _typeApprox Rodzaj krzywej do aproxymacji - zgodne z eApproxFcn
 * \param[in] _y table of data to be fit
 * \param[in] _x values of domain of y. Approximation function is evaluated for these data and fitted to y
@@ -55,7 +55,7 @@ void C_LineWeldApprox::ManualConstructor( eApproxFcn _typeApprox,const double *_
 	}
 }
 
-// dodaÊ konstruktor pobierajπcy obiekt C_LineInterp
+// dodaƒá konstruktor pobierajƒÖcy obiekt C_LineInterp
 
 C_LineWeldApprox::~C_LineWeldApprox()
 {
@@ -89,8 +89,8 @@ int C_LineWeldApprox::getLineApprox(int _iter)
 * vector y. Vector y and xtradata::x->x are the same size
 * @param[in] iter	maximum number of iterations
 * \return Number of iterations or -1 if failed
-* \warning Zawsze uzywane sπ parametry domyúlne
-* \remarks Funkcja zrzuca dane wejúciowe do dlevmar_bc_der do pliku o losowej nazwie
+* \warning Zawsze uzywane sƒÖ parametry domy≈õlne
+* \remarks Funkcja zrzuca dane wej≈õciowe do dlevmar_bc_der do pliku o losowej nazwie
 */
 int C_LineWeldApprox::getLineApproxGaussLinWeighted(int iter)
 {
@@ -134,9 +134,9 @@ int C_LineWeldApprox::getLineApproxGaussLinWeighted(int iter)
 	return ret;
 }
 /**
-* Ustawia parametry aproxymacji. Zaden z parametrÛw nie jest modyfikowany. _p, _ub _lb _opts sπ kopiowane do klasy. Wagi _w sπ uøywane natychmiast do przemnoøenia danych przechowywanych w klasiei uøywanych pÛüniej do aproxymacji. Jeúli
-* parametry sπ NULL to uøyte sπ parametry domyúlne ustawiane w konstruktorze.\n
-* Zawiera takøe procedurÍ skalowania
+* Ustawia parametry aproxymacji. Zaden z parametr√≥w nie jest modyfikowany. _p, _ub _lb _opts sƒÖ kopiowane do klasy. Wagi _w sƒÖ u≈ºywane natychmiast do przemno≈ºenia danych przechowywanych w klasiei u≈ºywanych p√≥≈∫niej do aproxymacji. Je≈õli
+* parametry sƒÖ NULL to u≈ºyte sƒÖ parametry domy≈õlne ustawiane w konstruktorze.\n
+* Zawiera tak≈ºe procedurƒô skalowania
 * @param[in] _w weights to weight y data (NULL if no wieghts)
 * @param[in] _p table of parameters
 * @param[in] _lb lower bounds - size of m
@@ -167,8 +167,8 @@ void C_LineWeldApprox::setApproxParmas( double *_p, double *_w, double *_ub, dou
 	}
 }
 /**
-* Ustawia domyúlne parametry wzaleønoúci od typu krzywej uøytej do aproksymacji.
-* \warning Parmetr C_LineWeldApprox::opts nie jest uøywane w tej wersji
+* Ustawia domy≈õlne parametry wzale≈ºno≈õci od typu krzywej u≈ºytej do aproksymacji.
+* \warning Parmetr C_LineWeldApprox::opts nie jest u≈ºywane w tej wersji
 */
 void C_LineWeldApprox::setDefaultParams()
 {
@@ -197,31 +197,31 @@ void C_LineWeldApprox::setDefaultParams()
 	}
 }
 /**
-* Zwraca wybrane parmaetry. Jeúli optymalizacja nie by≥a wykonana lub funkcja setApproxParams nie by≥π uøyta to zwraca domyúlne.
-* \return Wskaünik do tablicy z parametrami p trzymanymi w obiekcie
+* Zwraca wybrane parmaetry. Je≈õli optymalizacja nie by≈Ça wykonana lub funkcja setApproxParams nie by≈ÇƒÖ u≈ºyta to zwraca domy≈õlne.
+* \return Wska≈∫nik do tablicy z parametrami p trzymanymi w obiekcie
 */
 const double* C_LineWeldApprox::getApproxParams_p() const
 {
 	return p;
 }
 /**
-* Zwraca wybrane parmaetry. Jeúli optymalizacja nie by≥a wykonana lub funkcja setApproxParams nie by≥π uøyta to zwraca domyúlne.
-* \return Wskaünik do tablicy z parametrami ub trzymanymi w obiekcie
+* Zwraca wybrane parmaetry. Je≈õli optymalizacja nie by≈Ça wykonana lub funkcja setApproxParams nie by≈ÇƒÖ u≈ºyta to zwraca domy≈õlne.
+* \return Wska≈∫nik do tablicy z parametrami ub trzymanymi w obiekcie
 */
 const double* C_LineWeldApprox::getApproxParams_ub() const
 {
 	return ub;
 }
 /**
-* Zwraca wybrane parmaetry. Jeúli optymalizacja nie by≥a wykonana lub funkcja setApproxParams nie by≥π uøyta to zwraca domyúlne.
-* \return Wskaünik do tablicy z parametrami lb trzymanymi w obiekcie
+* Zwraca wybrane parmaetry. Je≈õli optymalizacja nie by≈Ça wykonana lub funkcja setApproxParams nie by≈ÇƒÖ u≈ºyta to zwraca domy≈õlne.
+* \return Wska≈∫nik do tablicy z parametrami lb trzymanymi w obiekcie
 */
 const double* C_LineWeldApprox::getApproxParams_lb() const
 {
 	return lb;
 }
 /**
-* Zwraca wartoúÊ wybranej pozycji z tablicy info zawierajπcej wyniki optymalizacji
+* Zwraca warto≈õƒá wybranej pozycji z tablicy info zawierajƒÖcej wyniki optymalizacji
 * \param[in] _res	nazwa parametru zgodna z wektor z eOptimInfo
 * \return wartosc parametru o nazwie _res
 */
@@ -233,9 +233,9 @@ double C_LineWeldApprox::getInfo( eOptimInfo _res ) const
 		return info[_res];
 }
 ///**
-//* Oblicza wartoúÊ funkcji dla parametru x. Uøywane sπ dane z wektora _p. Funkcja nie sprawdza poprawnoúci tych danych.
-//* \param[in] _x wartoúÊ dla ktÛrej zostanie obliczona funkcja
-//* \return Obliczona wartoúÊ
+//* Oblicza warto≈õƒá funkcji dla parametru x. U≈ºywane sƒÖ dane z wektora _p. Funkcja nie sprawdza poprawno≈õci tych danych.
+//* \param[in] _x warto≈õƒá dla kt√≥rej zostanie obliczona funkcja
+//* \return Obliczona warto≈õƒá
 //*/
 // double C_LineWeldApprox::evalApproxFcn( double _x ) const
 // {
@@ -256,10 +256,10 @@ double C_LineWeldApprox::getInfo( eOptimInfo _res ) const
 // }
 
 /**
-* Oblicza wartoúÊ funkcji dla parametru x. Uøywane sπ dane z wektora _p. Funkcja nie sprawdza poprawnoúci tych danych.
-* \param[in] _x tablica dla ktÛrej zostanie obliczona funkcja
+* Oblicza warto≈õƒá funkcji dla parametru x. U≈ºywane sƒÖ dane z wektora _p. Funkcja nie sprawdza poprawno≈õci tych danych.
+* \param[in] _x tablica dla kt√≥rej zostanie obliczona funkcja
 * \param[in] siz rozmiar tablic
-* \param[out] _y tablica wyjúciowa
+* \param[out] _y tablica wyj≈õciowa
 */
 void C_LineWeldApprox::evalApproxFcnVec(const double *_x,double *_y,unsigned int siz ) const
 {
@@ -277,7 +277,7 @@ void C_LineWeldApprox::evalApproxFcnVec(const double *_x,double *_y,unsigned int
 	}
 }
 /**
-* Procedura waøy sygna≥ copy_y za pomocπ wektora wag _w o tym samym rozmiarze. Funkcja modyfikuje tablicÍ copy_y. Wagi wchodzπ jako úrednia nienormowana. Procedura z matlaba z testÛw
+* Procedura wa≈ºy sygna≈Ç copy_y za pomocƒÖ wektora wag _w o tym samym rozmiarze. Funkcja modyfikuje tablicƒô copy_y. Wagi wchodzƒÖ jako ≈õrednia nienormowana. Procedura z matlaba z test√≥w
 * \param[in] _w tablica wag
 */
 void C_LineWeldApprox::WeightProfile( const double *_w )
@@ -285,7 +285,7 @@ void C_LineWeldApprox::WeightProfile( const double *_w )
 	double *w_tab = NULL;
 	unsigned int l;
 	double minel, maxel, delta,wtab;
-	w_tab = new double[len];	// w len jest d≥ugoúÊ danych aproxymowanych
+	w_tab = new double[len];	// w len jest d≈Çugo≈õƒá danych aproxymowanych
 	for(l=0;l<len;++l)
 		w_tab[l] = sqrt(_w[l]);
 	// skalowanie w_tab do zakresu 0-1
@@ -298,7 +298,7 @@ void C_LineWeldApprox::WeightProfile( const double *_w )
 	if(delta!=0)
 		for(l=0;l<len;++l)	{
 			wtab = (w_tab[l]-minel)/delta; // wartosc wagi przeskalowana do 0-1
-			copy_y[l] = copy_y[l]*wtab + _w[l]*(1-wtab); // srednia waøona
+			copy_y[l] = copy_y[l]*wtab + _w[l]*(1-wtab); // srednia wa≈ºona
 		}
 
 		SAFE_DELETE(w_tab);

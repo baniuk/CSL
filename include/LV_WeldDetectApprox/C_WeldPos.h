@@ -1,6 +1,6 @@
-/**
+ï»¿/**
 * \file    C_WeldPos.h
-* \brief	Definicja klasy przechowuj¹cej pozycjê spawu dla jednej linii
+* \brief	Definicja klasy przechowujÄ…cej pozycjÄ™ spawu dla jednej linii
 * \author  PB
 * \date    2012/03/17
 */
@@ -9,16 +9,16 @@
 
 #include "Geom/C_Point.h"
 /**
-* Kalsa s³u¿y doprzechowywania pozycji spawu dla jednej linii. Przechowywane s¹ trzy punkty:
-* \li Górny
-* \li Œrodkowy
+* Kalsa sÅ‚uÅ¼y doprzechowywania pozycji spawu dla jednej linii. Przechowywane sÄ… trzy punkty:
+* \li GÃ³rny
+* \li Åšrodkowy
 * \li Dolny\n
-* Klasa musi byæ u¿ywana jako typ tablicowy.
+* Klasa musi byÄ‡ uÅ¼ywana jako typ tablicowy.
 */
 class C_WeldPos
 {
 public:
-	C_Point G; /**< Punkt górny */
+	C_Point G; /**< Punkt gÃ³rny */
 	C_Point S;/**< Punkt srodkowy */
 	C_Point D;/**< Punkt dolny */
 	/// Kasuje wszyskie pola

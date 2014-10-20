@@ -1,4 +1,4 @@
-/**
+ï»¿/**
 * \file    C_LineWeldApprox.h
 * \brief	Aproxymuje profil liniowy obrazu
 * \author  PB
@@ -16,40 +16,40 @@
 #endif
 
 /**
-* Wykonuje aproxymacjê jednej linii spawu i przechowuje wyniki takiej aproxymacji
-* Inicjalizacja nastêpuje konstruktorem, przy przekazaniu typu krzywej aproksymujacej oraz wskaŸników do wektórw
-* _x oraz _y. Te wektory nie s¹ modyfikowane wewn¹trz klasy, wektor _y jest kopiowany do zmiennej pomocniczej copy_y
+* Wykonuje aproxymacjÄ™ jednej linii spawu i przechowuje wyniki takiej aproxymacji
+* Inicjalizacja nastÄ™puje konstruktorem, przy przekazaniu typu krzywej aproksymujacej oraz wskaÅºnikÃ³w do wektÃ³rw
+* _x oraz _y. Te wektory nie sÄ… modyfikowane wewnÄ…trz klasy, wektor _y jest kopiowany do zmiennej pomocniczej copy_y
 * co jest potrzebne przy wagach.\n
-* Po inicjalizacji mo¿na wywo³aæ funkcjê C_LineWeldApprox::setApproxParams aby przekazaæ do klasy parmaetry aproksymacji.
-* Jeœli nie wywo³a siê tej funkcji lub poda siê NULL w argumencie to u¿ywane s¹ parametry domyœlne.\n
-* Nastêpnie wywo³uje siê wysokopoziomow¹ procedurê C_LineWeldApprox::getLineApprox, która dokonuje aproksymacji i zachowuje
-* wyniki w klasie. Modyfikowana jest zmienna p, która zawiera obliczone wspó³czynniki krzywej\n
-* Wyniki mo¿na uzyskaæ za pomoc¹ funkcji C_LineWeldApprox::getApproxParams, która kopiuje szereg parametrów na zewnatrz klasy.
-* Dodatkowe informace za pomoc¹ funkcji C_LineWeldApprox::getInfo.
+* Po inicjalizacji moÅ¼na wywoÅ‚aÄ‡ funkcjÄ™ C_LineWeldApprox::setApproxParams aby przekazaÄ‡ do klasy parmaetry aproksymacji.
+* JeÅ›li nie wywoÅ‚a siÄ™ tej funkcji lub poda siÄ™ NULL w argumencie to uÅ¼ywane sÄ… parametry domyÅ›lne.\n
+* NastÄ™pnie wywoÅ‚uje siÄ™ wysokopoziomowÄ… procedurÄ™ C_LineWeldApprox::getLineApprox, ktÃ³ra dokonuje aproksymacji i zachowuje
+* wyniki w klasie. Modyfikowana jest zmienna p, ktÃ³ra zawiera obliczone wspÃ³Å‚czynniki krzywej\n
+* Wyniki moÅ¼na uzyskaÄ‡ za pomocÄ… funkcji C_LineWeldApprox::getApproxParams, ktÃ³ra kopiuje szereg parametrÃ³w na zewnatrz klasy.
+* Dodatkowe informace za pomocÄ… funkcji C_LineWeldApprox::getInfo.
 */
 class C_LineWeldApprox
 {
 public:
-	/// Standard Constructor - po jego u¿yciu obowi¹zkowo ManualConstructor
+	/// Standard Constructor - po jego uÅ¼yciu obowiÄ…zkowo ManualConstructor
 	C_LineWeldApprox();
 	/// konstruktor podstawowy
 	C_LineWeldApprox(eApproxFcn _typeApprox,const double *_y, const double *_x,unsigned int _len);
 	/// Destructor
 	~C_LineWeldApprox();
-	/// konstruktor manualny - musi byæ u¿yty po konstruktorze bezparametrowym
+	/// konstruktor manualny - musi byÄ‡ uÅ¼yty po konstruktorze bezparametrowym
 	void ManualConstructor(eApproxFcn _typeApprox,const double *_y, const double *_x,unsigned int _len);
-	/// oblicza wartoœæ funkcji apryxymuj¹cej dla parametru x
+	/// oblicza wartoÅ›Ä‡ funkcji apryxymujÄ…cej dla parametru x
 	//	double evalApproxFcn(double _x) const;
-	/// oblicza wartoœæ funkcji apryxymuj¹cej dla wektora x
+	/// oblicza wartoÅ›Ä‡ funkcji apryxymujÄ…cej dla wektora x
 	void evalApproxFcnVec(const double *_x,double *_y,unsigned int siz ) const;
 private:
-	/// wskaŸnik do danych y \warning Poprzez ten wskaŸnik nie mo¿na modyfikowaæ nic
+	/// wskaÅºnik do danych y \warning Poprzez ten wskaÅºnik nie moÅ¼na modyfikowaÄ‡ nic
 	double const *y;
-	/// wskaŸnik do x
+	/// wskaÅºnik do x
 	double const *x;
-	/// kopia y ¿eby wag¹ nie modyfikowaæ
+	/// kopia y Å¼eby wagÄ… nie modyfikowaÄ‡
 	double *copy_y;
-	/// przechowuje wspó³czynniki dla funkcji GaussLin
+	/// przechowuje wspÃ³Å‚czynniki dla funkcji GaussLin
 	double *p;
 	/// Przechowuje typ aproxymacji skojarzony z obiektem, zgodnie z ApproxFcn
 	eApproxFcn typeApprox;
@@ -57,30 +57,30 @@ private:
 	double *lb;
 	/// Przechowje ub
 	double *ub;
-	/// Rodzaj krzywej aproxymuj¹cej
+	/// Rodzaj krzywej aproxymujÄ…cej
 	eApproxFcn currentApproxFcn;
 	/// parametry optymalizacji
 	double opts[LM_OPTS_SZ];
 	/// wyniki optymalizacji
 	double info[LM_INFO_SZ];
-	/// Aproxymacja sum¹ gaussa i funkcji liniowej
+	/// Aproxymacja sumÄ… gaussa i funkcji liniowej
 	int getLineApproxGaussLinWeighted(int iter);
-	/// ustawia parametry domyœlne dla wybranego typu aproxymacji
+	/// ustawia parametry domyÅ›lne dla wybranego typu aproxymacji
 	void setDefaultParams();
-	/// rozmiar wektorów x i y
+	/// rozmiar wektorÃ³w x i y
 	unsigned int len;
-	/// wazy sygna³ profilu za pomoc¹ wag
+	/// wazy sygnaÅ‚ profilu za pomocÄ… wag
 	void WeightProfile(const double *_w);
 public:
-	/// Aproxymuje jedn¹ liniê wybran¹ funkcj¹ zgodnie z eApproxFcn
+	/// Aproxymuje jednÄ… liniÄ™ wybranÄ… funkcjÄ… zgodnie z eApproxFcn
 	int getLineApprox(int _iter);
 	/// ustawia parametry optymalizacji i dane
 	void setApproxParmas(double *_p, double *_w, double *_ub, double *_lb, double *_opts=NULL);
-	/// Zwraca wybrane parametry, bez sprawdzania czy optymalizacja by³a wykoana
+	/// Zwraca wybrane parametry, bez sprawdzania czy optymalizacja byÅ‚a wykoana
 	const double* getApproxParams_p() const;
 	const double* getApproxParams_ub() const;
 	const double* getApproxParams_lb() const;
-	/// Zwraca wybran¹ informacjê o wyniku optymalizacji
+	/// Zwraca wybranÄ… informacjÄ™ o wyniku optymalizacji
 	double getInfo(eOptimInfo _res) const;
 	/// Generuje pseudolosowe znaki
 	void RangedRand( int range_min, int range_max, int n, char *tab );

@@ -1,7 +1,7 @@
-/**
+﻿/**
 * \file    C_Levmar_Warp.cpp
 * \brief	Warper do biblioteki levmar
-* \details Zawiera definicje funkcji wykorzystuj�cych biblioteke levmar
+* \details Zawiera definicje funkcji wykorzystujących biblioteke levmar
 * \author  PB
 * \date    2012/03/01
 */

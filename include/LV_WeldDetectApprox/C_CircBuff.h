@@ -1,23 +1,23 @@
-/**
- * \file    C_CircBuff.h
- * \brief	Bufor ko³owy
- * \author  PB
- * \date    2012/03/01
- */
+ï»¿/**
+* \file    C_CircBuff.h
+* \brief	Bufor koÅ‚owy
+* \author  PB
+* \date    2012/03/01
+*/
 #ifndef C_CircBuff_h__
 #define C_CircBuff_h__
 
-/** 
- * Klasa obs³uguj¹ca bufor ko³owy. Umo¿liwia realziacjê bufora ko³owego ale przy indeksowaniu liniowym. Dane s¹ dopisuwane na kolejne 
- * miejsce zraz za oststnio dopisanym. T jest typem obiektu a S rozmiarem bufora. Bepoœrednio po zapisaniu elementu do bufora mo¿na go skasowaæ. Funkcja getNumElements() zwraca iloœæ elementów w buforze kompatybiln¹ z funkcj¹ GetObject, dziêki czemu mo¿na j¹ adresowaæ za pomoc¹ pêtli. Generalnie bufor dzia³a w nastêpuj¹cy sposób - dopóki nie zostanie ca³y zapisany to Czy_pelny zawsze zwraca false. Jeœli zostanie ca³y zapisany ale jeden ostatni zostanie skasowany to terz zwórci false. Po pirwszym przepe³nieniu funkcja zawsze zwrca true. Tak samo getNumElements - po przepe³nieniu zwraca pojemnoœæ bufora.
- * \warning Nie jest zalecane wielokrotne kasowanie pod rz¹d wielu elementow. Powinno kasowaæ siê tylko ostatni.
- * Przyk³ady u¿ycia w pliku TESTS.cpp w C_WeldlineDetet_TESTS.\n
- * Kolejnoœæ u¿ywania:\n
- * \li Stworzyæ obiekt u¿ywaj¹c konstruktora bezparametrowego
- * \li Dodaæ obiekty u¿ywaj¹c AddObject, która zwrca adres nowododanego obiektu
- * \li Po ka¿dej tej instrukcji mo¿na odwo³aæ siê do tego obiektu lub go skasowaæ
- * \todo przemyslec czy funkcje informuj¹ce o ilosc zapisanych elementów maj¹ sens? Bo jesli jeden kasujemy to bufor nie jest pe³ny ale nie wiemy który jest póstu, wiêc to klient powinien sprawdzaæ (getElem zwraca NULL). Pozostawiæ jedynie funkcjê która wykrywa pierwsze wype³nienie bufora. Generalnie jest dobrze, te funkcjie powinny zostaæ ale wazny jest spsoób ich dzia³ania.
- */
+/**
+* Klasa obsÅ‚ugujÄ…ca bufor koÅ‚owy. UmoÅ¼liwia realziacjÄ™ bufora koÅ‚owego ale przy indeksowaniu liniowym. Dane sÄ… dopisuwane na kolejne
+* miejsce zraz za oststnio dopisanym. T jest typem obiektu a S rozmiarem bufora. BepoÅ›rednio po zapisaniu elementu do bufora moÅ¼na go skasowaÄ‡. Funkcja getNumElements() zwraca iloÅ›Ä‡ elementÃ³w w buforze kompatybilnÄ… z funkcjÄ… GetObject, dziÄ™ki czemu moÅ¼na jÄ… adresowaÄ‡ za pomocÄ… pÄ™tli. Generalnie bufor dziaÅ‚a w nastÄ™pujÄ…cy sposÃ³b - dopÃ³ki nie zostanie caÅ‚y zapisany to Czy_pelny zawsze zwraca false. JeÅ›li zostanie caÅ‚y zapisany ale jeden ostatni zostanie skasowany to terz zwÃ³rci false. Po pirwszym przepeÅ‚nieniu funkcja zawsze zwrca true. Tak samo getNumElements - po przepeÅ‚nieniu zwraca pojemnoÅ›Ä‡ bufora.
+* \warning Nie jest zalecane wielokrotne kasowanie pod rzÄ…d wielu elementow. Powinno kasowaÄ‡ siÄ™ tylko ostatni.
+* PrzykÅ‚ady uÅ¼ycia w pliku TESTS.cpp w C_WeldlineDetet_TESTS.\n
+* KolejnoÅ›Ä‡ uÅ¼ywania:\n
+* \li StworzyÄ‡ obiekt uÅ¼ywajÄ…c konstruktora bezparametrowego
+* \li DodaÄ‡ obiekty uÅ¼ywajÄ…c AddObject, ktÃ³ra zwrca adres nowododanego obiektu
+* \li Po kaÅ¼dej tej instrukcji moÅ¼na odwoÅ‚aÄ‡ siÄ™ do tego obiektu lub go skasowaÄ‡
+* \todo przemyslec czy funkcje informujÄ…ce o ilosc zapisanych elementÃ³w majÄ… sens? Bo jesli jeden kasujemy to bufor nie jest peÅ‚ny ale nie wiemy ktÃ³ry jest pÃ³stu, wiÄ™c to klient powinien sprawdzaÄ‡ (getElem zwraca NULL). PozostawiÄ‡ jedynie funkcjÄ™ ktÃ³ra wykrywa pierwsze wypeÅ‚nienie bufora. Generalnie jest dobrze, te funkcjie powinny zostaÄ‡ ale wazny jest spsoÃ³b ich dziaÅ‚ania.
+*/
 template<class T> class C_CircBuff
 {
 public:
@@ -25,37 +25,36 @@ public:
 	~C_CircBuff();
 	/// inicjalizuje dynamicznie bufor
 	void BuffInit(unsigned int _S);
-	/// dodaje obiekt typu T do bufora na kolejn¹ pozycjê
+	/// dodaje obiekt typu T do bufora na kolejnÄ… pozycjÄ™
 	T *AddObject();
-	/// dodaje obiekt typu T do bufora na kolejn¹ pozycjê. Umo¿liwia podanie rozmiaru obiektu
+	/// dodaje obiekt typu T do bufora na kolejnÄ… pozycjÄ™. UmoÅ¼liwia podanie rozmiaru obiektu
 	T *AddObject(unsigned int siz);
 	/// zwraca odres obiektu na pozycji n
-	T *GetObject(unsigned int _n);  
-	/// zwraca true jeœli bufor pe³ny
+	T *GetObject(unsigned int _n);
+	/// zwraca true jeÅ›li bufor peÅ‚ny
 	bool Czy_pelny() const;
 	/// kasuje ostatnio dodany obiekt
 	void DelObject();
-	/// zwraca iloœæ elementów w buforze
+	/// zwraca iloÅ›Ä‡ elementÃ³w w buforze
 	int getNumElem();
 	/// zwraca pierwszy zainicjalizowany
 	T *GetFirstInitialized();
 private:
-	/// tablica zawieraj¹ca obiekty w buforze ko³owym
+	/// tablica zawierajÄ…ca obiekty w buforze koÅ‚owym
 	T **buff;
 	/// ostatni dodany obiekt - index - liniowy od 0 do N moze byc
 	unsigned int last;
-	/// rozmiar bufora 
+	/// rozmiar bufora
 	unsigned int S;
-	/// ostatnio dodany index przy uwzglênieniu cyrkularnoœci
+	/// ostatnio dodany index przy uwzglÄ™nieniu cyrkularnoÅ›ci
 	int ostatni;
-	/// ilosc zapisów
+	/// ilosc zapisÃ³w
 	unsigned int ile;
-	
 };
-/** 
- * Zwraca iloœæ zapisanych elementów w buforze.
- * \return Iloœæ elementów. Jesli bufor pe³ny to zwraca jego pojemnoœæ, jeœli nie pe³ny to iloœæ zapisanych elementów. Jeœli choc raz bufor przy zapisie dojdzie do konca to jest uwazany zap pe³ny.
- */
+/**
+* Zwraca iloÅ›Ä‡ zapisanych elementÃ³w w buforze.
+* \return IloÅ›Ä‡ elementÃ³w. Jesli bufor peÅ‚ny to zwraca jego pojemnoÅ›Ä‡, jeÅ›li nie peÅ‚ny to iloÅ›Ä‡ zapisanych elementÃ³w. JeÅ›li choc raz bufor przy zapisie dojdzie do konca to jest uwazany zap peÅ‚ny.
+*/
 template<class T>
 int C_CircBuff<T>::getNumElem()
 {
@@ -74,15 +73,15 @@ void C_CircBuff<T>::DelObject()
 {
 	_ASSERT(buff!=NULL);	// bez inicjalizacji
 	_ASSERT(ostatni>=0);	// nie ma nic dodane ale jest zainicjalizowane
-	SAFE_DELETE(buff[ostatni]);	
+	SAFE_DELETE(buff[ostatni]);
 	last = ostatni;
 	ile--;
 }
 
-/** 
- * Ta funkcja musi byæ wywo³ana jako pierwsza
- * \param _S Rozmiar bufora
- */
+/**
+* Ta funkcja musi byÄ‡ wywoÅ‚ana jako pierwsza
+* \param _S Rozmiar bufora
+*/
 template<class T>
 void C_CircBuff<T>::BuffInit( unsigned int _S )
 {
@@ -96,11 +95,11 @@ void C_CircBuff<T>::BuffInit( unsigned int _S )
 		buff[a] = NULL;
 }
 
-/** 
- * Funkcja zwraca element na pozycji n. Jeœli n jest wiêksze ood rozmiaru bufora to
- * zwracany jest element na pozycji po przekrêceniu siê bufora
- * \warning Istnieje mozliwosc pobrania pozycji niezainicjalizowanej
- */
+/**
+* Funkcja zwraca element na pozycji n. JeÅ›li n jest wiÄ™ksze ood rozmiaru bufora to
+* zwracany jest element na pozycji po przekrÄ™ceniu siÄ™ bufora
+* \warning Istnieje mozliwosc pobrania pozycji niezainicjalizowanej
+*/
 template<class T>
 T * C_CircBuff<T>::GetObject( unsigned int _n )
 {
@@ -109,13 +108,13 @@ T * C_CircBuff<T>::GetObject( unsigned int _n )
 	if(NULL==buff[_n%S])
 		_RPT1(_CRT_WARN,"\t\tAccess to empty element %d",_n);
 #endif
-//	_ASSERT(buff[_n%S]!=NULL);
+	//	_ASSERT(buff[_n%S]!=NULL);
 	return buff[_n%S];
 }
-/** 
- * Funkcja zwraca pierwszy zaincjalizowany obiekt z bufora
- * \return Zwraca pierwszy obiekt zainicjalizowany lub NULL jesli nie znajdzie takiego
- */
+/**
+* Funkcja zwraca pierwszy zaincjalizowany obiekt z bufora
+* \return Zwraca pierwszy obiekt zainicjalizowany lub NULL jesli nie znajdzie takiego
+*/
 template<class T>
 T * C_CircBuff<T>::GetFirstInitialized()
 {
@@ -126,9 +125,9 @@ T * C_CircBuff<T>::GetFirstInitialized()
 	_ASSERT(buff[l]);
 	return NULL;
 }
-/** 
- * \return Funkcja zwraca adres nowododanego obiektu
- */
+/**
+* \return Funkcja zwraca adres nowododanego obiektu
+*/
 template<class T>
 T * C_CircBuff<T>::AddObject()
 {
@@ -140,9 +139,9 @@ T * C_CircBuff<T>::AddObject()
 	ile++;
 	return GetObject(last++);
 }
-/** 
- * \return Funkcja zwraca adres nowododanego obiektu. Umo¿liwia przekazanie rozmiaru tworzonego obiektu
- */
+/**
+* \return Funkcja zwraca adres nowododanego obiektu. UmoÅ¼liwia przekazanie rozmiaru tworzonego obiektu
+*/
 template<class T>
 T * C_CircBuff<T>::AddObject(unsigned int siz)
 {
@@ -156,11 +155,11 @@ T * C_CircBuff<T>::AddObject(unsigned int siz)
 }
 template<class T>
 bool C_CircBuff<T>::Czy_pelny() const
-{ 
+{
 	if(ile>=S)
-		return true;	// wiêcej zapisów niz miejsca
+		return true;	// wiÄ™cej zapisÃ³w niz miejsca
 	else
-		return false; 
+		return false;
 }
 
 template<class T>

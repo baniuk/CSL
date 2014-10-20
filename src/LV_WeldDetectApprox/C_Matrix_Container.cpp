@@ -1,8 +1,8 @@
-#include "LV_WeldDetectApprox\C_Matrix_Container.h"
+ï»¿#include "LV_WeldDetectApprox\C_Matrix_Container.h"
 // Ver 1.3 by PB
 // Ver 1.3.1 - dodano assert
-// Ver 1.3.2 - poprawiono b³¹d w readbinary
-// Ver 1.3.3 - zmieniono readbinary - zachowana kompatybilnoœæ z wersja poprzedni¹
+// Ver 1.3.2 - poprawiono bÅ‚Ä…d w readbinary
+// Ver 1.3.3 - zmieniono readbinary - zachowana kompatybilnoÅ›Ä‡ z wersja poprzedniÄ…
 
 C_Matrix_Container::C_Matrix_Container(void)
 {
@@ -32,7 +32,7 @@ void C_Matrix_Container::FreeData(void)
 }
 void C_Matrix_Container::ExportToMatlab(double* out)
 {
-	// exportuje dane do wskaznika matlaba - do u¿ycia w mexach bo w matylabie macierze s¹ w kolumnach a w Containerach w rzêdach
+	// exportuje dane do wskaznika matlaba - do uÅ¼ycia w mexach bo w matylabie macierze sÄ… w kolumnach a w Containerach w rzÄ™dach
 #ifdef _DEBUG
 	if(data==nullptr)
 		_RPTF0(_CRT_ASSERT, "Matrix not initialized!!\n");
@@ -46,7 +46,7 @@ void C_Matrix_Container::ExportToMatlab(double* out)
 
 void C_Matrix_Container::ImportFromMatlab(double* in,unsigned int row, unsigned int col)
 {
-	// importuje dane z wskaznika matlaba - do u¿ycia w mexach bo w matylabie macierze s¹ w kolumnach a w Containerach w rzêdach
+	// importuje dane z wskaznika matlaba - do uÅ¼ycia w mexach bo w matylabie macierze sÄ… w kolumnach a w Containerach w rzÄ™dach
 	unsigned int r,c;
 	unsigned long a=0;
 	AllocateData(row,col);
@@ -311,8 +311,8 @@ BOOL C_Matrix_Container::ReadBinary(const char *filename)
 }
 
 double C_Matrix_Container::Mean(C_Matrix_Container* out,unsigned int col)
-	// liczy œredni¹ z kolumny col.
-	// Jeœli *out = nullptr to liczy z kolumny col i zwraca
+	// liczy Å›redniÄ… z kolumny col.
+	// JeÅ›li *out = nullptr to liczy z kolumny col i zwraca
 	// W przeciwnym wypadku wynik jest umieszczany w *out, col jest ignorowane a funkcja zwraca 0
 {
 #ifdef _DEBUG
@@ -430,7 +430,7 @@ double C_Matrix_Container::Median(void)
 	if(data==nullptr)
 		_RPTF0(_CRT_ASSERT, "Matrix not initialized!!\n");
 #endif
-	// zwraca medianê ze wszystkich danych - dane raczej jako pojedyñczy wektor
+	// zwraca medianÄ™ ze wszystkich danych - dane raczej jako pojedyÅ„czy wektor
 	int sr;
 	C_Matrix_Container tmp;
 	CloneObject(&tmp);
@@ -453,7 +453,7 @@ double C_Matrix_Container::Median(void)
 *  This code by Nicolas Devillard - 1998. Public domain.
 */
 #define ELEM_SWAP(a,b) { register double t=(a);(a)=(b);(b)=t; }
-// uwaga - modyfikuje tablicê !! dla parzystych zwraca ni¿szy index
+// uwaga - modyfikuje tablicÄ™ !! dla parzystych zwraca niÅ¼szy index
 double C_Matrix_Container::quick_select()
 {
 	int low, high ;

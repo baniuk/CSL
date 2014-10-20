@@ -1,4 +1,4 @@
-#ifndef __C_Matrix_Container__
+ï»¿#ifndef __C_Matrix_Container__
 #define __C_Matrix_Container__
 
 #ifndef SAFE_DELETE
@@ -14,7 +14,7 @@
 
 // Ver 1.3.3 by PB
 
-/// definiuje zmien¹ c_matrix i od razu ³aduje do niej plik fiel
+/// definiuje zmienÄ… c_matrix i od razu Å‚aduje do niej plik fiel
 #define C_MATRIX_LOAD(var,file) \
 	C_Matrix_Container (var);\
 	(var).ReadBinary((file));

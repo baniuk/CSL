@@ -1,7 +1,7 @@
-/**
+ï»¿/**
 * \file    C_Levmar_Warp.h
 * \brief	Warper do biblioteki levmar
-* \details Zawiera definicje funkcji wykorzystuj¹cych biblioteke levmar
+* \details Zawiera definicje funkcji wykorzystujÄ…cych biblioteke levmar
 * \author  PB
 * \date    2012/03/01
 */
@@ -20,7 +20,7 @@ enum eApproxFcn {
 	typeGaussLin = 1,
 	none
 };
-/// Nazwy parametrów dla funkcji Gauss+Lin
+/// Nazwy parametrÃ³w dla funkcji Gauss+Lin
 enum eParNamesGaussLin {
 	A = 0,
 	B,
@@ -28,7 +28,7 @@ enum eParNamesGaussLin {
 	D,
 	E
 };
-/// Nazwy wyników optymalizacji
+/// Nazwy wynikÃ³w optymalizacji
 enum eOptimInfo {
 	par0 = 0,
 	err,
