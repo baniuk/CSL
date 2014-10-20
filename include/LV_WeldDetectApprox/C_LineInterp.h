@@ -1,14 +1,14 @@
 /**
- * \file    C_LineInterp.h
- * \brief	Interpoluje profil liniowy obrazy zdjêty z linii prostej.	
- * \author  PB
- * \date    2012/03/01
- */
+* \file    C_LineInterp.h
+* \brief	Interpoluje profil liniowy obrazy zdjêty z linii prostej.
+* \author  PB
+* \date    2012/03/01
+*/
 #ifndef C_LineInterp_h__
 #define C_LineInterp_h__
 
 #ifndef SAFE_DELETE
-#define SAFE_DELETE(p)       { if(p) { delete (p);     (p)=NULL; } }
+#define SAFE_DELETE(p)       { if(p) { delete (p);     (p)=nullptr; } }
 #endif
 
 #include <memory.h>
@@ -21,16 +21,16 @@
 enum APPROX_TYPE {
 	SPLINE
 };
-/** 
- * Klasa realizujaca interpolacjê danych na obrazie na podstawie linii pomiêdzy punktami. Przechowuje kopiê danych
- * ze wzglêdu na wymóg float stawiany przez procedury interpolacji. Przy inicjalizacji trzeba podaæ odnoœcnik do obrazu oraz macierzy 3
- * elementowej okreœlaj¹cej iloœæ elementów w ka¿dym wymiarze.
- * Interpolowane dane oraz ich wspó³rzêdne s¹ przechowywane wewnêtrz klasy i dostêpne za pomoc¹ C_LineApprox::getInterpolated_data.
- * Schmemat dzia³ania:\n
- * \li Inicjalizacja obiektu = dane interpolowane interpolated_data ustawione na null oraz image te¿ - jeœli u¿yty jest domyœlny konstruktor to trzeba inicjalizowaæ funkcj¹ manualConstructor()
- * \li Interpolacja getPointsOnLine wype³nione s¹ tablice oraz zwracane wspó³rzêdne x,y punktów dla których wykonana by³a interpolacja
- * \li Pobranie wyników za pomoc¹ funkcji read-only getInterpolated_data oraz getInterpolatedXY
- */
+/**
+* Klasa realizujaca interpolacjê danych na obrazie na podstawie linii pomiêdzy punktami. Przechowuje kopiê danych
+* ze wzglêdu na wymóg float stawiany przez procedury interpolacji. Przy inicjalizacji trzeba podaæ odnoœcnik do obrazu oraz macierzy 3
+* elementowej okreœlaj¹cej iloœæ elementów w ka¿dym wymiarze.
+* Interpolowane dane oraz ich wspó³rzêdne s¹ przechowywane wewnêtrz klasy i dostêpne za pomoc¹ C_LineApprox::getInterpolated_data.
+* Schmemat dzia³ania:\n
+* \li Inicjalizacja obiektu = dane interpolowane interpolated_data ustawione na null oraz image te¿ - jeœli u¿yty jest domyœlny konstruktor to trzeba inicjalizowaæ funkcj¹ manualConstructor()
+* \li Interpolacja getPointsOnLine wype³nione s¹ tablice oraz zwracane wspó³rzêdne x,y punktów dla których wykonana by³a interpolacja
+* \li Pobranie wyników za pomoc¹ funkcji read-only getInterpolated_data oraz getInterpolatedXY
+*/
 class C_LineInterp : public C_Line
 {
 public:
@@ -47,7 +47,7 @@ public:
 	/// Wykonuje interpolacjê Zapisuje obliczone punkty w obiekcie
 	virtual bool getPointsOnLine( const C_Point &_P0, const C_Point &_P1, unsigned int _Np  );
 	/// zwaraca iloœæ elementów na podstawie tablicy im_size
-	unsigned int getNumOfElements() const; 
+	unsigned int getNumOfElements() const;
 	/// zwraca tablicê z interpolowanymi danymi
 	const double * getInterpolated_data() const { return interpolated_data; }
 	/// zwraca tablice ze wspó³rzêdnymi x
@@ -58,7 +58,7 @@ public:
 	unsigned int getSizeofInterpData() const { return Np; }
 	virtual ~C_LineInterp();
 protected:
-//	void Interpolate
+	//	void Interpolate
 private:
 	/// Tworzy tablice w klasie
 	void SafeAllocateTab();

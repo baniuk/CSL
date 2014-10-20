@@ -4,6 +4,8 @@ rem Do not run tests
 echo off
 
 rem clear cache
+IF NOT EXIST bin mkdir bin
+rem clear cache
 IF EXIST bin\CMakeCache.txt del bin\CMakeCache.txt
 
 rem start build process from bin dir

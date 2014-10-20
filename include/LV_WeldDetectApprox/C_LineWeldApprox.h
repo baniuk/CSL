@@ -1,29 +1,32 @@
 /**
- * \file    C_LineWeldApprox.h
- * \brief	Aproxymuje profil liniowy obrazu	
- * \author  PB
- * \date    2012/03/01
- */
+* \file    C_LineWeldApprox.h
+* \brief	Aproxymuje profil liniowy obrazu
+* \author  PB
+* \date    2012/03/01
+*/
 #ifndef _LineWeldApprox_H_
 #define _LineWeldApprox_H_
 
 #include "C_Levmar_Warp.h"
 #include <string>
-#include "C_DumpAll.h"
 #include <time.h>
 
-/** 
- * Wykonuje aproxymacjê jednej linii spawu i przechowuje wyniki takiej aproxymacji 
- * Inicjalizacja nastêpuje konstruktorem, przy przekazaniu typu krzywej aproksymujacej oraz wskaŸników do wektórw
- * _x oraz _y. Te wektory nie s¹ modyfikowane wewn¹trz klasy, wektor _y jest kopiowany do zmiennej pomocniczej copy_y
- * co jest potrzebne przy wagach.\n
- * Po inicjalizacji mo¿na wywo³aæ funkcjê C_LineWeldApprox::setApproxParams aby przekazaæ do klasy parmaetry aproksymacji.
- * Jeœli nie wywo³a siê tej funkcji lub poda siê NULL w argumencie to u¿ywane s¹ parametry domyœlne.\n
- * Nastêpnie wywo³uje siê wysokopoziomow¹ procedurê C_LineWeldApprox::getLineApprox, która dokonuje aproksymacji i zachowuje
- * wyniki w klasie. Modyfikowana jest zmienna p, która zawiera obliczone wspó³czynniki krzywej\n
- * Wyniki mo¿na uzyskaæ za pomoc¹ funkcji C_LineWeldApprox::getApproxParams, która kopiuje szereg parametrów na zewnatrz klasy. 
- * Dodatkowe informace za pomoc¹ funkcji C_LineWeldApprox::getInfo.
-  */
+#ifndef SAFE_DELETE
+#define SAFE_DELETE(p)       { if(p) { delete (p);     (p)=nullptr; } }
+#endif
+
+/**
+* Wykonuje aproxymacjê jednej linii spawu i przechowuje wyniki takiej aproxymacji
+* Inicjalizacja nastêpuje konstruktorem, przy przekazaniu typu krzywej aproksymujacej oraz wskaŸników do wektórw
+* _x oraz _y. Te wektory nie s¹ modyfikowane wewn¹trz klasy, wektor _y jest kopiowany do zmiennej pomocniczej copy_y
+* co jest potrzebne przy wagach.\n
+* Po inicjalizacji mo¿na wywo³aæ funkcjê C_LineWeldApprox::setApproxParams aby przekazaæ do klasy parmaetry aproksymacji.
+* Jeœli nie wywo³a siê tej funkcji lub poda siê NULL w argumencie to u¿ywane s¹ parametry domyœlne.\n
+* Nastêpnie wywo³uje siê wysokopoziomow¹ procedurê C_LineWeldApprox::getLineApprox, która dokonuje aproksymacji i zachowuje
+* wyniki w klasie. Modyfikowana jest zmienna p, która zawiera obliczone wspó³czynniki krzywej\n
+* Wyniki mo¿na uzyskaæ za pomoc¹ funkcji C_LineWeldApprox::getApproxParams, która kopiuje szereg parametrów na zewnatrz klasy.
+* Dodatkowe informace za pomoc¹ funkcji C_LineWeldApprox::getInfo.
+*/
 class C_LineWeldApprox
 {
 public:
@@ -36,7 +39,7 @@ public:
 	/// konstruktor manualny - musi byæ u¿yty po konstruktorze bezparametrowym
 	void ManualConstructor(eApproxFcn _typeApprox,const double *_y, const double *_x,unsigned int _len);
 	/// oblicza wartoœæ funkcji apryxymuj¹cej dla parametru x
-//	double evalApproxFcn(double _x) const;
+	//	double evalApproxFcn(double _x) const;
 	/// oblicza wartoœæ funkcji apryxymuj¹cej dla wektora x
 	void evalApproxFcnVec(const double *_x,double *_y,unsigned int siz ) const;
 private:
@@ -82,6 +85,5 @@ public:
 	/// Generuje pseudolosowe znaki
 	void RangedRand( int range_min, int range_max, int n, char *tab );
 };
-
 
 #endif

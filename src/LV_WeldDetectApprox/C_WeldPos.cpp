@@ -1,4 +1,4 @@
-#include "C_WeldPos.h"
+#include "LV_WeldDetectApprox\C_WeldPos.h"
 
 void C_WeldPos::Clear()
 {

@@ -12,6 +12,8 @@ ExternalProject_Get_Property(PBToolset binary_dir)
 set(PBToolset_LIB ${binary_dir})
 ExternalProject_Get_Property(PBToolset source_dir)
 set(PBToolset_SRC ${source_dir}) 
+ExternalProject_Get_Property(levmar source_dir)
+set(levmar_SRC ${source_dir}) 
 
 # set include directory - patch to have include files in VC project (in add_library)
 set(INC_DIR ${${ROOT_PROJECT_NAME}_SOURCE_DIR}/include/${LOCAL_PROJECT_NAME})
@@ -19,12 +21,19 @@ set(INC_DIR ${${ROOT_PROJECT_NAME}_SOURCE_DIR}/include/${LOCAL_PROJECT_NAME})
 project(${LOCAL_PROJECT_NAME})
 # includes in source files must be relative to ./include dir. Includes specific to 
 # given project are in separate subdirectories
-include_directories(${${ROOT_PROJECT_NAME}_SOURCE_DIR}/include ${PBToolset_SRC}/include)
+include_directories(${${ROOT_PROJECT_NAME}_SOURCE_DIR}/include ${PBToolset_SRC}/include ${levmar_SRC})
 # budowanie biblioteki statycznej
 add_library(${LOCAL_PROJECT_NAME}_static STATIC 
 			C_LineInterp.cpp ${INC_DIR}/C_LineInterp.h
 			C_LineWeldApprox.cpp ${INC_DIR}/C_LineWeldApprox.h
-			C_Levmar_Warp.cpp ${INC_DIR}/C_Levmar_Warp.h)
+			C_Levmar_Warp.cpp ${INC_DIR}/C_Levmar_Warp.h
+			interpol.c ${INC_DIR}/interpol.h
+			coeff.c ${INC_DIR}/coeff.h
+			C_LinearWeld.cpp ${INC_DIR}/C_LinearWeld.h
+			C_WeldlineDetect.cpp ${INC_DIR}/C_WeldlineDetect.h
+			C_WeldPos.cpp ${INC_DIR}/C_WeldPos.h
+			${INC_DIR}/C_CircBuff.h
+			C_Matrix_Container.cpp ${INC_DIR}/C_Matrix_Container.h)
 target_link_libraries(	${LOCAL_PROJECT_NAME}_static
 						${CMAKE_SOURCE_DIR}/lib/Geom${CMAKE_FIND_LIBRARY_SUFFIXES})
 # budowanie DLL (linkuje static)

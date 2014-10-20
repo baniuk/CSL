@@ -1,17 +1,14 @@
 /**
- * \file    C_Levmar_Warp.h
- * \brief	Warper do biblioteki levmar		
- * \details Zawiera definicje funkcji wykorzystuj¹cych biblioteke levmar
- * \author  PB
- * \date    2012/03/01
- */
+* \file    C_Levmar_Warp.h
+* \brief	Warper do biblioteki levmar
+* \details Zawiera definicje funkcji wykorzystuj¹cych biblioteke levmar
+* \author  PB
+* \date    2012/03/01
+*/
 #ifndef _C_Levmar_Warp_H_
 #define _C_Levmar_Warp_H_
 
-#include <levmar.h>
-#include <C_Matrix_Container.h>
-#include <C_Image_Container.h>
-#include <C_Error.h>
+#include "levmar.h"
 #include <math.h>
 
 #ifndef LM_DBL_PREC
@@ -22,7 +19,7 @@
 enum eApproxFcn {
 	typeGaussLin = 1,
 	none
-}; 
+};
 /// Nazwy parametrów dla funkcji Gauss+Lin
 enum eParNamesGaussLin {
 	A = 0,
@@ -44,11 +41,11 @@ enum eOptimInfo {
 	jacevals,
 	linsolves
 };
-/** 
-  \brief struct to pass function domain to it
- * Variable X is defined as const to prevent modifications throught the structure. It is read-only */
+/**
+\brief struct to pass function domain to it
+* Variable X is defined as const to prevent modifications throught the structure. It is read-only */
 struct xtradata{
-    const double *x;	/** pointer to table with data, always size of n*/
+	const double *x;	/** pointer to table with data, always size of n*/
 };
 
 /// model to be fitted - Gauss + Linear

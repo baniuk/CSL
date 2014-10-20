@@ -48,7 +48,7 @@ ExternalProject_Add(	PBToolset
 
 ExternalProject_Add(	clapack
 						# wszystko ląduje w Third_party/clapack
-						SOURCE_DIR ${CMAKE_SOURCE_DIR}/External_dep/clapack
+						SOURCE_DIR ${CMAKE_SOURCE_DIR}/External_dep/clapack-3.2.1-CMAKE
 						# GIT_REPOSITORY ${PBToolset_GIT_REPOSITORY}
 						# GIT_TAG ${PBToolset_GIT_TAG}
 						# Force separate output paths for debug and release builds to allow easy
