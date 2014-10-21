@@ -11,7 +11,8 @@ IF EXIST bin\CMakeCache.txt del bin\CMakeCache.txt
 rem start build process from bin dir
 cd bin
 rem Additional flags can be passed here or in CMakeLists.txt
-cmake -DCMAKE_BUILD_TYPE=Debug -G "NMake Makefiles" ..\
+cmake -DCMAKE_BUILD_TYPE=Debug -G "NMake Makefiles" --graphviz=Dep.dot ..\
+dot -Tpng Dep.dot > Dep.png
 nmake
 cd ..
 GOTO :EOF
