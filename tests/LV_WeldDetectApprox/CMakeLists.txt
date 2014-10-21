@@ -4,6 +4,9 @@ set(LOCAL_PROJECT_NAME LV_WeldDetectApprox_tests)
 configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/testimag1.dat 
 				${CMAKE_CURRENT_BINARY_DIR}/testimag1.dat
 				COPYONLY)
+configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/testimag2.dat 
+				${CMAKE_CURRENT_BINARY_DIR}/testimag2.dat
+				COPYONLY)
 
 project(${LOCAL_PROJECT_NAME})
 
