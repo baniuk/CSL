@@ -15,6 +15,12 @@
 #define SAFE_DELETE(p)       { if(p) { delete (p);     (p)=nullptr; } }
 #endif
 
+static struct ApproxParam
+{
+	double p[5];
+	double ub[5];
+	double lb[5];
+} approxParam;
 /**
 * Wykonuje aproxymację jednej linii spawu i przechowuje wyniki takiej aproxymacji
 * Inicjalizacja następuje konstruktorem, przy przekazaniu typu krzywej aproksymujacej oraz wskaźników do wektórw
@@ -42,6 +48,7 @@ public:
 	//	double evalApproxFcn(double _x) const;
 	/// oblicza wartość funkcji apryxymującej dla wektora x
 	void evalApproxFcnVec(const double *_x,double *_y,unsigned int siz ) const;
+	static void setDefaultParams();
 private:
 	/// wskaźnik do danych y \warning Poprzez ten wskaźnik nie można modyfikować nic
 	double const *y;
@@ -65,8 +72,6 @@ private:
 	double info[LM_INFO_SZ];
 	/// Aproxymacja sumą gaussa i funkcji liniowej
 	int getLineApproxGaussLinWeighted(int iter);
-	/// ustawia parametry domyślne dla wybranego typu aproxymacji
-	void setDefaultParams();
 	/// rozmiar wektorów x i y
 	unsigned int len;
 	/// wazy sygnał profilu za pomocą wag
