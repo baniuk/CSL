@@ -64,7 +64,7 @@ ExternalProject_Add(	clapack
 							-Wno-dev
 						# Disable install step
 						TEST_BEFORE_INSTALL 0
-						INSTALL_COMMAND  ren ..\\..\\..\\..\\..\\lib\\libf2c.lib f2c.lib # nazwa sie nie zgadza i levmar nie linkuje
+						INSTALL_COMMAND  xcopy ..\\..\\..\\..\\..\\lib\\libf2c.lib ..\\..\\..\\..\\..\\lib\\f2c.lib /y # nazwa sie nie zgadza i levmar nie linkuje
 						# Wrap download, configure and build steps in a script to log output
 						# LOG_DOWNLOAD ON
 					)		
