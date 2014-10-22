@@ -46,6 +46,9 @@ void C_LineWeldApprox::ManualConstructor( eApproxFcn _typeApprox,const double *_
 	{
 	case typeGaussLin:
 		// kopiowanie domyslnych parametrów
+		p = new double[5];
+		lb = new double[5];
+		ub = new double[5];
 		memcpy_s(p,5*sizeof(double),approxParam.p,5*sizeof(double));
 		memcpy_s(ub,5*sizeof(double),approxParam.ub,5*sizeof(double));
 		memcpy_s(lb,5*sizeof(double),approxParam.lb,5*sizeof(double));
