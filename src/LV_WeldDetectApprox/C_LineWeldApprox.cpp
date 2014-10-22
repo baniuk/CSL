@@ -302,20 +302,20 @@ void C_LineWeldApprox::RangedRand( int range_min, int range_max, int n, char *ta
 
 void C_LineWeldApprox::setDefaultParams()
 {
-	approxParam.p[A] = 1060;
+	approxParam.p[A] = 40000;
 	approxParam.p[B] = 2; // to set in constructor
-	approxParam.p[C] = 160;
+	approxParam.p[C] = 60;
 	approxParam.p[D] = approxParam.p[E] = 0;
 
 	approxParam.ub[A] = 65535;
 	approxParam.ub[B] = approxParam.p[B] + 4; // set in constructor
-	approxParam.ub[C] = 600;
+	approxParam.ub[C] = 120;
 	approxParam.ub[D] = 1;
-	approxParam.ub[E] = 20000;
+	approxParam.ub[E] = 70000;
 
 	approxParam.lb[A] = 0;
 	approxParam.lb[B] = approxParam.p[B] - 4; // set in constructor
-	approxParam.lb[C] = 50;
+	approxParam.lb[C] = 30;
 	approxParam.lb[D] = -1;
 	approxParam.lb[E] = -20000;
 }
