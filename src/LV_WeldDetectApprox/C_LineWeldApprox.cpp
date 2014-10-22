@@ -7,6 +7,8 @@
 */
 #include "LV_WeldDetectApprox/C_LineWeldApprox.h"
 
+/// Static struct with default params
+static ApproxParam approxParam = {{45000,2,60,0,0},{65535,4,120,1,70000},{0,4,30,-1,-20000}};
 /**
 * Standardowy konstruktor obiektu dokonującego aproxymacji linii spawu i przechowujacego wynik. Klasa przechowuje wyniki minimalizacji oraz uzyskane parametry.
 * Pozostałe dane jak w, y, x nie są przechowywane celem zaoszczędzenia miejsca.
@@ -299,22 +301,43 @@ void C_LineWeldApprox::RangedRand( int range_min, int range_max, int n, char *ta
 	}
 }
 
-void C_LineWeldApprox::setDefaultParams()
+/**
+* \brief Sets default params used during buffor initialization
+* \param[in] pA - amplituda Gaussa
+* \param[in] pC - sigma
+* \param[in] pD - współczynnik liniowy
+* \param[in] pE - wyraz stały
+* \param[in] uA - wartość górna - amplituda Gaussa
+* \param[in] uC - wartość górna - sigma
+* \param[in] uD - wartość górna - współczynnik liniowy
+* \param[in] uE - wartość górna - wyraz stały
+* \param[in] lA - wartość dolna - amplituda Gaussa
+* \param[in] lC - wartość dolna - sigma
+* \param[in] lD - wartość dolna - współczynnik liniowy
+* \param[in] lE - wartość dolna - wyraz stały
+* \retval \c void
+* \author PB
+* \date 2014/10/22
+*/
+void C_LineWeldApprox::setDefaultParams(double pA, double pC, double pD, double pE,
+										double uA, double uC, double uD, double uE,
+										double lA, double lC, double lD, double lE)
 {
-	approxParam.p[A] = 45000;
+	approxParam.p[A] = pA;
 	approxParam.p[B] = 2; // to set in constructor
-	approxParam.p[C] = 60;
-	approxParam.p[D] = approxParam.p[E] = 0;
+	approxParam.p[C] = pC;
+	approxParam.p[D] = pD;
+	approxParam.p[E] = pE;
 
-	approxParam.ub[A] = 65535;
+	approxParam.ub[A] = uA;
 	approxParam.ub[B] = approxParam.p[B] + 4; // set in constructor
-	approxParam.ub[C] = 120;
-	approxParam.ub[D] = 1;
-	approxParam.ub[E] = 70000;
+	approxParam.ub[C] = uC;
+	approxParam.ub[D] = uD;
+	approxParam.ub[E] = uE;
 
-	approxParam.lb[A] = 0;
+	approxParam.lb[A] = lA;
 	approxParam.lb[B] = approxParam.p[B] - 4; // set in constructor
-	approxParam.lb[C] = 30;
-	approxParam.lb[D] = -1;
-	approxParam.lb[E] = -20000;
+	approxParam.lb[C] = lC;
+	approxParam.lb[D] = lD;
+	approxParam.lb[E] = lE;
 }

@@ -15,12 +15,20 @@
 #define SAFE_DELETE(p)       { if(p) { delete (p);     (p)=nullptr; } }
 #endif
 
-static struct ApproxParam
+/**
+* \struct ApproxParam
+* \brief Holds static parameters for procedure
+* \details Mainly defined to keep compatibility with old code
+* \note Some of params are set in ManualConstructor
+* \author PB
+* \date 2014/10/22
+*/
+struct ApproxParam
 {
 	double p[5];
 	double ub[5];
 	double lb[5];
-} approxParam;
+};
 /**
 * Wykonuje aproxymację jednej linii spawu i przechowuje wyniki takiej aproxymacji
 * Inicjalizacja następuje konstruktorem, przy przekazaniu typu krzywej aproksymujacej oraz wskaźników do wektórw
@@ -48,7 +56,9 @@ public:
 	//	double evalApproxFcn(double _x) const;
 	/// oblicza wartość funkcji apryxymującej dla wektora x
 	void evalApproxFcnVec(const double *_x,double *_y,unsigned int siz ) const;
-	static void setDefaultParams();
+	static void setDefaultParams(	double pA, double pC, double pD, double pE,
+		double uA, double uC, double uD, double uE,
+		double lA, double lC, double lD, double lE);
 private:
 	/// wskaźnik do danych y \warning Poprzez ten wskaźnik nie można modyfikować nic
 	double const *y;
