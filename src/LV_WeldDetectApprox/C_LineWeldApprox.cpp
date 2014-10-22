@@ -45,10 +45,16 @@ void C_LineWeldApprox::ManualConstructor( eApproxFcn _typeApprox,const double *_
 	switch(typeApprox)
 	{
 	case typeGaussLin:
+		// kopiowanie domyslnych parametrów
 		p = new double[5];
-		ub = new double[5];
 		lb = new double[5];
-		setDefaultParams();
+		ub = new double[5];
+		memcpy_s(p,5*sizeof(double),approxParam.p,5*sizeof(double));
+		memcpy_s(ub,5*sizeof(double),approxParam.ub,5*sizeof(double));
+		memcpy_s(lb,5*sizeof(double),approxParam.lb,5*sizeof(double));
+		p[B] = len/2;	// możliwe że te wartości się zmieniają (ale raczej nie), domyślne sa static a te moga zalezec od obiektu
+		ub[B] = p[B] + len/4;
+		lb[B] = p[B] - len/4;
 		break;
 	default:
 		_RPTF0(_CRT_ASSERT, "C_LineWeldApprox::Wrong type of approximation\n");
@@ -161,36 +167,6 @@ void C_LineWeldApprox::setApproxParmas( double *_p, double *_w, double *_ub, dou
 				opts[a] = _opts[a];
 		if(NULL!=_w)
 			WeightProfile(_w);
-		break;
-	default:
-		_RPTF0(_CRT_ASSERT, "C_LineWeldApprox::Wrong type of approximation\n");
-	}
-}
-/**
-* Ustawia domyślne parametry wzależności od typu krzywej użytej do aproksymacji.
-* \warning Parmetr C_LineWeldApprox::opts nie jest używane w tej wersji
-*/
-void C_LineWeldApprox::setDefaultParams()
-{
-	switch(typeApprox)
-	{
-	case typeGaussLin:
-		p[A] = 45000;
-		p[B] = len/2;
-		p[C] = 60;
-		p[D] = p[E] = 0;
-
-		ub[A] = 65535;
-		ub[B] = p[B] + len/4;
-		ub[C] = 120;
-		ub[D] = 1;
-		ub[E] = 70000;
-
-		lb[A] = 0;
-		lb[B] = p[B] - len/4;
-		lb[C] = 30;
-		lb[D] = -1;
-		lb[E] = -20000;
 		break;
 	default:
 		_RPTF0(_CRT_ASSERT, "C_LineWeldApprox::Wrong type of approximation\n");
@@ -321,4 +297,24 @@ void C_LineWeldApprox::RangedRand( int range_min, int range_max, int n, char *ta
 			+ range_min);
 		tab[i] = u;
 	}
+}
+
+void C_LineWeldApprox::setDefaultParams()
+{
+	approxParam.p[A] = 45000;
+	approxParam.p[B] = 2; // to set in constructor
+	approxParam.p[C] = 60;
+	approxParam.p[D] = approxParam.p[E] = 0;
+
+	approxParam.ub[A] = 65535;
+	approxParam.ub[B] = approxParam.p[B] + 4; // set in constructor
+	approxParam.ub[C] = 120;
+	approxParam.ub[D] = 1;
+	approxParam.ub[E] = 70000;
+
+	approxParam.lb[A] = 0;
+	approxParam.lb[B] = approxParam.p[B] - 4; // set in constructor
+	approxParam.lb[C] = 30;
+	approxParam.lb[D] = -1;
+	approxParam.lb[E] = -20000;
 }
