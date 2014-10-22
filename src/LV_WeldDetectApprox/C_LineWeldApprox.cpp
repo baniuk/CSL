@@ -175,20 +175,20 @@ void C_LineWeldApprox::setDefaultParams()
 	switch(typeApprox)
 	{
 	case typeGaussLin:
-		p[A] = 1060;
+		p[A] = 45000;
 		p[B] = len/2;
-		p[C] = 160;
+		p[C] = 60;
 		p[D] = p[E] = 0;
 
 		ub[A] = 65535;
 		ub[B] = p[B] + len/4;
-		ub[C] = 600;
+		ub[C] = 120;
 		ub[D] = 1;
-		ub[E] = 20000;
+		ub[E] = 70000;
 
 		lb[A] = 0;
 		lb[B] = p[B] - len/4;
-		lb[C] = 50;
+		lb[C] = 30;
 		lb[D] = -1;
 		lb[E] = -20000;
 		break;
