@@ -74,7 +74,7 @@ C_LineInterp::~C_LineInterp()
 * \return Jeśli P0 i P1 nie leżą na linii to zwraca false i wartości w _out są nieokreślone
 * \warning Funkcja modyfikuje tablice image
 */
-bool C_LineInterp::getPointsOnLine( const C_Point &_P0, const C_Point &_P1, unsigned int _Np )
+bool C_LineInterp::getPointsOnLine( const C_Point &_P0, const C_Point &_P1, unsigned int _Np, float** _image)
 {
 	bool ret;
 	if(!isPointOnLine(_P0))
@@ -82,15 +82,19 @@ bool C_LineInterp::getPointsOnLine( const C_Point &_P0, const C_Point &_P1, unsi
 	if(!isPointOnLine(_P1))
 		return false;
 	// tworzenie bufora z danymi tymczasowymi dla InterpolatedValue
-	image = new float[N];
-	// kopiowanie danych z zewnatrz do bufora
-	for (unsigned int a=0;a<N;a++)
-		image[a] = (float)rtg[a];
-	int Error = SamplesToCoefficients(image, im_size[1], im_size[0], 2);
-	if(Error)
+	if(*_image==NULL)
 	{
-		_RPT0(_CRT_ERROR,"Error in C_LineApprox::getPointsOnLine->SamplesToCoefficients");
-		return false;
+		*_image = new float[N];
+		// kopiowanie danych z zewnatrz do bufora
+		for (unsigned int a=0;a<N;a++)
+			(*_image)[a] = (float)rtg[a];
+		_RPT0(_CRT_WARN,"\tRun sampletoCoef");
+		int Error = SamplesToCoefficients(*_image, im_size[1], im_size[0], 2);
+		if(Error)
+		{
+			_RPT0(_CRT_ERROR,"Error in C_LineApprox::getPointsOnLine->SamplesToCoefficients");
+			return false;
+		}
 	}
 	// wypeninie lini P0 P1 punktami równo rozłożonymi
 	Np = _Np;
@@ -105,7 +109,7 @@ bool C_LineInterp::getPointsOnLine( const C_Point &_P0, const C_Point &_P1, unsi
 	{
 	case SPLINE:
 		for(unsigned int a=0;a<Np;a++) { // po wszystkich punktach
-			interpolated_data[a] = (double)InterpolatedValue(image,
+			interpolated_data[a] = (double)InterpolatedValue(*_image,
 				im_size[1],
 				im_size[0],
 				x[a],
@@ -117,7 +121,7 @@ bool C_LineInterp::getPointsOnLine( const C_Point &_P0, const C_Point &_P1, unsi
 	default:
 		_RPT0(_CRT_ERROR,"Error in C_LineApprox::getPointsOnLine->SamplesToCoefficients - wrong type");
 	}
-	SAFE_DELETE(image);
+	//	SAFE_DELETE(*_image);
 	return true;
 }
 /**
