@@ -90,7 +90,7 @@ bool C_LinearWeld::Start(unsigned int step,unsigned int ile)
 		_RPT4(_CRT_WARN,"\t\tInput: P0[%.1lf;%.1lf] P1[%.1lf;%.1lf]",P0.getX(),P0.getY(),P1.getX(),P1.getY());
 		obj->ManualConstructor(SPLINE,P0,P1,rtg->data,rtgsize);
 		// wykonuje interpolację - biorę tyle punktów ile jest rzędów w obrazie + punkty końcowe. Wyniki są zapamiętywane w klasie i dostępne poprzez getInterpolated
-		obj->getPointsOnLine(P0,P1,rtg->_rows+1,&coef);
+		obj->getPointsOnLine(P0,P1,(rtg->_rows+1)/4,&coef);
 		// aproksymacja - dodaje obiekt aprox
 		app = approx_results->AddObject();
 		if(obj->getjest_pion()==PIONOWA) // sprawdzam bo jak jest pionowa to aproxymacja jest w funkcji y a jeśli nie to x

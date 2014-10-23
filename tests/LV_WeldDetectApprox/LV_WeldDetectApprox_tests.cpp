@@ -150,7 +150,7 @@ TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_2)
 		0,30,-1,-20000);
 	C_Point cp_x_start(10,0);	// punkt startowy
 	obj->SetProcedureParameters(100,cp_x_start); // inicjalizacja srodowiska, wielkosc bufora 100
-	ret = obj->Start(1,0);	// krok
+	ret = obj->Start(4,0);	// krok
 	ASSERT_TRUE(ret);
 
 	_lineOK = obj->getLineOK();
