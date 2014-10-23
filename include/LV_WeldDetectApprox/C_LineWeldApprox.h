@@ -22,6 +22,20 @@ static struct ApproxParam
 	double lb[5];
 } approxParam;
 /**
+* \struct ApproxParam
+* \brief Holds static parameters for procedure
+* \details Mainly defined to keep compatibility with old code
+* \note Some of params are set in ManualConstructor
+* \author PB
+* \date 2014/10/22
+*/
+struct ApproxParam
+{
+	double p[5];
+	double ub[5];
+	double lb[5];
+};
+/**
 * Wykonuje aproxymację jednej linii spawu i przechowuje wyniki takiej aproxymacji
 * Inicjalizacja następuje konstruktorem, przy przekazaniu typu krzywej aproksymujacej oraz wskaźników do wektórw
 * _x oraz _y. Te wektory nie są modyfikowane wewnątrz klasy, wektor _y jest kopiowany do zmiennej pomocniczej copy_y
@@ -48,7 +62,9 @@ public:
 	//	double evalApproxFcn(double _x) const;
 	/// oblicza wartość funkcji apryxymującej dla wektora x
 	void evalApproxFcnVec(const double *_x,double *_y,unsigned int siz ) const;
-	static void setDefaultParams();
+	static void setDefaultParams(	double pA, double pC, double pD, double pE,
+		double uA, double uC, double uD, double uE,
+		double lA, double lC, double lD, double lE);
 private:
 	/// wskaźnik do danych y \warning Poprzez ten wskaźnik nie można modyfikować nic
 	double const *y;

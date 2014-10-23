@@ -42,8 +42,6 @@ public:
 	C_LineInterp(APPROX_TYPE type,const C_Point &_P0, const C_Point &_P1, const double *const _image, const unsigned int _size[] );
 	/// definiuje linie interpolacji na podstawie 2 punktów
 	virtual void ManualConstructor(APPROX_TYPE type,const C_Point &P0, const C_Point &P1, const double *const _image, const unsigned int _size[] );
-	/// Wykonuje interpolację: Zwraca punkty na linii aproxymowanej pomiędzy P0 i P1 oraz zapisuje je w obiekcie
-	virtual bool getPointsOnLine( const C_Point &_P0, const C_Point &_P1, double *const _outx, double *const _outy, unsigned int _Np  );
 	/// Wykonuje interpolację Zapisuje obliczone punkty w obiekcie
 	virtual bool getPointsOnLine( const C_Point &_P0, const C_Point &_P1, unsigned int _Np  );
 	/// zwaraca ilość elementów na podstawie tablicy im_size

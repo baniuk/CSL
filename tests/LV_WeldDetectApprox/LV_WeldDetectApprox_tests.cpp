@@ -16,6 +16,16 @@ using namespace std;
 int main(int argc, char* argv[])
 {
 	int ret = 0;
+	//	HANDLE hLogFile;
+	//	time_t seconds;
+	//	time ( &seconds );
+	//	hLogFile = CreateFile("C_WeldLineDetect.mylog", FILE_APPEND_DATA,
+	//		FILE_SHARE_WRITE, NULL, CREATE_ALWAYS,
+	//		FILE_ATTRIBUTE_NORMAL, NULL);
+	//	_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG|_CRTDBG_MODE_FILE);
+	//	_CrtSetReportFile(_CRT_WARN, hLogFile);
+	//	_RPT1(_CRT_WARN,  "The current local time is: %s\n", ctime(&seconds) );
+
 	::testing::InitGoogleTest(&argc, argv);
 	ret = RUN_ALL_TESTS();
 	return ret;
@@ -68,6 +78,9 @@ TEST(STATIC_WeldDetexApprox,DISABLED__WeldDetexApprox_1)
 	rtg->ReadBinary("testimag1.dat");
 	obj = new C_LinearWeld(rtg);
 
+	C_LineWeldApprox::setDefaultParams(1060,160,0,0,
+		65535,600,1,20000,
+		0,50,-1,-20000);
 	C_Point cp_x_start(10,0);	// punkt startowy
 	obj->SetProcedureParameters(50,cp_x_start); // inicjalizacja srodowiska, wielkosc bufora 100
 	ret = obj->Start(1,0);	// krok
@@ -111,6 +124,7 @@ TEST(STATIC_WeldDetexApprox,DISABLED__WeldDetexApprox_1)
 * \pre Image \c testimag2.dat
 * \post File \c WeldDetectApprox_2.out
 * \see verify.m for result verification
+* \note Uses parameters for WSK dataset
 * \author PB
 * \date 2014/10/21
 */
@@ -131,8 +145,11 @@ TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_2)
 	rtg->ReadBinary("testimag2.dat");
 	obj = new C_LinearWeld(rtg);
 
+	C_LineWeldApprox::setDefaultParams(45000,60,0,0,
+		65535,120,1,70000,
+		0,30,-1,-20000);
 	C_Point cp_x_start(10,0);	// punkt startowy
-	obj->SetProcedureParameters(50,cp_x_start); // inicjalizacja srodowiska, wielkosc bufora 100
+	obj->SetProcedureParameters(100,cp_x_start); // inicjalizacja srodowiska, wielkosc bufora 100
 	ret = obj->Start(1,0);	// krok
 	ASSERT_TRUE(ret);
 
