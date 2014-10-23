@@ -66,66 +66,6 @@ C_LineInterp::~C_LineInterp()
 	SAFE_DELETE(y);
 }
 /**
-* \warning Nie zalecany syntax, należy użyć poniżej
-* Zwraca wartości interpolowane z obrazu pomiędzy punktami leżącymi na linii. Wartoci interpolowane zapisane są w interpolated_data.
-* współrzędne dla których była inteprolacja równierz
-* \param[in] _P0 punkt początkowy
-* \param[in] _P1 punkt końcowy
-* \param[out] _outx wektor x o rozmiarze N
-* \param[out] _outy wektor y o rozmiarze n
-* \param[in] _Np ilość punktów pomiędzy <P0;P1>
-* \return Jeśli P0 i P1 nie leżą na linii to zwraca false i wartości w _out są nieokreślone
-* \warning Funkcja modyfikuje tablice image
-*/
-
-bool C_LineInterp::getPointsOnLine( const C_Point &_P0, const C_Point &_P1, double *const _outx, double *const _outy, unsigned int _Np )
-{
-	_RPT0(_CRT_WARN,"Obsolete sytnax, use without _outx");
-	bool ret;
-	if(!isPointOnLine(_P0))
-		return false;
-	if(!isPointOnLine(_P1))
-		return false;
-	// tworzenie bufora z danymi
-	image = new float[N];
-	// kopiowanie danych z zewnatrz do bufora
-	for (unsigned int a=0;a<N;a++)
-		image[a] = (float)rtg[a];
-	int Error = SamplesToCoefficients(image, im_size[1], im_size[0], 2);
-	if(Error)
-	{
-		_RPT0(_CRT_ERROR,"Error in C_LineApprox::getPointsOnLine->SamplesToCoefficients");
-		return false;
-	}
-	// wypeninie lini P0 P1 punktami równo rozłożonymi
-	Np = _Np;
-	SafeAllocateTab();
-	ret = C_Line::getPointsOnLine(_P0,_P1,_outx,_outy,Np);	// tu musi być wowołana funkcja z klasy podrzędnej
-	if(ret==false)
-		return false;	// punkty nie na linii
-	switch(typ_interpolacji)
-	{
-	case SPLINE:
-		for(unsigned int a=0;a<Np;a++) { // po wszystkich punktach
-			interpolated_data[a] = (double)InterpolatedValue(image,
-				im_size[1],
-				im_size[0],
-				_outx[a],
-				_outy[a],
-				2);
-		}
-
-		break;
-	default:
-		_RPT0(_CRT_ERROR,"Error in C_LineApprox::getPointsOnLine->SamplesToCoefficients - wrong type");
-	}
-	// kopiowanie na wyjście
-	DataCopy(_outx,x);
-	DataCopy(_outy,y);
-	SAFE_DELETE(image);
-	return true;
-}
-/**
 * Zwraca wartości interpolowane z obrazu pomiędzy punktami leżącymi na linii. Wartoci interpolowane zapisane są w interpolated_data.
 * współrzędne dla których była inteprolacja równierz zapisywane są w x i y
 * \param[in] _P0 punkt początkowy

@@ -61,7 +61,7 @@ protected:
 * \author PB
 * \date 2014/10/20
 */
-TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_1)
+TEST(STATIC_WeldDetexApprox,DISABLED__WeldDetexApprox_1)
 {
 	C_Matrix_Container *rtg;
 	C_LinearWeld *obj;
