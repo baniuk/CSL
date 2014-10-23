@@ -124,6 +124,7 @@ TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_1)
 * \pre Image \c testimag2.dat
 * \post File \c WeldDetectApprox_2.out
 * \see verify.m for result verification
+* \note Uses parameters for WSK dataset
 * \author PB
 * \date 2014/10/21
 */
