@@ -101,7 +101,7 @@ bool C_LinearWeld::Start(unsigned int step,unsigned int ile)
 		app->setApproxParmas(_p,_w,_ub,_lb,NULL);
 		// aproxymacja
 		/// \todo dodać tu sprawdzanie czy zwraca poprawną ilość iteracji
-		iter = app->getLineApprox(100);
+		iter = app->getLineApprox(150);
 		_RPT1(_CRT_WARN,"\t\tITER: %d",iter);
 #ifdef _DEBUG
 		const double *pdeb;pdeb = app->getApproxParams_p();

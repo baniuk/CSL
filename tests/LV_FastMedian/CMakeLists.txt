@@ -1,9 +1,6 @@
 # rzeczy do zmiany
 set(LOCAL_PROJECT_NAME LV_FastMedian_tests)
 # test case kopiowne z source do binary
-IF(${CMAKE_GENERATOR} MATCHES "^(Visual Studio)")
-	set(CMAKE_CURRENT_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE}")
-ENDIF()
 configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/imag2.dat 
 				${CMAKE_CURRENT_BINARY_DIR}/imag2.dat
 				COPYONLY)
