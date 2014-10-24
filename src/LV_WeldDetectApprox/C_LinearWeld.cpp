@@ -570,3 +570,6 @@ void C_LinearWeld::evalWeldPos( const C_LineWeldApprox *_approx, const C_LineInt
 			SAFE_DELETE(indexy);
 			_RPT0(_CRT_WARN,"\tLeaving C_LinearWeld::evalWeldPos\n");
 }
+/** \example WeldDetecApprox_example.cpp
+* Przykład użycia klasy
+*/
