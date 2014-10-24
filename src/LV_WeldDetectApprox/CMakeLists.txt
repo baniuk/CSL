@@ -34,7 +34,6 @@ add_library(${LOCAL_PROJECT_NAME}_static STATIC
 			C_WeldlineDetect.cpp ${INC_DIR}/C_WeldlineDetect.h
 			C_WeldPos.cpp ${INC_DIR}/C_WeldPos.h
 			${INC_DIR}/C_CircBuff.h
-			C_Matrix_Container.cpp ${INC_DIR}/C_Matrix_Container.h
 			ParamEstimation.cpp ${INC_DIR}/ParamEstimation.h)
 target_link_libraries(	${LOCAL_PROJECT_NAME}_static
 						${CMAKE_SOURCE_DIR}/lib/Geom${CMAKE_FIND_LIBRARY_SUFFIXES}

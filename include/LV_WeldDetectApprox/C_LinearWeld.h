@@ -30,7 +30,7 @@ class C_LinearWeld : public C_WeldlineDetect
 	friend class C_LinearWeld_FillBuffor_test2;
 	friend class C_LinearWeld_FillBuffor;
 public:
-	C_LinearWeld(const C_Matrix_Container *_rtg);
+	C_LinearWeld(const Matrix_Container *_rtg);
 	~C_LinearWeld();
 	/// Funkcja inicjalizacyjna środowiska.
 	void SetProcedureParameters(unsigned int _k, C_Point _StartPoint);

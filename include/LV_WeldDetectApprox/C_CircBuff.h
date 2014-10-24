@@ -7,6 +7,10 @@
 #ifndef C_CircBuff_h__
 #define C_CircBuff_h__
 
+#ifndef SAFE_DELETE
+#define SAFE_DELETE(p)       { if(p) { delete (p);     (p)=NULL; } }
+#endif
+
 /**
 * Klasa obsługująca bufor kołowy. Umożliwia realziację bufora kołowego ale przy indeksowaniu liniowym. Dane są dopisuwane na kolejne
 * miejsce zraz za oststnio dopisanym. T jest typem obiektu a S rozmiarem bufora. Bepośrednio po zapisaniu elementu do bufora można go skasować. Funkcja getNumElements() zwraca ilość elementów w buforze kompatybilną z funkcją GetObject, dzięki czemu można ją adresować za pomocą pętli. Generalnie bufor działa w następujący sposób - dopóki nie zostanie cały zapisany to Czy_pelny zawsze zwraca false. Jeśli zostanie cały zapisany ale jeden ostatni zostanie skasowany to terz zwórci false. Po pirwszym przepełnieniu funkcja zawsze zwrca true. Tak samo getNumElements - po przepełnieniu zwraca pojemność bufora.

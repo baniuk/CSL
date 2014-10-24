@@ -7,7 +7,7 @@
 */
 #include "LV_WeldDetectApprox\C_WeldlineDetect.h"
 
-C_WeldlineDetect::C_WeldlineDetect( const C_Matrix_Container *_rtg ) :
+C_WeldlineDetect::C_WeldlineDetect( const Matrix_Container *_rtg ) :
 	rtg(_rtg),
 	k(0),
 	_w(NULL),
