@@ -7,8 +7,9 @@
 */
 
 #include "LV_WeldDetectApprox\C_LinearWeld.h"
+#include "LV_WeldDetectApprox\ParamEstimation.h"
 
-C_LinearWeld::C_LinearWeld( const C_Matrix_Container *_rtg ) : C_WeldlineDetect(_rtg)
+C_LinearWeld::C_LinearWeld( const Matrix_Container *_rtg ) : C_WeldlineDetect(_rtg)
 {
 	interp_lines = new C_CircBuff<C_LineInterp>;
 	approx_results = new C_CircBuff<C_LineWeldApprox>;
@@ -301,11 +302,16 @@ bool C_LinearWeld::evalNextParams()
 	int num_elrec = recalculated_approx_data->getNumElem(); // wielkość bufora
 	_ASSERT(num_el==num_elrec); // powinny być tego samemgo rozmiaru te bufory
 #endif
-	C_Matrix_Container a(1,num_el);
-	C_Matrix_Container b(1,num_el);
-	C_Matrix_Container c(1,num_el);
-	C_Matrix_Container d(1,num_el);
-	C_Matrix_Container e(1,num_el);
+	//	C_Matrix_Container a(1,num_el);
+	//	C_Matrix_Container b(1,num_el);
+	//	C_Matrix_Container c(1,num_el);
+	//	C_Matrix_Container d(1,num_el);
+	//	C_Matrix_Container e(1,num_el);
+	vector<double> a;
+	vector<double> b;
+	vector<double> c;
+	vector<double> d;
+	vector<double> e;
 	//	C_Image_Container waga;	// pomocniczy do skalowania wag
 	const double *p_par;	// parametry z bufora lub wektor wag
 	// meidana z p - poszczególne elementy tego wektora z całego bufora są zbierane do jednego wektora
@@ -322,19 +328,19 @@ bool C_LinearWeld::evalNextParams()
 	for (int la=l=0;la<num_el;la++)
 	{
 		p_par = approx_results->GetObject(la)->getApproxParams_p(); if(NULL==p_par) continue;
-		a.data[l] = p_par[A];
-		b.data[l] = p_par[B];
-		c.data[l] = p_par[C];
-		d.data[l] = p_par[D];
-		e.data[l] = p_par[E];
-		l++;
+		a.push_back(p_par[A]);
+		b.push_back(p_par[B]);
+		c.push_back(p_par[C]);
+		d.push_back(p_par[D]);
+		e.push_back(p_par[E]);
+		l++; // do tego assert poniżej
 	}
 	_ASSERT(l==num_el);	// jeden element był NULL i mediana moze być fałszywa bo nie wszystkie elementy wypełnione
-	_p[A] = a.quick_select();
-	_p[B] = b.quick_select();
-	_p[C] = c.quick_select();
-	_p[D] = d.quick_select();
-	_p[E] = e.quick_select();
+	_p[A] = getMedian<double>(a);
+	_p[B] = getMedian<double>(b);
+	_p[C] = getMedian<double>(c);
+	_p[D] = getMedian<double>(d);
+	_p[E] = getMedian<double>(e);
 
 	// sprawdzanie czy parametry ub i lb nie są takie same (dla 0 moga być)
 

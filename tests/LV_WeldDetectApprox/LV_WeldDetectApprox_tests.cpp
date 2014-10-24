@@ -11,6 +11,7 @@
 #include "MatlabExchange/C_MatlabExchange.hpp"
 #include "LV_WeldDetectApprox/C_LinearWeld.h"
 #include "LV_WeldDetectApprox/ParamEstimation.h"
+#include "C_Matrix_Container.h"
 
 using namespace std;
 
@@ -64,15 +65,15 @@ protected:
 */
 TEST(STATIC_ParamEstimation, _ParamEstimation_1)
 {
-	C_Matrix_Container rtg;
+	C_Matrix_Container rtgtmp;
 	C_MatlabExchange dump("ParamEstimation_1.out");
 
-	rtg.ReadBinary("testimag16.dat");
+	rtgtmp.ReadBinary("testimag16.dat");
 
 	double A,E;
 
-	ParamEstimation(rtg.data, rtg._cols, rtg._rows, 10, A, E);
-	dump.AddEntry2D<double>(rtg.data,rtg._rows, rtg._cols, "paramEstimationImage");
+	ParamEstimation(rtgtmp.data, rtgtmp._cols, rtgtmp._rows, 10, A, E);
+	dump.AddEntry2D<double>(rtgtmp.data,rtgtmp._rows, rtgtmp._cols, "paramEstimationImage");
 	EXPECT_EQ(45263-31467,A);
 	EXPECT_EQ(31467, E);
 }
@@ -87,7 +88,8 @@ TEST(STATIC_ParamEstimation, _ParamEstimation_1)
 */
 TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_1)
 {
-	C_Matrix_Container *rtg;
+	C_Matrix_Container *rtgtmp;
+	Matrix_Container rtg;
 	C_LinearWeld *obj;
 	bool ret;
 	const std::vector<bool> *_lineOK;
@@ -98,13 +100,17 @@ TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_1)
 	C_WeldPos wp;
 
 	C_MatlabExchange dump("WeldDetectApprox_1.out");
-	rtg = new C_Matrix_Container();
-	rtg->ReadBinary("testimag1.dat");
-	obj = new C_LinearWeld(rtg);
+	rtgtmp = new C_Matrix_Container();
+	rtgtmp->ReadBinary("testimag1.dat");
+	// convert to internal struct
+	rtg.data = rtgtmp->data;
+	rtg._cols = rtgtmp->_cols;
+	rtg._rows = rtgtmp->_rows;
+	obj = new C_LinearWeld(&rtg);
 
 	double A, E;
 	C_Point cp_x_start(10,0);	// punkt startowy
-	ParamEstimation<double>(rtg->data, rtg->_cols, rtg->_rows, (unsigned int)cp_x_start.getX(), A ,E); // punkt startowy
+	ParamEstimation<double>(rtg.data, rtg._cols, rtg._rows, (unsigned int)cp_x_start.getX(), A ,E); // punkt startowy
 	C_LineWeldApprox::setDefaultParams(A,60,0,E,
 		65535,600,1,20000,
 		0,50,-1,-20000);
@@ -135,7 +141,7 @@ TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_1)
 	dump.AddEntry2D<double>(lineok.data, lineok._rows, lineok._cols, "lineok");
 	dump.AddEntry2D<double>(weldpos.data, weldpos._rows, weldpos._cols, "weldpos");
 
-	delete rtg;
+	delete rtgtmp;
 	delete obj;
 }
 
@@ -156,7 +162,8 @@ TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_1)
 */
 TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_2)
 {
-	C_Matrix_Container *rtg;
+	C_Matrix_Container *rtgtmp;
+	Matrix_Container rtg;
 	C_LinearWeld *obj;
 	bool ret;
 	const std::vector<bool> *_lineOK;
@@ -167,13 +174,17 @@ TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_2)
 	C_WeldPos wp;
 
 	C_MatlabExchange dump("WeldDetectApprox_2.out");
-	rtg = new C_Matrix_Container();
-	rtg->ReadBinary("testimag2.dat");
-	obj = new C_LinearWeld(rtg);
+	rtgtmp = new C_Matrix_Container();
+	rtgtmp->ReadBinary("testimag2.dat");
+	// convert to internal struct
+	rtg.data = rtgtmp->data;
+	rtg._cols = rtgtmp->_cols;
+	rtg._rows = rtgtmp->_rows;
+	obj = new C_LinearWeld(&rtg);;
 
 	double A, E;
 	C_Point cp_x_start(10,0);	// punkt startowy
-	ParamEstimation<double>(rtg->data, rtg->_cols, rtg->_rows, (unsigned int)cp_x_start.getX(), A ,E); // punkt startowy
+	ParamEstimation<double>(rtg.data, rtg._cols, rtg._rows, (unsigned int)cp_x_start.getX(), A ,E); // punkt startowy
 	C_LineWeldApprox::setDefaultParams(A,60,0,E,
 		65535,300,1,70000,
 		0,10,-1,-20000);
@@ -204,7 +215,7 @@ TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_2)
 	dump.AddEntry2D<double>(lineok.data, lineok._rows, lineok._cols, "lineok");
 	dump.AddEntry2D<double>(weldpos.data, weldpos._rows, weldpos._cols, "weldpos");
 
-	delete rtg;
+	delete rtgtmp;
 	delete obj;
 }
 
@@ -225,7 +236,8 @@ TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_2)
 */
 TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_16)
 {
-	C_Matrix_Container *rtg;
+	C_Matrix_Container *rtgtmp;
+	Matrix_Container rtg;
 	C_LinearWeld *obj;
 	bool ret;
 	const std::vector<bool> *_lineOK;
@@ -236,13 +248,17 @@ TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_16)
 	C_WeldPos wp;
 
 	C_MatlabExchange dump("WeldDetectApprox_16.out");
-	rtg = new C_Matrix_Container();
-	rtg->ReadBinary("testimag16.dat");
-	obj = new C_LinearWeld(rtg);
+	rtgtmp = new C_Matrix_Container();
+	rtgtmp->ReadBinary("testimag16.dat");
+	// convert to internal struct
+	rtg.data = rtgtmp->data;
+	rtg._cols = rtgtmp->_cols;
+	rtg._rows = rtgtmp->_rows;
+	obj = new C_LinearWeld(&rtg);
 
 	double A, E;
 	C_Point cp_x_start(10,0);	// punkt startowy
-	ParamEstimation<double>(rtg->data, rtg->_cols, rtg->_rows, (unsigned int)cp_x_start.getX(), A ,E); // punkt startowy
+	ParamEstimation<double>(rtg.data, rtg._cols, rtg._rows, (unsigned int)cp_x_start.getX(), A ,E); // punkt startowy
 	C_LineWeldApprox::setDefaultParams(A,60,0,E,
 		65535,340,1,70000,
 		0,10,-1,-20000);
@@ -273,6 +289,6 @@ TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_16)
 	dump.AddEntry2D<double>(lineok.data, lineok._rows, lineok._cols, "lineok");
 	dump.AddEntry2D<double>(weldpos.data, weldpos._rows, weldpos._cols, "weldpos");
 
-	delete rtg;
+	delete rtgtmp;
 	delete obj;
 }
