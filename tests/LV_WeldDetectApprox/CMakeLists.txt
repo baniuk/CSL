@@ -26,7 +26,9 @@ set(levmar_SRC ${source_dir})
 
 include_directories(${GTest_SRC}/include ${${ROOT_PROJECT_NAME}_SOURCE_DIR}/include ${PBToolset_SRC}/include ${levmar_SRC})
 
-add_executable(${LOCAL_PROJECT_NAME} LV_WeldDetectApprox_tests.cpp
+add_executable(${LOCAL_PROJECT_NAME} GTest_starter.cpp
+				LV_WeldDetectApprox_DLL_tests.cpp
+				LV_WeldDetectApprox_tests.cpp
 				C_Matrix_Container.cpp  C_Matrix_Container.h)
 # gtest specific
 target_compile_options(${LOCAL_PROJECT_NAME} PUBLIC -D_VARIADIC_MAX=10)
