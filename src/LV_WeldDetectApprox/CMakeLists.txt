@@ -3,6 +3,9 @@ set(LOCAL_PROJECT_NAME LV_WeldDetectApprox)
 set(VERSION_MAJOR 1) # wersje powinny być skorelowane z /version w pliku
 set(VERSION_MINOR 0)
 
+IF(${CMAKE_GENERATOR} MATCHES "^(Visual Studio)")
+	set(CMAKE_CURRENT_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE}")
+ENDIF()
 configure_file(
   ${CMAKE_CURRENT_SOURCE_DIR}/resources.rc.in
   ${CMAKE_CURRENT_BINARY_DIR}/resources.rc
