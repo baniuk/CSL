@@ -8,7 +8,7 @@
 #define C_LineInterp_h__
 
 #ifndef SAFE_DELETE
-#define SAFE_DELETE(p)       { if(p) { delete (p);     (p)=nullptr; } }
+#define SAFE_DELETE(p)       { if(p) { delete (p);     (p)=NULL; } }
 #endif
 
 #include <memory.h>
@@ -43,7 +43,7 @@ public:
 	/// definiuje linie interpolacji na podstawie 2 punktów
 	virtual void ManualConstructor(APPROX_TYPE type,const C_Point &P0, const C_Point &P1, const double *const _image, const unsigned int _size[] );
 	/// Wykonuje interpolację Zapisuje obliczone punkty w obiekcie
-	virtual bool getPointsOnLine( const C_Point &_P0, const C_Point &_P1, unsigned int _Np  );
+	virtual bool getPointsOnLine( const C_Point &_P0, const C_Point &_P1, unsigned int _Np, float** image  );
 	/// zwaraca ilość elementów na podstawie tablicy im_size
 	unsigned int getNumOfElements() const;
 	/// zwraca tablicę z interpolowanymi danymi

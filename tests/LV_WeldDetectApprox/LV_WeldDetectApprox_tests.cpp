@@ -16,15 +16,15 @@ using namespace std;
 int main(int argc, char* argv[])
 {
 	int ret = 0;
-	//	HANDLE hLogFile;
-	//	time_t seconds;
-	//	time ( &seconds );
-	//	hLogFile = CreateFile("C_WeldLineDetect.mylog", FILE_APPEND_DATA,
-	//		FILE_SHARE_WRITE, NULL, CREATE_ALWAYS,
-	//		FILE_ATTRIBUTE_NORMAL, NULL);
-	//	_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG|_CRTDBG_MODE_FILE);
-	//	_CrtSetReportFile(_CRT_WARN, hLogFile);
-	//	_RPT1(_CRT_WARN,  "The current local time is: %s\n", ctime(&seconds) );
+	//HANDLE hLogFile;
+	//time_t seconds;
+	//time ( &seconds );
+	//hLogFile = CreateFile("C_WeldLineDetect.mylog", FILE_APPEND_DATA,
+	//	FILE_SHARE_WRITE, NULL, CREATE_ALWAYS,
+	//	FILE_ATTRIBUTE_NORMAL, NULL);
+	//_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG|_CRTDBG_MODE_FILE);
+	//_CrtSetReportFile(_CRT_WARN, hLogFile);
+	//_RPT1(_CRT_WARN,  "The current local time is: %s\n", ctime(&seconds) );
 
 	::testing::InitGoogleTest(&argc, argv);
 	ret = RUN_ALL_TESTS();
@@ -150,7 +150,7 @@ TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_2)
 		0,30,-1,-20000);
 	C_Point cp_x_start(10,0);	// punkt startowy
 	obj->SetProcedureParameters(100,cp_x_start); // inicjalizacja srodowiska, wielkosc bufora 100
-	ret = obj->Start(1,0);	// krok
+	ret = obj->Start(4,0);	// krok
 	ASSERT_TRUE(ret);
 
 	_lineOK = obj->getLineOK();

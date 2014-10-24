@@ -2,7 +2,7 @@
 #define __C_Matrix_Container__
 
 #ifndef SAFE_DELETE
-#define SAFE_DELETE(p)       { if(p) { delete (p);     (p)=nullptr; } }
+#define SAFE_DELETE(p)       { if(p) { delete (p);     (p)=NULL; } }
 #endif
 
 #include <windows.h>

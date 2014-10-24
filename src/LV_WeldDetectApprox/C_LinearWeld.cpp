@@ -72,6 +72,7 @@ bool C_LinearWeld::Start(unsigned int step,unsigned int ile)
 	_RPT0(_CRT_WARN,"\tEntering C_LinearWeld::Start");
 	bool ret=OK;
 	int iter;
+	float* coef = NULL;
 	// wypełnianie bufora w zależności od punktu startowego podanego w SetProcedureParameters()
 	ret = fillBuffor();
 	if(BLAD==ret)
@@ -90,7 +91,7 @@ bool C_LinearWeld::Start(unsigned int step,unsigned int ile)
 		_RPT4(_CRT_WARN,"\t\tInput: P0[%.1lf;%.1lf] P1[%.1lf;%.1lf]",P0.getX(),P0.getY(),P1.getX(),P1.getY());
 		obj->ManualConstructor(SPLINE,P0,P1,rtg->data,rtgsize);
 		// wykonuje interpolację - biorę tyle punktów ile jest rzędów w obrazie + punkty końcowe. Wyniki są zapamiętywane w klasie i dostępne poprzez getInterpolated
-		obj->getPointsOnLine(P0,P1,rtg->_rows+1);
+		obj->getPointsOnLine(P0,P1,(rtg->_rows+1)/4,&coef);
 		// aproksymacja - dodaje obiekt aprox
 		app = approx_results->AddObject();
 		if(obj->getjest_pion()==PIONOWA) // sprawdzam bo jak jest pionowa to aproxymacja jest w funkcji y a jeśli nie to x
@@ -136,6 +137,7 @@ bool C_LinearWeld::Start(unsigned int step,unsigned int ile)
 			std::cout<<P0.getX()<<"\n";
 	}
 	_RPT0(_CRT_WARN,"\tLeaving C_LinearWeld::Start\n");
+	SAFE_DELETE(coef);
 	return OK; // zwracamy ok normalnie, BLAD jest zwracany jesli nie uda sie stworzyc bufora
 }
 /**
@@ -150,6 +152,7 @@ bool C_LinearWeld::getOneApproxLine(C_WeldPos &weldpos)
 	_RPT0(_CRT_WARN,"\tEntering C_LinearWeld::getOneApproxLine");
 	C_LineInterp *obj = NULL;	// obiekt tymczasowy do łatwiejszego adresowania
 	C_LineWeldApprox *app = NULL;
+	float* coef = NULL;
 	double *pre;	// wskaźnik na daną w buforze precalculated_approx_data
 	const double *y;	// dane x do aproxymacji
 
@@ -160,7 +163,7 @@ bool C_LinearWeld::getOneApproxLine(C_WeldPos &weldpos)
 	obj = new C_LineInterp;
 	obj->ManualConstructor(SPLINE,P0,P1,rtg->data,rtgsize);
 	// wykonuje interpolację - biorę tyle punktów ile jest rzędów w obrazie + punkty końcowe. Wyniki są zapamiętywane w klasie i dostępne poprzez getInterpolated
-	obj->getPointsOnLine(P0,P1,rtg->_rows+1);
+	obj->getPointsOnLine(P0,P1,rtg->_rows+1,&coef);
 
 	app = new C_LineWeldApprox;
 	app->ManualConstructor(typeGaussLin,obj->getInterpolated_data(),obj->getInterpolated_Y(),obj->getSizeofInterpData());
@@ -181,6 +184,7 @@ bool C_LinearWeld::getOneApproxLine(C_WeldPos &weldpos)
 
 	SAFE_DELETE(app);
 	SAFE_DELETE(obj);
+	SAFE_DELETE(coef);
 	_RPT0(_CRT_WARN,"\tLeaving C_LinearWeld::getOneApproxLine\n");
 	return(ret);
 }
@@ -201,6 +205,7 @@ bool C_LinearWeld::fillBuffor()
 	bool ret_evalnextparam = OK; // jeśli false to koniec obrazka
 	const double *y;	// dane x do aproxymacji
 	double *pre;	// wskaźnik na daną w buforze precalculated_approx_data
+	float* coef=NULL;
 	while(!interp_lines->Czy_pelny() && interp_lines->getNumElem()>-1 && ret_evalnextparam==OK)	// dopuki bufor nie jest pełny i jednocześnie jest zainicjowany
 	{
 		obj = interp_lines->AddObject();	// dodaje nową linię
@@ -208,7 +213,7 @@ bool C_LinearWeld::fillBuffor()
 		_RPT4(_CRT_WARN,"\t\tInput: P0[%.1lf;%.1lf] P1[%.1lf;%.1lf]",P0.getX(),P0.getY(),P1.getX(),P1.getY());
 		obj->ManualConstructor(SPLINE,P0,P1,rtg->data,rtgsize);
 		// wykonuje interpolację - biorę tyle punktów ile jest rzędów w obrazie + punkty końcowe. Wyniki są zapamiętywane w klasie i dostępne poprzez getInterpolated
-		obj->getPointsOnLine(P0,P1,rtg->_rows+1);
+		obj->getPointsOnLine(P0,P1,rtg->_rows+1,&coef);
 		// aproksymacja - dodaje obiekt aprox
 		app = approx_results->AddObject();
 		// konstruktor manualne
@@ -252,6 +257,7 @@ bool C_LinearWeld::fillBuffor()
 		ret_evalnextparam = evalNextStartPoint(1);
 	}
 	_RPT0(_CRT_WARN,"\tLeaving C_LinearWeld::fillBuffor\n");
+	SAFE_DELETE(coef);
 	return ret_evalnextparam;
 }
 /**
