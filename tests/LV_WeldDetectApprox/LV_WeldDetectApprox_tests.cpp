@@ -78,14 +78,14 @@ TEST(STATIC_ParamEstimation, _ParamEstimation_1)
 }
 /**
 * \test STATIC_WeldDetexApprox,_WeldDetexApprox_1
-* \brief Tests main procedre from static lib
+* \brief Tests main procedre from static lib. The use of method is in examples: WeldDetecApprox_example.cpp
 * \pre Image \c testimag1.dat
 * \post File \c WeldDetectApprox_1.out
 * \see verify.m for result verification
 * \author PB
 * \date 2014/10/20
 */
-TEST(STATIC_WeldDetexApprox,DISABLED__WeldDetexApprox_1)
+TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_1)
 {
 	C_Matrix_Container *rtg;
 	C_LinearWeld *obj;
@@ -102,12 +102,14 @@ TEST(STATIC_WeldDetexApprox,DISABLED__WeldDetexApprox_1)
 	rtg->ReadBinary("testimag1.dat");
 	obj = new C_LinearWeld(rtg);
 
-	C_LineWeldApprox::setDefaultParams(1060,160,0,0,
+	double A, E;
+	C_Point cp_x_start(10,0);	// punkt startowy
+	ParamEstimation(rtg->data, rtg->_cols, rtg->_rows, (unsigned int)cp_x_start.getX(), A ,E); // punkt startowy
+	C_LineWeldApprox::setDefaultParams(A,60,0,E,
 		65535,600,1,20000,
 		0,50,-1,-20000);
-	C_Point cp_x_start(10,0);	// punkt startowy
 	obj->SetProcedureParameters(50,cp_x_start); // inicjalizacja srodowiska, wielkosc bufora 100
-	ret = obj->Start(1,0);	// krok
+	ret = obj->Start(4,0);	// krok
 	ASSERT_TRUE(ret);
 
 	_lineOK = obj->getLineOK();
@@ -152,7 +154,7 @@ TEST(STATIC_WeldDetexApprox,DISABLED__WeldDetexApprox_1)
 * \author PB
 * \date 2014/10/21
 */
-TEST(STATIC_WeldDetexApprox,DISABLED__WeldDetexApprox_2)
+TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_2)
 {
 	C_Matrix_Container *rtg;
 	C_LinearWeld *obj;
@@ -169,10 +171,12 @@ TEST(STATIC_WeldDetexApprox,DISABLED__WeldDetexApprox_2)
 	rtg->ReadBinary("testimag2.dat");
 	obj = new C_LinearWeld(rtg);
 
-	C_LineWeldApprox::setDefaultParams(20000,60,0,0,
+	double A, E;
+	C_Point cp_x_start(10,0);	// punkt startowy
+	ParamEstimation(rtg->data, rtg->_cols, rtg->_rows, (unsigned int)cp_x_start.getX(), A ,E); // punkt startowy
+	C_LineWeldApprox::setDefaultParams(A,60,0,E,
 		65535,300,1,70000,
 		0,10,-1,-20000);
-	C_Point cp_x_start(10,0);	// punkt startowy
 	obj->SetProcedureParameters(100,cp_x_start); // inicjalizacja srodowiska, wielkosc bufora 100
 	ret = obj->Start(4,0);	// krok
 	ASSERT_TRUE(ret);
@@ -219,7 +223,7 @@ TEST(STATIC_WeldDetexApprox,DISABLED__WeldDetexApprox_2)
 * \author PB
 * \date 2014/10/24
 */
-TEST(STATIC_WeldDetexApprox,DISABLED__WeldDetexApprox_16)
+TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_16)
 {
 	C_Matrix_Container *rtg;
 	C_LinearWeld *obj;
@@ -236,10 +240,12 @@ TEST(STATIC_WeldDetexApprox,DISABLED__WeldDetexApprox_16)
 	rtg->ReadBinary("testimag16.dat");
 	obj = new C_LinearWeld(rtg);
 
-	C_LineWeldApprox::setDefaultParams(17000,60,0,31000,
+	double A, E;
+	C_Point cp_x_start(10,0);	// punkt startowy
+	ParamEstimation(rtg->data, rtg->_cols, rtg->_rows, (unsigned int)cp_x_start.getX(), A ,E); // punkt startowy
+	C_LineWeldApprox::setDefaultParams(A,60,0,E,
 		65535,340,1,70000,
 		0,10,-1,-20000);
-	C_Point cp_x_start(10,0);	// punkt startowy
 	obj->SetProcedureParameters(100,cp_x_start); // inicjalizacja srodowiska, wielkosc bufora 100
 	ret = obj->Start(4,0);	// krok
 	ASSERT_TRUE(ret);
