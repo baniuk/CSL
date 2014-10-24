@@ -5,54 +5,12 @@
 * \date    2014/10/20
 */
 
-#include <windows.h>
 #include "gtest/gtest.h"
 #include "definitions.h"
 #include "MatlabExchange/C_MatlabExchange.hpp"
 #include "LV_WeldDetectApprox/C_LinearWeld.h"
 #include "LV_WeldDetectApprox/ParamEstimation.h"
 #include "C_Matrix_Container.h"
-
-using namespace std;
-
-int main(int argc, char* argv[])
-{
-	int ret = 0;
-	/*HANDLE hLogFile;
-	time_t seconds;
-	time ( &seconds );
-	hLogFile = CreateFile("C_WeldLineDetect.mylog", FILE_APPEND_DATA,
-	FILE_SHARE_WRITE, NULL, CREATE_ALWAYS,
-	FILE_ATTRIBUTE_NORMAL, NULL);
-	_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG|_CRTDBG_MODE_FILE);
-	_CrtSetReportFile(_CRT_WARN, hLogFile);
-	_RPT1(_CRT_WARN,  "The current local time is: %s\n", ctime(&seconds) );*/
-
-	::testing::InitGoogleTest(&argc, argv);
-	ret = RUN_ALL_TESTS();
-	return ret;
-}
-
-/**
-* \brief Test fixture class
-* \details Load and free relevant library before every test
-* \warning W przypadku budowania pod VS na podstawie solucji wygenerowanej przez cmake, wszyskie pliki wynikowe są umieszczane
-* w podkatalogu \c Debug, a w przypadku czystego \b nmake nie są. To powoduje problemy z względnymi ścierzkami w teście
-*/
-class DLL_Tests : public ::testing::Test {
-protected:
-
-	// Initializes test environment
-	virtual void SetUp()
-	{
-	}
-
-	virtual void TearDown()
-	{
-	}
-
-	// Objects declared here can be used by all tests in the test case for Foo.
-};
 
 /**
 * \test STATIC_ParamEstimation, _ParamEstimation_1
