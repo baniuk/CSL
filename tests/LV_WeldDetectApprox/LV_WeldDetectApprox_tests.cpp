@@ -17,15 +17,15 @@ using namespace std;
 int main(int argc, char* argv[])
 {
 	int ret = 0;
-	HANDLE hLogFile;
+	/*HANDLE hLogFile;
 	time_t seconds;
 	time ( &seconds );
 	hLogFile = CreateFile("C_WeldLineDetect.mylog", FILE_APPEND_DATA,
-		FILE_SHARE_WRITE, NULL, CREATE_ALWAYS,
-		FILE_ATTRIBUTE_NORMAL, NULL);
+	FILE_SHARE_WRITE, NULL, CREATE_ALWAYS,
+	FILE_ATTRIBUTE_NORMAL, NULL);
 	_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG|_CRTDBG_MODE_FILE);
 	_CrtSetReportFile(_CRT_WARN, hLogFile);
-	_RPT1(_CRT_WARN,  "The current local time is: %s\n", ctime(&seconds) );
+	_RPT1(_CRT_WARN,  "The current local time is: %s\n", ctime(&seconds) );*/
 
 	::testing::InitGoogleTest(&argc, argv);
 	ret = RUN_ALL_TESTS();
@@ -104,7 +104,7 @@ TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_1)
 
 	double A, E;
 	C_Point cp_x_start(10,0);	// punkt startowy
-	ParamEstimation(rtg->data, rtg->_cols, rtg->_rows, (unsigned int)cp_x_start.getX(), A ,E); // punkt startowy
+	ParamEstimation<double>(rtg->data, rtg->_cols, rtg->_rows, (unsigned int)cp_x_start.getX(), A ,E); // punkt startowy
 	C_LineWeldApprox::setDefaultParams(A,60,0,E,
 		65535,600,1,20000,
 		0,50,-1,-20000);
@@ -173,7 +173,7 @@ TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_2)
 
 	double A, E;
 	C_Point cp_x_start(10,0);	// punkt startowy
-	ParamEstimation(rtg->data, rtg->_cols, rtg->_rows, (unsigned int)cp_x_start.getX(), A ,E); // punkt startowy
+	ParamEstimation<double>(rtg->data, rtg->_cols, rtg->_rows, (unsigned int)cp_x_start.getX(), A ,E); // punkt startowy
 	C_LineWeldApprox::setDefaultParams(A,60,0,E,
 		65535,300,1,70000,
 		0,10,-1,-20000);
@@ -242,7 +242,7 @@ TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_16)
 
 	double A, E;
 	C_Point cp_x_start(10,0);	// punkt startowy
-	ParamEstimation(rtg->data, rtg->_cols, rtg->_rows, (unsigned int)cp_x_start.getX(), A ,E); // punkt startowy
+	ParamEstimation<double>(rtg->data, rtg->_cols, rtg->_rows, (unsigned int)cp_x_start.getX(), A ,E); // punkt startowy
 	C_LineWeldApprox::setDefaultParams(A,60,0,E,
 		65535,340,1,70000,
 		0,10,-1,-20000);
