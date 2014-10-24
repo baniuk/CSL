@@ -10,21 +10,22 @@
 #include "definitions.h"
 #include "MatlabExchange/C_MatlabExchange.hpp"
 #include "LV_WeldDetectApprox/C_LinearWeld.h"
+#include "LV_WeldDetectApprox/ParamEstimation.h"
 
 using namespace std;
 
 int main(int argc, char* argv[])
 {
 	int ret = 0;
-	//HANDLE hLogFile;
-	//time_t seconds;
-	//time ( &seconds );
-	//hLogFile = CreateFile("C_WeldLineDetect.mylog", FILE_APPEND_DATA,
-	//	FILE_SHARE_WRITE, NULL, CREATE_ALWAYS,
-	//	FILE_ATTRIBUTE_NORMAL, NULL);
-	//_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG|_CRTDBG_MODE_FILE);
-	//_CrtSetReportFile(_CRT_WARN, hLogFile);
-	//_RPT1(_CRT_WARN,  "The current local time is: %s\n", ctime(&seconds) );
+	HANDLE hLogFile;
+	time_t seconds;
+	time ( &seconds );
+	hLogFile = CreateFile("C_WeldLineDetect.mylog", FILE_APPEND_DATA,
+		FILE_SHARE_WRITE, NULL, CREATE_ALWAYS,
+		FILE_ATTRIBUTE_NORMAL, NULL);
+	_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG|_CRTDBG_MODE_FILE);
+	_CrtSetReportFile(_CRT_WARN, hLogFile);
+	_RPT1(_CRT_WARN,  "The current local time is: %s\n", ctime(&seconds) );
 
 	::testing::InitGoogleTest(&argc, argv);
 	ret = RUN_ALL_TESTS();
@@ -52,6 +53,29 @@ protected:
 	// Objects declared here can be used by all tests in the test case for Foo.
 };
 
+/**
+* \test STATIC_ParamEstimation, _ParamEstimation_1
+* \brief Evaluates \c A and \c E params of gauss function
+* \details Evaluates one column from test image and returns \c a and \c E
+* \pre testimag16.dat
+* \post \c A and \c E evaluated for column 10 - compared to those from matlab (col 11)
+* \author PB
+* \date 2014/10/24
+*/
+TEST(STATIC_ParamEstimation, _ParamEstimation_1)
+{
+	C_Matrix_Container rtg;
+	C_MatlabExchange dump("ParamEstimation_1.out");
+
+	rtg.ReadBinary("testimag16.dat");
+
+	double A,E;
+
+	ParamEstimation(rtg.data, rtg._cols, rtg._rows, 10, A, E);
+	dump.AddEntry2D<double>(rtg.data,rtg._rows, rtg._cols, "paramEstimationImage");
+	EXPECT_EQ(45263-31467,A);
+	EXPECT_EQ(31467, E);
+}
 /**
 * \test STATIC_WeldDetexApprox,_WeldDetexApprox_1
 * \brief Tests main procedre from static lib
@@ -128,7 +152,7 @@ TEST(STATIC_WeldDetexApprox,DISABLED__WeldDetexApprox_1)
 * \author PB
 * \date 2014/10/21
 */
-TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_2)
+TEST(STATIC_WeldDetexApprox,DISABLED__WeldDetexApprox_2)
 {
 	C_Matrix_Container *rtg;
 	C_LinearWeld *obj;
@@ -145,9 +169,9 @@ TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_2)
 	rtg->ReadBinary("testimag2.dat");
 	obj = new C_LinearWeld(rtg);
 
-	C_LineWeldApprox::setDefaultParams(45000,60,0,0,
-		65535,120,1,70000,
-		0,30,-1,-20000);
+	C_LineWeldApprox::setDefaultParams(20000,60,0,0,
+		65535,300,1,70000,
+		0,10,-1,-20000);
 	C_Point cp_x_start(10,0);	// punkt startowy
 	obj->SetProcedureParameters(100,cp_x_start); // inicjalizacja srodowiska, wielkosc bufora 100
 	ret = obj->Start(4,0);	// krok
@@ -181,21 +205,21 @@ TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_2)
 }
 
 /**
-* \test STATIC_WeldDetexApprox,_WeldDetexApprox_7
+* \test STATIC_WeldDetexApprox,_WeldDetexApprox_16
 * \brief Tests main procedre from static lib. Uses WSK sample. Use the following method for example generation:
 * \code {.unparsed}
 * load originals.mat
 * originals{2} = imcrop(originals{2},[2346.5 778.5 3840 1032]); // z f:\Dokumenty\Dysk Google\Praca\Granty\CASELOT
 * savebinarymatrix(originals{2},'testimag2.dat')
 * \endcode
-* \pre Image \c testimag7.dat
-* \post File \c WeldDetectApprox_7.out
+* \pre Image \c testimag16.dat
+* \post File \c WeldDetectApprox_16.out
 * \see verify.m for result verification
 * \note Uses parameters for WSK dataset
 * \author PB
 * \date 2014/10/24
 */
-TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_7)
+TEST(STATIC_WeldDetexApprox,DISABLED__WeldDetexApprox_16)
 {
 	C_Matrix_Container *rtg;
 	C_LinearWeld *obj;
@@ -207,14 +231,14 @@ TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_7)
 	bool data;
 	C_WeldPos wp;
 
-	C_MatlabExchange dump("WeldDetectApprox_7.out");
+	C_MatlabExchange dump("WeldDetectApprox_16.out");
 	rtg = new C_Matrix_Container();
-	rtg->ReadBinary("testimag7.dat");
+	rtg->ReadBinary("testimag16.dat");
 	obj = new C_LinearWeld(rtg);
 
-	C_LineWeldApprox::setDefaultParams(45000,60,0,0,
-		65535,120,1,70000,
-		0,30,-1,-20000);
+	C_LineWeldApprox::setDefaultParams(17000,60,0,31000,
+		65535,340,1,70000,
+		0,10,-1,-20000);
 	C_Point cp_x_start(10,0);	// punkt startowy
 	obj->SetProcedureParameters(100,cp_x_start); // inicjalizacja srodowiska, wielkosc bufora 100
 	ret = obj->Start(4,0);	// krok

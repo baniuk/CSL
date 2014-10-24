@@ -10,7 +10,7 @@
 #include "C_WeldlineDetect.h"
 
 /// maksymalny błąd aproxymacji który jest akceptowany. Powyżej tego błędu dane są odrzucane
-#define MAX_ERROR_LEVEL 90000
+#define MAX_ERROR_LEVEL 150000
 /// ile rpocent wysokości spawu to brzeg
 #define WELD_EDGE 0.2
 
