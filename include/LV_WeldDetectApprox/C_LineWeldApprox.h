@@ -15,12 +15,6 @@
 #define SAFE_DELETE(p)       { if(p) { delete (p);     (p)=NULL; } }
 #endif
 
-static struct ApproxParam
-{
-	double p[5];
-	double ub[5];
-	double lb[5];
-} approxParam;
 /**
 * \struct ApproxParam
 * \brief Holds static parameters for procedure

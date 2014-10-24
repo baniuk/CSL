@@ -49,7 +49,6 @@ void C_LinearWeld::SetProcedureParameters(unsigned int _k, C_Point _StartPoint)
 		interp_lines->BuffInit(k);
 		recalculated_approx_data->BuffInit(k);
 	}
-	C_LineWeldApprox::setDefaultParams();
 	_RPT5(_CRT_WARN,"\t\tk=%.3lf, P0[%.1lf;%.1lf] P1[%.1lf;%.1lf]",k,P0.getX(),P0.getY(),P1.getX(),P1.getY());
 	_RPT0(_CRT_WARN,"\tLeaving C_LinearWeld::SetProcedureParameters\n");
 }
