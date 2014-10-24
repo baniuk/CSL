@@ -7,6 +7,8 @@
 
 /** \mainpage LabView DLL tools
 *
+* \section CASELOT CASELOT General
+* \copydoc md_C:_Users_Piotr_Documents_Projekty_CASELOT_README
 * \section Outputs
 * \subsection Definicje
 * -# definitions.h - \copybrief definitions.h

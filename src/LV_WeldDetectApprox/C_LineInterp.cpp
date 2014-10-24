@@ -71,6 +71,7 @@ C_LineInterp::~C_LineInterp()
 * \param[in] _P0 punkt początkowy
 * \param[in] _P1 punkt końcowy
 * \param[in] _Np ilość punktów pomiędzy <P0;P1>
+* \param[out] _image matrix of interpolation coefficients, constatnt for given radiogram
 * \return Jeśli P0 i P1 nie leżą na linii to zwraca false i wartości w _out są nieokreślone
 * \warning Funkcja modyfikuje tablice image
 */
