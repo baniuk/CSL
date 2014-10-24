@@ -1,10 +1,15 @@
 %% test LV_WeldDetect
 % Weryfikuje wyjœcie z testów
+% sprawdzanie czy wyniki sa w debug czy w g³ównym katalogu - zalezy czy
+% by³o budowane z VC czy z CMD
+
 
 % Wyniki testu
 p  = '..\..\bin\tests\LV_WeldDetectApprox\';
-if exist(p,'dir')~=7
-    error('Nie mo¿na znlaeœc folderu z testem')
+if exist([p 'Debug\'],'dir')==7
+    fprintf('------ Uwaga istnieje kalaog Debug - build z VC --------\n');
+    fprintf('Jeœli nie to skasuj katalog Debug\n');
+    p = [p 'Debug\'];
 end
 %% TEST STATIC_WeldDetexApprox._WeldDetexApprox_1
 
