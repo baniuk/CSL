@@ -8,6 +8,7 @@ The project is maintained by cmake and can be compiled in various ways. It is co
 
 ### Requirements ###
 This project depends on:
+
  1. Google test API - which is included as **ExternalProject** and can be obtained in two ways:
   * Automatically by *cmake*  checking out from repository http://googletest.googlecode.com/svn/trunk/
   * Using local hard copy of this repo in case of working off-line. To use hard copy of *gtest* the repository must be manually cloned into `External_dep/gtest` and environmental variable `GTest_SVN_REPOSITORY` must be set to **any** value.
@@ -25,6 +26,7 @@ This project depends on:
 
 ### Build ###   
 The following scripts available:
+
  * `./clean-build.bat` - clears everything and run cmake and then make, results are in `bin` and `lib`. Runs also all tests
  * `./recreate-msvc.bat` - deletes all cmake outputs and generates MSVC projects and solution in `bin`
  * `./recreate-cmake.bat` - deletes all cmake outputs and generates MSVC makefiles in `bin`
