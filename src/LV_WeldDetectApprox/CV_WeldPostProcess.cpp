@@ -17,7 +17,7 @@ d
 * \return
 * \author PB
 * \date 2014/10/28
-* \warning
+* \warning Mo¿e generowac b³edne obrazy jeœli pierwszy lub ostatni punkt w spawie bedzie z³y. Dope³nianie do brzegow nie sprawdza czy te punkty s¹ poprawne
 */
 void fillWeldShape(const vector<C_WeldPos>* _weldpos, const std::vector<bool>* _lineOK, UINT16 nrows, UINT16 ncols)
 {
@@ -27,6 +27,9 @@ void fillWeldShape(const vector<C_WeldPos>* _weldpos, const std::vector<bool>* _
 
 	Mat image(nrows,ncols, CV_16U, Scalar(0)); // obraz wynikowy z wype³nionym spawem
 
+	// pierwszy punkt x=0, y=yG
+	wp = _weldpos->at(0);
+	weldShape.push_back(Point(0, static_cast<int>(wp.G.getY())));
 	for(size_t l=0;l<_lineOK->size();++l)
 	{
 		data = _lineOK->at(l);
@@ -34,20 +37,26 @@ void fillWeldShape(const vector<C_WeldPos>* _weldpos, const std::vector<bool>* _
 		{
 			wp = _weldpos->at(l);
 			// punkty po kolei
-			weldShape.push_back(Point(wp.G.getX(), wp.G.getY()));		// punkty górne (zgodnie ze wskazówkami zegara
+			weldShape.push_back(Point(static_cast<int>(wp.G.getX()),static_cast<int>(wp.G.getY())));		// punkty górne (zgodnie ze wskazówkami zegara
 		}
 	}
+	// ostatni na górze
+	weldShape.push_back(Point(ncols-1, static_cast<int>(wp.G.getY())));
 	// punkty dolne od ty³u
-	for(size_t l=_lineOK->size()-1; l>=0; --l)
+	// pierwszy punkt na dole od prawej x=ncols-1, y=yD
+	wp = _weldpos->at(_lineOK->size()-1);
+	weldShape.push_back(Point(ncols-1, static_cast<int>(wp.D.getY())));
+	for(long l=_lineOK->size()-1; l>=0; --l)
 	{
 		data = _lineOK->at(l);
 		if(data)
 		{
 			wp = _weldpos->at(l);
-			weldShape.push_back(Point(wp.D.getX(), wp.D.getY()));
+			weldShape.push_back(Point(static_cast<int>(wp.D.getX()), static_cast<int>(wp.D.getY())));
 		}
 	}
-
+	// ostatni po lewej na dole
+	weldShape.push_back(Point(0, static_cast<int>(wp.D.getY())));
 	vector<vector<Point>> fillContAll;
 	fillContAll.push_back(weldShape);
 	cv::fillPoly( image, fillContAll, cv::Scalar(65535));

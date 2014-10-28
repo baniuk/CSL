@@ -13,6 +13,15 @@ configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/testimag7.dat
 configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/testimag16.dat 
 				${CMAKE_CURRENT_BINARY_DIR}/testimag16.dat
 				COPYONLY)
+configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/D_WeldDetexApprox_1.dat
+				${CMAKE_CURRENT_BINARY_DIR}/D_WeldDetexApprox_1.dat
+				COPYONLY)
+configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/G_WeldDetexApprox_1.dat
+				${CMAKE_CURRENT_BINARY_DIR}/G_WeldDetexApprox_1.dat
+				COPYONLY)
+configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/lineok_WeldDetexApprox_1.dat
+				${CMAKE_CURRENT_BINARY_DIR}/lineok_WeldDetexApprox_1.dat
+				COPYONLY)
 
 project(${LOCAL_PROJECT_NAME})
 

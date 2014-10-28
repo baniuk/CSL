@@ -96,3 +96,11 @@ max(paramEstimationImage(:,11))
 median(paramEstimationImage(:,11))
 %% TEST STATIC_WeldPostProcess, _getRawPointer
 ImportDumpFile([p 'weldpostprocess.out']);imshow(fillpolygon,[])
+%% TEST STATIC_WeldPostProcess, _getRawPointer
+% przygotowanie danych - uruchomiæ TEST STATIC_WeldDetexApprox._WeldDetexApprox_1
+ImportDumpFile([p 'WeldDetectApprox_1.out']);
+D = weldpos(1:2,:)';
+S = weldpos(3:4,:)';
+G = weldpos(5:6,:)';
+% ExportArrayToFile('D_WeldDetexApprox_1.dat',D);
+% ExportArrayToFile('G_WeldDetexApprox_1.dat',G);
