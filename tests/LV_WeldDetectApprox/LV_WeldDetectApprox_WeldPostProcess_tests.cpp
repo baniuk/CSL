@@ -11,7 +11,7 @@
 #include "MatlabExchange/C_MatlabExchange.hpp"
 
 /**
-* \test WeldPostProcess, _getRawPointer
+* \test STATIC_WeldPostProcess, _getRawPointer
 * \brief Gets raw pointer from OpenCV structures
 * \details Creates simple OpenCV image and then saves it as Matlab data
 * \pre -
@@ -19,7 +19,7 @@
 * \author PB
 * \date 2014/10/28
 */
-TEST(WeldPostProcess, _getRawPointer)
+TEST(STATIC_WeldPostProcess, _getRawPointer)
 {
 	// obraz testowy
 	Mat image(100,100, CV_16U, Scalar(0));

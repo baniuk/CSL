@@ -18,8 +18,40 @@ d
 * \author PB
 * \date 2014/10/28
 * \warning
-*/void fillWeldShape(UINT16** data, unsigned int& rows, unsigned int& cols)
+*/
+void fillWeldShape(const vector<C_WeldPos>* _weldpos, const std::vector<bool>* _lineOK, UINT16 nrows, UINT16 ncols)
 {
+	bool data;
+	C_WeldPos wp;
+	vector<cv::Point> weldShape;	// zarys spawu
+
+	Mat image(nrows,ncols, CV_16U, Scalar(0)); // obraz wynikowy z wype³nionym spawem
+
+	for(size_t l=0;l<_lineOK->size();++l)
+	{
+		data = _lineOK->at(l);
+		if(data)				// dobra linia
+		{
+			wp = _weldpos->at(l);
+			// punkty po kolei
+			weldShape.push_back(Point(wp.G.getX(), wp.G.getY()));		// punkty górne (zgodnie ze wskazówkami zegara
+		}
+	}
+	// punkty dolne od ty³u
+	for(size_t l=_lineOK->size()-1; l>=0; --l)
+	{
+		data = _lineOK->at(l);
+		if(data)
+		{
+			wp = _weldpos->at(l);
+			weldShape.push_back(Point(wp.D.getX(), wp.D.getY()));
+		}
+	}
+
+	vector<vector<Point>> fillContAll;
+	fillContAll.push_back(weldShape);
+	cv::fillPoly( image, fillContAll, cv::Scalar(65535));
+	cv::imwrite("filled_weld.png", image);
 }
 
 /**
