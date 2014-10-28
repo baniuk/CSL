@@ -94,3 +94,5 @@ end
 ImportDumpFile([p 'ParamEstimation_1.out']);
 max(paramEstimationImage(:,11))
 median(paramEstimationImage(:,11))
+%% TEST STATIC_WeldPostProcess, _getRawPointer
+ImportDumpFile([p 'weldpostprocess.out']);imshow(fillpolygon,[])

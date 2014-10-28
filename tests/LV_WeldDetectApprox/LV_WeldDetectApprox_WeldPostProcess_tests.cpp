@@ -35,14 +35,12 @@ TEST(WeldPostProcess, _getRawPointer)
 	cv::imwrite("test.png", image);
 
 	// konversja i nagrywanie
-	UINT16* outImage;
+	std::unique_ptr<UINT16[]> outImage;
 	UINT16 rows, cols;
 	retCode ret;
-	ret = getRawPointer(image, &outImage, rows, cols);
+	ret = getRawPointer(image, outImage, rows, cols);
 	ASSERT_EQ(ret, LV_OK);
 
 	C_MatlabExchange dump("weldpostprocess.out");
-	dump.AddEntry2D<UINT16>(outImage, rows, cols,"fillpolygon");
-
-	delete[] outImage;
+	dump.AddEntry2D<UINT16>(outImage.get(), rows, cols,"fillpolygon");
 }

@@ -35,9 +35,8 @@ d
 * \date 2014/10/28
 * \warning Mximum image dimmensions less than UINT16
 */
-retCode getRawPointer(const cv::Mat& image, UINT16** p_raw, UINT16& rows, UINT16& cols)
+retCode getRawPointer(const cv::Mat& image, unique_ptr<UINT16[]>& p_raw, UINT16& rows, UINT16& cols)
 {
-	_ASSERT(p_raw);
 	unsigned int _rows, _cols;
 	_rows = image.rows;
 	_cols = image.cols;
@@ -48,12 +47,12 @@ retCode getRawPointer(const cv::Mat& image, UINT16** p_raw, UINT16& rows, UINT16
 		rows = _rows;
 		cols = _cols;
 	}
-	*p_raw = new UINT16[rows*cols];
+	p_raw.reset(new UINT16[rows*cols]);
 	MatConstIterator_<UINT16> it, end;
 	size_t i=0;
 	for(it = image.begin<UINT16>(), end = image.end<UINT16>(); it!=end; ++it )
 	{
-		(*p_raw)[i++] = (UINT16)(*it);
+		p_raw[i++] = (UINT16)(*it);
 	}
 	return LV_OK;
 }

@@ -9,6 +9,7 @@
 
 #include <opencv2/opencv.hpp>
 #include "definitions.h"
+#include <memory>
 #include <climits>
 #include <crtdbg.h>
 
@@ -18,5 +19,5 @@ using namespace std;
 /// Fills shape of the weld
 void fillWeldShape(UINT16** data, unsigned int& rows, unsigned int& cols);
 /// Converts OpenCV image to raw table
-retCode getRawPointer(const cv::Mat& image, UINT16** p_raw, UINT16& rows, UINT16& cols);
+retCode getRawPointer(const cv::Mat& image, unique_ptr<UINT16[]>& p_raw, UINT16& rows, UINT16& cols);
 #endif // CV_WeldPostProcess_h__
