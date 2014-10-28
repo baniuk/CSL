@@ -42,6 +42,7 @@ ExternalProject_Add(	PBToolset
 						# Disable install step
 						TEST_BEFORE_INSTALL 1
 						INSTALL_COMMAND ""
+						UPDATE_COMMAND git pull
 						# Wrap download, configure and build steps in a script to log output
 						# LOG_DOWNLOAD ON
 					)		

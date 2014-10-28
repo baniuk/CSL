@@ -44,3 +44,31 @@ TEST(STATIC_WeldPostProcess, _getRawPointer)
 	C_MatlabExchange dump("weldpostprocess.out");
 	dump.AddEntry2D<UINT16>(outImage.get(), rows, cols,"fillpolygon");
 }
+
+TEST(STATIC_WeldPostProcess, _fillWeldShape)
+{
+	// wczytanie gotowych pozycji z C_WeldPos z przyk³adu 1
+	std::unique_ptr<double[]> D;
+	std::unique_ptr<double[]> G;
+	std::unique_ptr<double[]> lineok;
+	unsigned int rows, cols;
+	C_MatlabExchange::ReadData("D_WeldDetexApprox_1.dat", D, rows, cols);
+	C_MatlabExchange::ReadData("G_WeldDetexApprox_1.dat", G, rows, cols);
+	C_MatlabExchange::ReadData("lineok_WeldDetexApprox_1.dat", lineok, rows, cols);
+	// recreate C_WeldPos
+	std::vector<C_WeldPos> wp;
+	std::vector<bool> line;
+	C_WeldPos _wp;
+	bool _lineok;
+	for(size_t i=0,p=0;i<cols;++i,p+=2) // lineok jest wektorem ,wszedzie ta sama zmienna
+	{
+		_wp.G.setPoint(G[p], G[p+1]);
+		_wp.S.setPoint(0,0);
+		_wp.D.setPoint(D[p], D[p+1]);
+		_lineok = static_cast<bool>(lineok[i]);
+
+		wp.push_back(_wp);
+		line.push_back(_lineok);
+	}
+	fillWeldShape(&wp, &line, 1848, 4634);	// rozmiar testimag1
+}

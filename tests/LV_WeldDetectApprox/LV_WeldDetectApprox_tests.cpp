@@ -44,7 +44,7 @@ TEST(STATIC_ParamEstimation, _ParamEstimation_1)
 * \author PB
 * \date 2014/10/20
 */
-TEST(STATIC_WeldDetexApprox,DISABLED_WeldDetexApprox_1)
+TEST(STATIC_WeldDetexApprox, DISABLED__WeldDetexApprox_1)
 {
 	C_Matrix_Container *rtgtmp;
 	Matrix_Container rtg;
