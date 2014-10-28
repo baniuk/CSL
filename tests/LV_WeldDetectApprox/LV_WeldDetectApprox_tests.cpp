@@ -44,7 +44,7 @@ TEST(STATIC_ParamEstimation, _ParamEstimation_1)
 * \author PB
 * \date 2014/10/20
 */
-TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_1)
+TEST(STATIC_WeldDetexApprox,DISABLED_WeldDetexApprox_1)
 {
 	C_Matrix_Container *rtgtmp;
 	Matrix_Container rtg;
@@ -118,7 +118,7 @@ TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_1)
 * \author PB
 * \date 2014/10/21
 */
-TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_2)
+TEST(STATIC_WeldDetexApprox,DISABLED__WeldDetexApprox_2)
 {
 	C_Matrix_Container *rtgtmp;
 	Matrix_Container rtg;
@@ -192,7 +192,7 @@ TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_2)
 * \author PB
 * \date 2014/10/24
 */
-TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_16)
+TEST(STATIC_WeldDetexApprox,DISABLED__WeldDetexApprox_16)
 {
 	C_Matrix_Container *rtgtmp;
 	Matrix_Container rtg;

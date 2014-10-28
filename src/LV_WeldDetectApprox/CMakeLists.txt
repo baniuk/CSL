@@ -35,6 +35,8 @@ add_library(${LOCAL_PROJECT_NAME}_static STATIC
 			C_WeldPos.cpp ${INC_DIR}/C_WeldPos.h
 			${INC_DIR}/C_CircBuff.h
 			ParamEstimation.cpp ${INC_DIR}/ParamEstimation.h)
+add_library(${LOCAL_PROJECT_NAME}_WeldPostProcess_static STATIC 
+			CV_WeldPostProcess.cpp ${INC_DIR}/CV_WeldPostProcess.h)			
 target_link_libraries(	${LOCAL_PROJECT_NAME}_static
 						${CMAKE_SOURCE_DIR}/lib/Geom${CMAKE_FIND_LIBRARY_SUFFIXES}
 						${CMAKE_SOURCE_DIR}/lib/levmar${CMAKE_FIND_LIBRARY_SUFFIXES}
@@ -42,12 +44,14 @@ target_link_libraries(	${LOCAL_PROJECT_NAME}_static
 						${CMAKE_SOURCE_DIR}/lib/blas${CMAKE_FIND_LIBRARY_SUFFIXES}
 						${CMAKE_SOURCE_DIR}/lib/tmglib${CMAKE_FIND_LIBRARY_SUFFIXES}
 						${CMAKE_SOURCE_DIR}/lib/lapack${CMAKE_FIND_LIBRARY_SUFFIXES})
+# linkowanie OpenCV
+target_link_libraries(${LOCAL_PROJECT_NAME}_WeldPostProcess_static ${OpenCV_LIBS})
 # budowanie DLL (linkuje static)
 add_library(${LOCAL_PROJECT_NAME} SHARED 
 			dllmain.cpp LV_WeldDetectApprox_DLL_Wrapper.cpp
 			${CMAKE_CURRENT_BINARY_DIR}/resources.rc
 			${INC_DIR}/LV_WeldDetectApprox_DLL_Wrapper.h)
-target_link_libraries(${LOCAL_PROJECT_NAME} setError ${LOCAL_PROJECT_NAME}_static)
+target_link_libraries(${LOCAL_PROJECT_NAME} setError ${LOCAL_PROJECT_NAME}_static ${LOCAL_PROJECT_NAME}_WeldPostProcess_static)
 
 add_dependencies(${LOCAL_PROJECT_NAME} setError PBToolset)
 
