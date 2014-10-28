@@ -12,12 +12,13 @@
 #include <memory>
 #include <climits>
 #include <crtdbg.h>
+#include "LV_WeldDetectApprox/C_LinearWeld.h"
 
 using namespace cv;
 using namespace std;
 
 /// Fills shape of the weld
-void fillWeldShape(UINT16** data, unsigned int& rows, unsigned int& cols);
+void fillWeldShape(const vector<C_WeldPos>* _weldpos, const std::vector<bool>* _lineOK, UINT16 nrows, UINT16 ncols);
 /// Converts OpenCV image to raw table
 retCode getRawPointer(const cv::Mat& image, unique_ptr<UINT16[]>& p_raw, UINT16& rows, UINT16& cols);
 #endif // CV_WeldPostProcess_h__
