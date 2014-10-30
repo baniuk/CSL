@@ -12,6 +12,7 @@
 #include "Geom/C_Point.h"
 #include "LV_WeldDetectApprox/ParamEstimation.h"
 #include "LV_WeldDetectApprox/C_LinearWeld.h"
+#include "LV_WeldDetectApprox/CV_WeldPostProcess.h"
 #include <memory>
 
 /**
@@ -37,6 +38,8 @@ extern "C" __declspec(dllexport) retCode LV_WeldDetectApprox(	const UINT16* inpu
 	_ASSERT(output_image);
 	UINT16 A, E;
 	Matrix_Container rtg;	// temporary object for compatibility
+	const std::vector<bool> *_lineOK;	// outputs
+	const std::vector<C_WeldPos> *_weldPos;
 	// possible external params
 	const UINT16 start_x_point = 10;
 	const UINT16 buffor_size = 100;	// wielkość bufora
@@ -62,5 +65,13 @@ extern "C" __declspec(dllexport) retCode LV_WeldDetectApprox(	const UINT16* inpu
 	if(obj->Start(step, 0)==false)
 		return setError::throwError("Detekcja linii spawu zakkonczona niepowodzeniem", &errDesc);
 
+	_lineOK = obj->getLineOK();
+	_weldPos = obj->getweldPos();
+
+	cv::Mat cvimage(rtg._rows, rtg._cols, CV_16U, output_image);// rozmiar
+	cvimage = cv::Scalar(0);
+	fillWeldShape(_weldPos, _lineOK, cvimage);
+
+	delete[] image;
 	return retCode::LV_OK;
 }
