@@ -506,7 +506,6 @@ void C_LinearWeld::evalWeldPos( const C_LineWeldApprox *_approx, const C_LineInt
 * Oblicza pozycję spawu.
 * \param[in] _approx Wskaźnik do obiektu z aproksymacją linii
 * \param[in] _interp Wskaźnik do obietu z interpolacją danych
-* \param[in] _pre przeliczone dane z aproxymacji - celem przyspieszenia
 * \param[out] _weldPos Dane o pozycji spawu
 * \warning Dla inne,go przypdku aproxymacji należy sprwdzać czy prosta intepolacyjna była pionowa i odpowiednio brać dane x albo y do evaluacji wartości w klasie C_LineWeldApprox. Funkcja zakłąda ze dane _approx oraz _interp są spójne, tzn dotyczą tej samej linii obrazu
 * \obsolete Wersja nie używająca przeliczonych wartości funkcji aproxymacyjnej - wolniejsza
@@ -577,6 +576,7 @@ void C_LinearWeld::evalWeldPos( const C_LineWeldApprox *_approx, const C_LineInt
 			SAFE_DELETE(indexy);
 			_RPT0(_CRT_WARN,"\tLeaving C_LinearWeld::evalWeldPos\n");
 }
+
 /** \example WeldDetecApprox_example.cpp
 * Przykład użycia klasy
 */
