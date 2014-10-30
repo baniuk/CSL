@@ -18,7 +18,7 @@ using namespace cv;
 using namespace std;
 
 /// Fills shape of the weld
-void fillWeldShape(const vector<C_WeldPos>* _weldpos, const std::vector<bool>* _lineOK, UINT16 nrows, UINT16 ncols);
+void fillWeldShape(const vector<C_WeldPos>* _weldpos, const std::vector<bool>* _lineOK, cv::Mat& image);
 /// Converts OpenCV image to raw table
 retCode getRawPointer(const cv::Mat& image, unique_ptr<UINT16[]>& p_raw, UINT16& rows, UINT16& cols);
 #endif // CV_WeldPostProcess_h__

@@ -45,6 +45,18 @@ TEST(STATIC_WeldPostProcess, _getRawPointer)
 	dump.AddEntry2D<UINT16>(outImage.get(), rows, cols,"fillpolygon");
 }
 
+/**
+* \test STATIC_WeldPostProcess, _fillWeldShape
+* \brief Fills weld line
+* \details Runs \c fillWeldShape method to obtain filled weld shape. First preapare test data reading them from disk and previous tests
+* \pre Output data from WeldDetectApprox_1 test with C_WeldPos structures
+* \li D_WeldDetexApprox_1.dat
+* \li G_WeldDetexApprox_1.dat
+* \li lineok_WeldDetexApprox_1.dat
+* \post image \c filled_weld.png
+* \author PB
+* \date 2014/10/30
+*/
 TEST(STATIC_WeldPostProcess, _fillWeldShape)
 {
 	// wczytanie gotowych pozycji z C_WeldPos z przyk³adu 1
@@ -70,5 +82,8 @@ TEST(STATIC_WeldPostProcess, _fillWeldShape)
 		wp.push_back(_wp);
 		line.push_back(_lineok);
 	}
-	fillWeldShape(&wp, &line, 1848, 4634);	// rozmiar testimag1
+
+	cv::Mat image(1848, 4634, CV_16U, Scalar(0));// rozmiar testimag1
+	fillWeldShape(&wp, &line, image);
+	cv::imwrite("filled_weld.png", image);
 }

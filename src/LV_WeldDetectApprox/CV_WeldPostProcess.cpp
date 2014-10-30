@@ -8,24 +8,27 @@
 #include "LV_WeldDetectApprox/CV_WeldPostProcess.h"
 
 /**
-* \brief Wype³nia kszta³t spawu
-* \details
-* \param[in]
-* \param[out]
-d
-* \retval \c retCode
-* \return
+* \brief Fills shape of the weld line
+* \details Basing on data returned from weld detection procedure performs filling the weld shape defined as set of edge points.
+* \param[in] _weldpos Vector of \c C_WeldPos classes contianing positions of upper, lower and middle point of weld in single column of image
+* \param[in] _lineOK Vector validating data in \c _weldpos
+* \param[out] image Image of weld. This struct must be initialized outside of the \c fillWeldShape and have proper size equal to size of the radiogram
+* \retval \c void
 * \author PB
-* \date 2014/10/28
-* \warning Mo¿e generowac b³edne obrazy jeœli pierwszy lub ostatni punkt w spawie bedzie z³y. Dope³nianie do brzegow nie sprawdza czy te punkty s¹ poprawne
+* \date 2014/10/30
 */
-void fillWeldShape(const vector<C_WeldPos>* _weldpos, const std::vector<bool>* _lineOK, UINT16 nrows, UINT16 ncols)
+void fillWeldShape(const vector<C_WeldPos>* _weldpos, const std::vector<bool>* _lineOK, cv::Mat& image)
 {
+	if(image.empty())
+		_RPT0(_CRT_ASSERT, "Input image is empty - it must be allocated first");
+
 	bool data;
 	C_WeldPos wp;
 	vector<cv::Point> weldShape;	// zarys spawu
+	unsigned int ncols, nrows;
 
-	Mat image(nrows,ncols, CV_16U, Scalar(0)); // obraz wynikowy z wype³nionym spawem
+	ncols = image.cols;
+	nrows = image.rows;
 
 	// pierwszy punkt x=0, y=yG
 	wp = _weldpos->at(0);
@@ -60,7 +63,6 @@ void fillWeldShape(const vector<C_WeldPos>* _weldpos, const std::vector<bool>* _
 	vector<vector<Point>> fillContAll;
 	fillContAll.push_back(weldShape);
 	cv::fillPoly( image, fillContAll, cv::Scalar(65535));
-	cv::imwrite("filled_weld.png", image);
 }
 
 /**
