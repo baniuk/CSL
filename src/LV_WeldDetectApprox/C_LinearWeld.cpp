@@ -60,7 +60,7 @@ void C_LinearWeld::SetProcedureParameters(unsigned int _k, C_Point _StartPoint)
 * \param[in] weld_edge Ile procent wysokości spawu to brzeg, domyślnie to warość \c WELD_EDGE
 * \return OK jeśli udało się zakończyć, BLAD jeśli wystapił błąd. BLAD jest zwracany jesli nie uda sie stworzyc bufora lub krok było równy 0
 */
-bool C_LinearWeld::Start(unsigned int step,unsigned int ile, double weld_edge=WELD_EDGE)
+bool C_LinearWeld::Start(unsigned int step,unsigned int ile, double weld_edge)
 {
 	this->weld_edge = weld_edge;
 	// bierząca pozycja spawu w przestrzeni obrazka
