@@ -39,15 +39,15 @@ TEST(STATIC_ParamEstimation, _ParamEstimation_1)
 * \test STATIC_WeldDetexApprox,_WeldDetexApprox_1
 * \brief Tests main procedre from static lib. The use of method is in examples: WeldDetecApprox_example.cpp
 * \details Use \c weld_edge=0.2
-* \pre Image \c testimag1.dat
-* \post File \c WeldDetectApprox_1.out
+* \pre Image \c testimag7.dat
+* \post File \c WeldDetectApprox_7.out
 * \see verify.m for result verification
 * \author PB
 * \date 2014/10/20
 */
-TEST(STATIC_WeldDetexApprox, _WeldDetexApprox_1)
+TEST(STATIC_WeldDetexApprox, _WeldDetexApprox_7)
 {
-	C_Matrix_Container *rtgtmp;
+	std::unique_ptr<double[]> rtgtmp_data;
 	Matrix_Container rtg;
 	C_LinearWeld *obj;
 	bool ret;
@@ -58,20 +58,17 @@ TEST(STATIC_WeldDetexApprox, _WeldDetexApprox_1)
 	bool data;
 	C_WeldPos wp;
 
-	C_MatlabExchange dump("WeldDetectApprox_1.out");
-	rtgtmp = new C_Matrix_Container();
-	rtgtmp->ReadBinary("testimag1.dat");
+	C_MatlabExchange dump("WeldDetectApprox_7.out");
+	C_MatlabExchange::ReadData("testimag7.dat",rtgtmp_data,rtg._rows, rtg._cols);
 	// convert to internal struct
-	rtg.data = rtgtmp->data;
-	rtg._cols = rtgtmp->_cols;
-	rtg._rows = rtgtmp->_rows;
+	rtg.data = rtgtmp_data.get();
 	obj = new C_LinearWeld(&rtg);
 
 	double A, E;
 	C_Point cp_x_start(10,0);	// punkt startowy
 	ParamEstimation<double>(rtg.data, rtg._cols, rtg._rows, (unsigned int)cp_x_start.getX(), A ,E); // punkt startowy
 	C_LineWeldApprox::setDefaultParams(A,60,0,E,
-		65535,600,1,20000,
+		65535,600,1,70000,
 		0,50,-1,-20000);
 	obj->SetProcedureParameters(50,cp_x_start); // inicjalizacja srodowiska, wielkosc bufora 100
 	ret = obj->Start(4,0,0.2);	// krok
@@ -100,7 +97,6 @@ TEST(STATIC_WeldDetexApprox, _WeldDetexApprox_1)
 	dump.AddEntry2D<double>(lineok.data, lineok._rows, lineok._cols, "lineok");
 	dump.AddEntry2D<double>(weldpos.data, weldpos._rows, weldpos._cols, "weldpos");
 
-	delete rtgtmp;
 	delete obj;
 }
 
@@ -110,7 +106,7 @@ TEST(STATIC_WeldDetexApprox, _WeldDetexApprox_1)
 * \code {.unparsed}
 * load originals.mat
 * originals{2} = imcrop(originals{2},[2346.5 778.5 3840 1032]); // z f:\Dokumenty\Dysk Google\Praca\Granty\CASELOT
-* savebinarymatrix(originals{2},'testimag2.dat')
+* ExportArrayToFile(originals{2},'testimag2.dat')
 * \endcode
 * \details Use \c weld_edge=0.4
 * \pre Image \c testimag2.dat
@@ -122,7 +118,7 @@ TEST(STATIC_WeldDetexApprox, _WeldDetexApprox_1)
 */
 TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_2)
 {
-	C_Matrix_Container *rtgtmp;
+	std::unique_ptr<double[]> rtgtmp_data;
 	Matrix_Container rtg;
 	C_LinearWeld *obj;
 	bool ret;
@@ -134,13 +130,10 @@ TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_2)
 	C_WeldPos wp;
 
 	C_MatlabExchange dump("WeldDetectApprox_2.out");
-	rtgtmp = new C_Matrix_Container();
-	rtgtmp->ReadBinary("testimag2.dat");
+	C_MatlabExchange::ReadData("testimag2.dat",rtgtmp_data,rtg._rows, rtg._cols);
 	// convert to internal struct
-	rtg.data = rtgtmp->data;
-	rtg._cols = rtgtmp->_cols;
-	rtg._rows = rtgtmp->_rows;
-	obj = new C_LinearWeld(&rtg);;
+	rtg.data = rtgtmp_data.get();
+	obj = new C_LinearWeld(&rtg);
 
 	double A, E;
 	C_Point cp_x_start(10,0);	// punkt startowy
@@ -175,7 +168,6 @@ TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_2)
 	dump.AddEntry2D<double>(lineok.data, lineok._rows, lineok._cols, "lineok");
 	dump.AddEntry2D<double>(weldpos.data, weldpos._rows, weldpos._cols, "weldpos");
 
-	delete rtgtmp;
 	delete obj;
 }
 
@@ -185,9 +177,9 @@ TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_2)
 * \code {.unparsed}
 * load originals.mat
 * originals{2} = imcrop(originals{2},[2346.5 778.5 3840 1032]); // z f:\Dokumenty\Dysk Google\Praca\Granty\CASELOT
-* savebinarymatrix(originals{2},'testimag2.dat')
+* ExportArrayToFile(originals{2},'testimag2.dat')
 * \endcode
-* \details Use \c weld_edge=0.6
+* \details Use \c weld_edge=0.8
 * \pre Image \c testimag16.dat
 * \post File \c WeldDetectApprox_16.out
 * \see verify.m for result verification
@@ -197,7 +189,7 @@ TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_2)
 */
 TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_16)
 {
-	C_Matrix_Container *rtgtmp;
+	std::unique_ptr<double[]> rtgtmp_data;
 	Matrix_Container rtg;
 	C_LinearWeld *obj;
 	bool ret;
@@ -209,12 +201,9 @@ TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_16)
 	C_WeldPos wp;
 
 	C_MatlabExchange dump("WeldDetectApprox_16.out");
-	rtgtmp = new C_Matrix_Container();
-	rtgtmp->ReadBinary("testimag16.dat");
+	C_MatlabExchange::ReadData("testimag16.dat",rtgtmp_data,rtg._rows, rtg._cols);
 	// convert to internal struct
-	rtg.data = rtgtmp->data;
-	rtg._cols = rtgtmp->_cols;
-	rtg._rows = rtgtmp->_rows;
+	rtg.data = rtgtmp_data.get();
 	obj = new C_LinearWeld(&rtg);
 
 	double A, E;
@@ -250,6 +239,5 @@ TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_16)
 	dump.AddEntry2D<double>(lineok.data, lineok._rows, lineok._cols, "lineok");
 	dump.AddEntry2D<double>(weldpos.data, weldpos._rows, weldpos._cols, "weldpos");
 
-	delete rtgtmp;
 	delete obj;
 }
