@@ -154,7 +154,7 @@ median(paramEstimationImage(:,11))
 ImportDumpFile([p 'weldpostprocess.out']);imshow(fillpolygon,[])
 %% TEST DLL_Tests,_LV_WeldDetectApprox
 
-for a=2:21
+for a=1:21
     figure
     rtg1 = readbinarymatrix([p ['testimag' num2str(a) '.dat']]);
     ImportDumpFile([p ['DLL_testimag' num2str(a) '.dat.out']]);
