@@ -44,6 +44,7 @@ extern "C" __declspec(dllexport) retCode LV_WeldDetectApprox(	const UINT16* inpu
 	const UINT16 start_x_point = 10;
 	const UINT16 buffor_size = 100;	// wielkość bufora
 	const UINT16 step  = 4; // ktok analizy radiogramu
+	const double weld_edge = 0.2;
 
 	// settings temprary obj
 	// conversion for double is requid=red due to compatibility with old code
@@ -62,7 +63,7 @@ extern "C" __declspec(dllexport) retCode LV_WeldDetectApprox(	const UINT16* inpu
 		65535,340,1,70000,
 		0,10,-1,-20000); // setting up initial params
 	obj->SetProcedureParameters(buffor_size,cp_x_start); // initialize starting point and buffor size
-	if(obj->Start(step, 0)==false)
+	if(obj->Start(step, 0, weld_edge)==false)
 		return setError::throwError("Detekcja linii spawu zakkonczona niepowodzeniem", &errDesc);
 
 	_lineOK = obj->getLineOK();

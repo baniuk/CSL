@@ -73,7 +73,7 @@ TEST(STATIC_WeldDetexApprox, DISABLED__WeldDetexApprox_1)
 		65535,600,1,20000,
 		0,50,-1,-20000);
 	obj->SetProcedureParameters(50,cp_x_start); // inicjalizacja srodowiska, wielkosc bufora 100
-	ret = obj->Start(4,0);	// krok
+	ret = obj->Start(4,0,0.2);	// krok
 	ASSERT_TRUE(ret);
 
 	_lineOK = obj->getLineOK();
@@ -147,7 +147,7 @@ TEST(STATIC_WeldDetexApprox,DISABLED__WeldDetexApprox_2)
 		65535,300,1,70000,
 		0,10,-1,-20000);
 	obj->SetProcedureParameters(100,cp_x_start); // inicjalizacja srodowiska, wielkosc bufora 100
-	ret = obj->Start(4,0);	// krok
+	ret = obj->Start(4,0,0.2);	// krok
 	ASSERT_TRUE(ret);
 
 	_lineOK = obj->getLineOK();
@@ -221,7 +221,7 @@ TEST(STATIC_WeldDetexApprox,DISABLED__WeldDetexApprox_16)
 		65535,340,1,70000,
 		0,10,-1,-20000);
 	obj->SetProcedureParameters(100,cp_x_start); // inicjalizacja srodowiska, wielkosc bufora 100
-	ret = obj->Start(4,0);	// krok
+	ret = obj->Start(4,0,0.2);	// krok
 	ASSERT_TRUE(ret);
 
 	_lineOK = obj->getLineOK();
