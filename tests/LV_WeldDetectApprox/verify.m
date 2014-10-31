@@ -10,7 +10,7 @@ if exist([p 'Debug\'],'dir')~=7
     fprintf('------ Uwaga nie istnieje kalaog - zbuduj projekt --------\n');
 end
 %% TEST STATIC_WeldDetexApprox._WeldDetexApprox_1
-
+figure
 % dane wejœciowe
 rtg1 = readbinarymatrix([p 'testimag1.dat']);
 
@@ -37,7 +37,7 @@ for aa=1:length(lineok)
     end
 end
 %% TEST STATIC_WeldDetexApprox._WeldDetexApprox_2
-
+figure
 % dane wejœciowe
 rtg1 = readbinarymatrix([p 'testimag2.dat']);
 
@@ -64,7 +64,7 @@ for aa=1:length(lineok)
     end
 end
 %% TEST STATIC_WeldDetexApprox._WeldDetexApprox_16
-
+figure
 % dane wejœciowe
 rtg1 = readbinarymatrix([p 'testimag16.dat']);
 
@@ -104,3 +104,4 @@ S = weldpos(3:4,:)';
 G = weldpos(5:6,:)';
 % ExportArrayToFile('D_WeldDetexApprox_1.dat',D);
 % ExportArrayToFile('G_WeldDetexApprox_1.dat',G);
+% ExportArrayToFile('lineok_WeldDetexApprox_1.dat',lineok);

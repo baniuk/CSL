@@ -38,13 +38,14 @@ TEST(STATIC_ParamEstimation, _ParamEstimation_1)
 /**
 * \test STATIC_WeldDetexApprox,_WeldDetexApprox_1
 * \brief Tests main procedre from static lib. The use of method is in examples: WeldDetecApprox_example.cpp
+* \details Use \c weld_edge=0.2
 * \pre Image \c testimag1.dat
 * \post File \c WeldDetectApprox_1.out
 * \see verify.m for result verification
 * \author PB
 * \date 2014/10/20
 */
-TEST(STATIC_WeldDetexApprox, DISABLED__WeldDetexApprox_1)
+TEST(STATIC_WeldDetexApprox, _WeldDetexApprox_1)
 {
 	C_Matrix_Container *rtgtmp;
 	Matrix_Container rtg;
@@ -111,6 +112,7 @@ TEST(STATIC_WeldDetexApprox, DISABLED__WeldDetexApprox_1)
 * originals{2} = imcrop(originals{2},[2346.5 778.5 3840 1032]); // z f:\Dokumenty\Dysk Google\Praca\Granty\CASELOT
 * savebinarymatrix(originals{2},'testimag2.dat')
 * \endcode
+* \details Use \c weld_edge=0.4
 * \pre Image \c testimag2.dat
 * \post File \c WeldDetectApprox_2.out
 * \see verify.m for result verification
@@ -118,7 +120,7 @@ TEST(STATIC_WeldDetexApprox, DISABLED__WeldDetexApprox_1)
 * \author PB
 * \date 2014/10/21
 */
-TEST(STATIC_WeldDetexApprox,DISABLED__WeldDetexApprox_2)
+TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_2)
 {
 	C_Matrix_Container *rtgtmp;
 	Matrix_Container rtg;
@@ -147,7 +149,7 @@ TEST(STATIC_WeldDetexApprox,DISABLED__WeldDetexApprox_2)
 		65535,300,1,70000,
 		0,10,-1,-20000);
 	obj->SetProcedureParameters(100,cp_x_start); // inicjalizacja srodowiska, wielkosc bufora 100
-	ret = obj->Start(4,0,0.2);	// krok
+	ret = obj->Start(4,0,0.4);	// krok
 	ASSERT_TRUE(ret);
 
 	_lineOK = obj->getLineOK();
@@ -185,6 +187,7 @@ TEST(STATIC_WeldDetexApprox,DISABLED__WeldDetexApprox_2)
 * originals{2} = imcrop(originals{2},[2346.5 778.5 3840 1032]); // z f:\Dokumenty\Dysk Google\Praca\Granty\CASELOT
 * savebinarymatrix(originals{2},'testimag2.dat')
 * \endcode
+* \details Use \c weld_edge=0.6
 * \pre Image \c testimag16.dat
 * \post File \c WeldDetectApprox_16.out
 * \see verify.m for result verification
@@ -192,7 +195,7 @@ TEST(STATIC_WeldDetexApprox,DISABLED__WeldDetexApprox_2)
 * \author PB
 * \date 2014/10/24
 */
-TEST(STATIC_WeldDetexApprox,DISABLED__WeldDetexApprox_16)
+TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_16)
 {
 	C_Matrix_Container *rtgtmp;
 	Matrix_Container rtg;
@@ -221,7 +224,7 @@ TEST(STATIC_WeldDetexApprox,DISABLED__WeldDetexApprox_16)
 		65535,340,1,70000,
 		0,10,-1,-20000);
 	obj->SetProcedureParameters(100,cp_x_start); // inicjalizacja srodowiska, wielkosc bufora 100
-	ret = obj->Start(4,0,0.2);	// krok
+	ret = obj->Start(4,0,0.8);	// krok
 	ASSERT_TRUE(ret);
 
 	_lineOK = obj->getLineOK();
