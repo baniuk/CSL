@@ -11,8 +11,6 @@
 
 /// maksymalny błąd aproxymacji który jest akceptowany. Powyżej tego błędu dane są odrzucane
 #define MAX_ERROR_LEVEL 150000
-/// ile rpocent wysokości spawu to brzeg
-#define WELD_EDGE 0.2
 
 #ifndef BLAD
 #define BLAD false
@@ -35,7 +33,7 @@ public:
 	/// Funkcja inicjalizacyjna środowiska.
 	void SetProcedureParameters(unsigned int _k, C_Point _StartPoint);
 	/// główna funkcja startowa
-	bool Start(unsigned int step,unsigned int ile);
+	bool Start(unsigned int step,unsigned int ile, double weld_edge);
 	/// oblicza aprxymacje jednej linii
 	bool getOneApproxLine(C_WeldPos &weldpos);
 protected:
@@ -48,9 +46,7 @@ protected:
 	/// sprawdza poprawność uzyskanej aproxymacji/interpolacji
 	bool czyAccept(const C_LineWeldApprox *_approx, const C_LineInterp *_interp);
 	/// oblicza pozycję spawu dla linii pionowej i aproxymacji gaussLin
-	void evalWeldPos(const C_LineWeldApprox *_approx, const C_LineInterp *_interp,const double *_pre, C_WeldPos &_weldPos );
-	/// oblicza pozycję spawu dla linii pionowej i aproxymacji gaussLin
-	void evalWeldPos(const C_LineWeldApprox *_approx, const C_LineInterp *_interp, C_WeldPos &_weldPos );
+	void evalWeldPos(const C_LineWeldApprox *_approx, const C_LineInterp *_interp,const double *_pre, C_WeldPos &_weldPos);
 private:
 	/// pozycja startowa - dla spawów linowych jedynie kolumna - te punkty zmieniają się podczas działania algorytmu
 	C_Point P0;

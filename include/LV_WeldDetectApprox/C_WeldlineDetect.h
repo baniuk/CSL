@@ -18,6 +18,9 @@
 #include "C_WeldPos.h"
 #include "definitions.h" // for UINT16 CASELOT
 
+/// ile rpocent wysokości spawu to brzeg - parametr domyślny
+#define WELD_EDGE 0.2
+
 /**
 * \brief Simple struct for compatibility with C_MatrixContiner
 * \details The aim of this struct is to replace old C_MatrixContained class for easier compatibility with CASELOT
@@ -56,7 +59,7 @@ public:
 	/// ustawia parametry procedury i tworzy potrzebne struktury
 	virtual void SetProcedureParameters(unsigned int _k, C_Point _StartPoint)=0;
 	/// Znajduje profil spawu
-	virtual bool Start(unsigned int step,unsigned int ile)=0;
+	virtual bool Start(unsigned int step,unsigned int ile, double weld_edge)=0;
 	/// zwraca wyniki detekcji spawu
 	const vector<bool> *getLineOK() const { return lineOK; }
 	/// zwraca wyniki detekcji spawu
@@ -91,7 +94,6 @@ protected:
 	virtual bool czyAccept(const C_LineWeldApprox *_approx, const C_LineInterp *_interp) = 0;
 	/// funkcja oblicza pozycjespawu dla danej linii
 	virtual void evalWeldPos(const C_LineWeldApprox *_approx, const C_LineInterp *_interp, const double *_pre, C_WeldPos &_weldPos )=0;
-	/// funkcja oblicza pozycjespawu dla danej linii
-	virtual void evalWeldPos(const C_LineWeldApprox *_approx, const C_LineInterp *_interp, C_WeldPos &_weldPos )=0;
+	double weld_edge; /**< Pozycja spawu ustwiana podczas wywołania funkcji Start, domyślnie wartość WELD_EDGE */
 };
 #endif // C_WeldlineDetect_h__
