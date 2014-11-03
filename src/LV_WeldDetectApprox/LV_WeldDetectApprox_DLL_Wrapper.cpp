@@ -16,12 +16,13 @@
 #include <memory>
 
 /**
-* \brief Runs main procedure for werld detection
+* \brief Exported procedure for werld detection
 * \details Detect weld line on radiogram assuming that there are not white frames on image and weld line is moreless
-* in the centre part of image. Thicness of the line should be significally smaller than \c y size of the image.
-* \return operation status, LV_OK on success, LV_FAIL on:
+* in the centre part of image. Thicness of the line should be significally smaller than \c y size of the image. In this version there is no extensive
+* error checking. It can happen that when weld detection failed the procedure return invalid mask.
+* \return operation status, \c LV_OK on success, \c LV_FAIL is returned when the procedure failed on approximation.
 * \param[in] input_image 1D input image
-* \param[out] output_image	pointer to array of size of input image. It is binary mask with \c white weld line
+* \param[out] output_image	pointer to array of type \c UINT16 of size of input image. It is mask with \c white weld line
 * \param[in] nrows	number of rows (height) of input/output image
 * \param[in] ncols number of cols (width) of input/output image
 * \param[out] errDesc description of the error
