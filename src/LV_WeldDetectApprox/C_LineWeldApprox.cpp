@@ -99,6 +99,7 @@ int C_LineWeldApprox::getLineApprox(int _iter)
 * \return Number of iterations or -1 if failed
 * \warning Zawsze uzywane są parametry domyślne
 * \remarks Funkcja zrzuca dane wejściowe do dlevmar_bc_der do pliku o losowej nazwie
+* \bug Probably \c dlevmar_bc_der changes \c p table, copy is needed
 */
 int C_LineWeldApprox::getLineApproxGaussLinWeighted(int iter)
 {
@@ -123,7 +124,6 @@ int C_LineWeldApprox::getLineApproxGaussLinWeighted(int iter)
 	//	dump->AddEntry(X.x,len,"x");
 	//	SAFE_DELETE(dump);
 	//#endif
-
 	ret = dlevmar_bc_der(GaussLin,
 		jGaussLin,
 		p,

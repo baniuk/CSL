@@ -7,8 +7,9 @@
 */
 
 #include "LV_WeldDetectApprox\C_LinearWeld.h"
+#include "LV_WeldDetectApprox\ParamEstimation.h"
 
-C_LinearWeld::C_LinearWeld( const C_Matrix_Container *_rtg ) : C_WeldlineDetect(_rtg)
+C_LinearWeld::C_LinearWeld( const Matrix_Container *_rtg ) : C_WeldlineDetect(_rtg)
 {
 	interp_lines = new C_CircBuff<C_LineInterp>;
 	approx_results = new C_CircBuff<C_LineWeldApprox>;
@@ -49,7 +50,6 @@ void C_LinearWeld::SetProcedureParameters(unsigned int _k, C_Point _StartPoint)
 		interp_lines->BuffInit(k);
 		recalculated_approx_data->BuffInit(k);
 	}
-	C_LineWeldApprox::setDefaultParams();
 	_RPT5(_CRT_WARN,"\t\tk=%.3lf, P0[%.1lf;%.1lf] P1[%.1lf;%.1lf]",k,P0.getX(),P0.getY(),P1.getX(),P1.getY());
 	_RPT0(_CRT_WARN,"\tLeaving C_LinearWeld::SetProcedureParameters\n");
 }
@@ -57,10 +57,12 @@ void C_LinearWeld::SetProcedureParameters(unsigned int _k, C_Point _StartPoint)
 * Uruchamia właściwy proces wykrywnia spawu.
 * \param[in] step Krok z jakimjest wykrywaie spawu. Bufor zawsze jest ypełniany z krokiem 1
 * \param[in] ile Ile linii ma być aproxymowanych, jesli 0 to do końca spawu
+* \param[in] weld_edge Ile procent wysokości spawu to brzeg, domyślnie to warość \c WELD_EDGE
 * \return OK jeśli udało się zakończyć, BLAD jeśli wystapił błąd. BLAD jest zwracany jesli nie uda sie stworzyc bufora lub krok było równy 0
 */
-bool C_LinearWeld::Start(unsigned int step,unsigned int ile)
+bool C_LinearWeld::Start(unsigned int step,unsigned int ile, double weld_edge)
 {
+	this->weld_edge = weld_edge;
 	// bierząca pozycja spawu w przestrzeni obrazka
 	bool liniaok = OK;	// czy aproxymacja bierzacej lini zakończyła się sukcesem. Jeśli tak to została ona włączona do bufora i treba go przeliczyć. Jesli nie to nie ma takiej potrzeby
 	unsigned int ile_done=0;	// ile linii zostało już zaproxymowanych, liczą sięwszystkie nawet te złe
@@ -102,7 +104,7 @@ bool C_LinearWeld::Start(unsigned int step,unsigned int ile)
 		app->setApproxParmas(_p,_w,_ub,_lb,NULL);
 		// aproxymacja
 		/// \todo dodać tu sprawdzanie czy zwraca poprawną ilość iteracji
-		iter = app->getLineApprox(100);
+		iter = app->getLineApprox(150);
 		_RPT1(_CRT_WARN,"\t\tITER: %d",iter);
 #ifdef _DEBUG
 		const double *pdeb;pdeb = app->getApproxParams_p();
@@ -302,11 +304,16 @@ bool C_LinearWeld::evalNextParams()
 	int num_elrec = recalculated_approx_data->getNumElem(); // wielkość bufora
 	_ASSERT(num_el==num_elrec); // powinny być tego samemgo rozmiaru te bufory
 #endif
-	C_Matrix_Container a(1,num_el);
-	C_Matrix_Container b(1,num_el);
-	C_Matrix_Container c(1,num_el);
-	C_Matrix_Container d(1,num_el);
-	C_Matrix_Container e(1,num_el);
+	//	C_Matrix_Container a(1,num_el);
+	//	C_Matrix_Container b(1,num_el);
+	//	C_Matrix_Container c(1,num_el);
+	//	C_Matrix_Container d(1,num_el);
+	//	C_Matrix_Container e(1,num_el);
+	vector<double> a;
+	vector<double> b;
+	vector<double> c;
+	vector<double> d;
+	vector<double> e;
 	//	C_Image_Container waga;	// pomocniczy do skalowania wag
 	const double *p_par;	// parametry z bufora lub wektor wag
 	// meidana z p - poszczególne elementy tego wektora z całego bufora są zbierane do jednego wektora
@@ -323,19 +330,19 @@ bool C_LinearWeld::evalNextParams()
 	for (int la=l=0;la<num_el;la++)
 	{
 		p_par = approx_results->GetObject(la)->getApproxParams_p(); if(NULL==p_par) continue;
-		a.data[l] = p_par[A];
-		b.data[l] = p_par[B];
-		c.data[l] = p_par[C];
-		d.data[l] = p_par[D];
-		e.data[l] = p_par[E];
-		l++;
+		a.push_back(p_par[A]);
+		b.push_back(p_par[B]);
+		c.push_back(p_par[C]);
+		d.push_back(p_par[D]);
+		e.push_back(p_par[E]);
+		l++; // do tego assert poniżej
 	}
 	_ASSERT(l==num_el);	// jeden element był NULL i mediana moze być fałszywa bo nie wszystkie elementy wypełnione
-	_p[A] = a.quick_select();
-	_p[B] = b.quick_select();
-	_p[C] = c.quick_select();
-	_p[D] = d.quick_select();
-	_p[E] = e.quick_select();
+	_p[A] = getMedian<double>(a);
+	_p[B] = getMedian<double>(b);
+	_p[C] = getMedian<double>(c);
+	_p[D] = getMedian<double>(d);
+	_p[E] = getMedian<double>(e);
 
 	// sprawdzanie czy parametry ub i lb nie są takie same (dla 0 moga być)
 
@@ -410,7 +417,7 @@ bool C_LinearWeld::czyAccept( const C_LineWeldApprox *_approx, const C_LineInter
 * \param[out] _weldPos Dane o pozycji spawu
 * \warning Dla inne,go przypdku aproxymacji należy sprwdzać czy prosta intepolacyjna była pionowa i odpowiednio brać dane x albo y do evaluacji wartości w klasie C_LineWeldApprox. Funkcja zakłąda ze dane _approx oraz _interp są spójne, tzn dotyczą tej samej linii obrazu
 */
-void C_LinearWeld::evalWeldPos( const C_LineWeldApprox *_approx, const C_LineInterp *_interp,const double *_pre, C_WeldPos &_weldPos )
+void C_LinearWeld::evalWeldPos( const C_LineWeldApprox *_approx, const C_LineInterp *_interp,const double *_pre, C_WeldPos &_weldPos)
 {
 	_RPT0(_CRT_WARN,"\tEntering C_LinearWeld::evalWeldPos");
 	//	double *evaldata = new double[_interp->getSizeofInterpData()]; // tablica na dane obliczone dla krzywej aproxymacyjnej
@@ -449,7 +456,7 @@ void C_LinearWeld::evalWeldPos( const C_LineWeldApprox *_approx, const C_LineInt
 	// górna granica od środka do końca
 	licznik = 0;
 	for(l=(unsigned int)pos;l<_interp->getSizeofInterpData();++l)
-		if(_pre[l]<max_lin+(max_el-max_lin)*WELD_EDGE)	{	// procent wysokości piku + przesunięcie liniowe
+		if(_pre[l]<max_lin+(max_el-max_lin)*weld_edge)	{	// procent wysokości piku + przesunięcie liniowe
 			indexy[licznik++] = l;	// pierwszy element to pozycja górnej granicy
 			break;	// nie ma potrzeby analizowania pozostałych el
 		}
@@ -462,7 +469,7 @@ void C_LinearWeld::evalWeldPos( const C_LineWeldApprox *_approx, const C_LineInt
 		// dolna granica do środka
 		licznik = 0;
 		for(l=(unsigned int)pos+1;l>0;--l) // +1aby uniknąć błędu z przekręceniem się zakresu!!
-			if(_pre[l-1]<max_lin+(max_el-max_lin)*WELD_EDGE)	{
+			if(_pre[l-1]<max_lin+(max_el-max_lin)*weld_edge)	{
 				indexy[licznik++] = l-1;	// pierwszy element to pozycja górnej granicy
 				break;	// nie ma potrzeby analizowania pozostałych el
 			}
@@ -497,77 +504,6 @@ void C_LinearWeld::evalWeldPos( const C_LineWeldApprox *_approx, const C_LineInt
 			_RPT0(_CRT_WARN,"\tLeaving C_LinearWeld::evalWeldPos\n");
 }
 
-/**
-* Oblicza pozycję spawu.
-* \param[in] _approx Wskaźnik do obiektu z aproksymacją linii
-* \param[in] _interp Wskaźnik do obietu z interpolacją danych
-* \param[out] _weldPos Dane o pozycji spawu
-* \warning Dla inne,go przypdku aproxymacji należy sprwdzać czy prosta intepolacyjna była pionowa i odpowiednio brać dane x albo y do evaluacji wartości w klasie C_LineWeldApprox. Funkcja zakłąda ze dane _approx oraz _interp są spójne, tzn dotyczą tej samej linii obrazu
-* \obsolete Wersja nie używająca przeliczonych wartości funkcji aproxymacyjnej - wolniejsza
+/** \example WeldDetecApprox_example.cpp
+* Przykład użycia klasy
 */
-void C_LinearWeld::evalWeldPos( const C_LineWeldApprox *_approx, const C_LineInterp *_interp, C_WeldPos &_weldPos )
-{
-	_RPT0(_CRT_ASSERT,"Obsolete");
-	_RPT0(_CRT_WARN,"\tEntering C_LinearWeld::evalWeldPos");
-	double *evaldata = new double[_interp->getSizeofInterpData()]; // tablica na dane obliczone dla krzywej aproxymacyjnej
-	unsigned int *indexy = new unsigned int[_interp->getSizeofInterpData()]; // tablica na indexy
-	unsigned int l,licznik;
-	const double *p;	// parametry aproxymacji
-	double pos;
-	const double *x,*y;	// wskazniki na wektory x i y dla których została wykonan interpolacja i aproxymacja (współrzędne obrazu)
-	double max_el,max_lin;	// wartosc maksymalna funkcji aproxymującej
-
-	x = _interp->getInterpolated_X();
-	y = _interp->getInterpolated_Y();
-	_approx->evalApproxFcnVec(y,evaldata,_interp->getSizeofInterpData());
-	for(l=0,max_el = evaldata[0];l<_interp->getSizeofInterpData();++l)
-		if(evaldata[l]>max_el)
-			max_el = evaldata[l];	// w max_el wartość maxymalna
-	// wartość maxymalna nie jest od zera ale ma jakiś liniowy trend dodany - trzeba to uwzględnić. Dlatego liczona jest wartość funkcji liniowej skojarzonej z gaussem i dopiero róznica jest brana jako wysokość piku. Wszystko liczone jest względem punktu maximum, więc dla dużego tendu może być błędne
-	_RPT1(_CRT_WARN,"\t\tmax_el: %.1lf",max_el);
-	// znajdowanie indeksów z wartością max
-	for (l=licznik=0;l<_interp->getSizeofInterpData();++l)
-		if(evaldata[l]==max_el)
-			indexy[licznik++] = l;	// w indexy pozycje elementów maksymalnych (jeśli więcej niż 1 to liczymy średnią)
-	pos = 0.0;
-	for(l=0;l<licznik;++l)	// po wszyskich pozycjach el. maksymalnych
-		pos+=(double)indexy[l];
-	pos/=licznik;	// w pos pozycja środka, uśredniona jeśli było więcej maximów
-	pos = floor(pos+0.5);	// zaokraglona do całkowitej
-	_RPT1(_CRT_WARN,"\t\tmax_el_pos: %d",(int)pos);
-	_weldPos.S.setPoint(x[(int)pos],y[(int)pos]); // ustawiam pozycję środka na wyjściu
-
-	p = _approx->getApproxParams_p();
-	max_lin = y[(int)pos]*p[D]+p[E]; // wartość trendu dla pozycji max
-
-	// górna granica od środka do końca
-	licznik = 0;
-	for(l=(int)pos;l<_interp->getSizeofInterpData();++l)
-		if(evaldata[l]<max_lin+(max_el-max_lin)*WELD_EDGE)	{	// procent wysokości piku + przesunięcie liniowe
-			indexy[licznik++] = l;	// pierwszy element to pozycja górnej granicy
-			break;	// nie ma potrzeby analizowania pozostałych el
-		}
-		/// \warning Może się zdażyć ze nie bedzie w ifie i wtedy wartość indexy niezdefiniowana, wtedy przyjmuje ostatni i pierwszy element. Tak się zdaża gdy aproxymowane są złe dane i funkcja aproxymująca jest zbyt szeoka, tzn obeajmuje cały obraz i nie daje rady zmaleć do żądanego zakresu.
-		if(0==licznik)
-			indexy[0] = _interp->getSizeofInterpData()-1;// ostatni element
-		_weldPos.G.setPoint(x[indexy[0]],y[indexy[0]]); // ustawiam pozycję środka na wyjściu
-
-		// dolna granica do środka
-		licznik = 0;
-		for(l=0;l<(unsigned int)pos;++l)
-			if(evaldata[l]>max_lin+(max_el-max_lin)*WELD_EDGE)	{
-				indexy[licznik++] = l;	// pierwszy element to pozycja górnej granicy
-				break;	// nie ma potrzeby analizowania pozostałych el
-			}
-			if(0==licznik)
-				indexy[0] = 0;// pierwszy element
-			_weldPos.D.setPoint(x[indexy[0]],y[indexy[0]]); // ustawiam pozycję środka na wyjściu
-
-			_RPT2(_CRT_WARN,"\t\tG: [%.1lf,%.1lf]",_weldPos.G.getX(),_weldPos.G.getY());
-			_RPT2(_CRT_WARN,"\t\tS: [%.1lf,%.1lf]",_weldPos.S.getX(),_weldPos.S.getY());
-			_RPT2(_CRT_WARN,"\t\tD: [%.1lf,%.1lf]",_weldPos.D.getX(),_weldPos.D.getY());
-
-			//	SAFE_DELETE(evaldata);
-			SAFE_DELETE(indexy);
-			_RPT0(_CRT_WARN,"\tLeaving C_LinearWeld::evalWeldPos\n");
-}

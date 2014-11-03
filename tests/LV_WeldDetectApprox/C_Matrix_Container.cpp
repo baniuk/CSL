@@ -1,4 +1,4 @@
-﻿#include "LV_WeldDetectApprox\C_Matrix_Container.h"
+﻿#include "C_Matrix_Container.h"
 // Ver 1.3 by PB
 // Ver 1.3.1 - dodano assert
 // Ver 1.3.2 - poprawiono błąd w readbinary
