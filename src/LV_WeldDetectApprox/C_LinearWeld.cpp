@@ -135,8 +135,10 @@ bool C_LinearWeld::Start(unsigned int step,unsigned int ile, double weld_edge)
 		// generowanie nast punktu start (zwrocone z  blad oznacza koniec spawu i wtedy tu przerywamy)
 		ile_done++;
 		ret = evalNextStartPoint(step);
+#ifdef _DEBUG
 		if(!((int)P0.getX()%10))
 			std::cout<<P0.getX()<<"\n";
+#endif
 	}
 	_RPT0(_CRT_WARN,"\tLeaving C_LinearWeld::Start\n");
 	SAFE_DELETE(coef);
