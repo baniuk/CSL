@@ -6,6 +6,7 @@
 * \author  PB
 * \date    2012/09/08
 * \version 1.0 Initial version based on ISAR project
+* \version 1.1 Fixed bug #3
 */
 
 #include "LV_FastMedian/LV_FastMedian.h"
@@ -273,7 +274,8 @@ extern "C" __declspec(dllexport) retCode LV_MedFilt(const UINT16* input_image,
 		return setError::throwError("FastMedian::Maska równa 0",&errDesc);
 	if(mask<0)
 		return setError::throwError("FastMedian::Maska mniejsza od 0",&errDesc);
-
+	if( mask%2 == 0)
+		return setError::throwError("Maska parzysta", &errDesc);
 	OBRAZ obraz;	// lokalna kopia obrazu wejściowego (płytka)
 	obraz.tab = input_image;
 	obraz.rows = nrows;

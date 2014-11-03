@@ -1,5 +1,5 @@
 ﻿/**
-* \file    fastMedian.h
+* \file    LV_fastMedian.h
 * \brief	Headers and definitions for LV_FastMedian.dll
 * \author  PB
 * \date    2012/09/08

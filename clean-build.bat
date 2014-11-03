@@ -2,10 +2,6 @@ rem Main build script for project.
 rem Performs clean build deleting all previous results
 echo off
 
-rem Check for tools
-svn --version
-IF %ERRORLEVEL% NEQ 0 GOTO :ERROR
-
 rem clear all dirs
 IF EXIST doc rmdir doc /s /q
 IF EXIST bin rmdir bin /s /q

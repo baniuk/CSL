@@ -44,7 +44,6 @@ protected:
 		hinstLib = LoadLibrary(TEXT("../../../src/LV_Threshold/Debug/LV_Threshold.dll"));
 		if(hinstLib==NULL)
 		{
-			cerr << "Error in LoadLibrary. Trying other directory" << endl;
 			// wersja nmake
 			hinstLib = LoadLibrary(TEXT("../../src/LV_Threshold/LV_Threshold.dll"));
 			if(hinstLib==NULL)
@@ -131,7 +130,6 @@ TEST_F(DLL_Tests,_WrongParam)
 	UINT16 *outTab = new UINT16[rows*cols];
 	ret = pLV_Thresh(inTab, outTab, rows, cols, 1001, 0.05, err);
 	ASSERT_EQ(ret, retCode::LV_FAIL);
-	std::cout << err << std::endl;
 
 	delete[] inTab;
 	delete[] outTab;
@@ -149,7 +147,6 @@ TEST(STATIC_Test,_Threshold_1)
 {
 	std::unique_ptr<double[]> data;
 	unsigned int rows,cols;
-	char err[MAX_ERROR_STRING];
 
 	ASSERT_NO_THROW(C_MatlabExchange::ReadData("im8bit.dat",data, rows, cols));
 	// konwersja INT
@@ -178,7 +175,6 @@ TEST(STATIC_Test,_Threshold_2)
 {
 	std::unique_ptr<double[]> data;
 	unsigned int rows,cols;
-	char err[MAX_ERROR_STRING];
 
 	ASSERT_NO_THROW(C_MatlabExchange::ReadData("imag2.dat",data, rows, cols));
 	// konwersja INT
@@ -207,7 +203,6 @@ TEST(STATIC_Test,_Threshold_3)
 {
 	std::unique_ptr<double[]> data;
 	unsigned int rows,cols;
-	char err[MAX_ERROR_STRING];
 
 	ASSERT_NO_THROW(C_MatlabExchange::ReadData("100_01_91_005.dat",data, rows, cols));
 	// konwersja INT
