@@ -13,7 +13,7 @@ mkdir bin
 rem start build process from bin dir
 cd bin
 rem Additional flags can be passed here or in CMakeLists.txt
-cmake -DCMAKE_BUILD_TYPE=Release -G "NMake Makefiles" ..\
+cmake -DCMAKE_BUILD_TYPE=Debug -G "NMake Makefiles" ..\
 nmake
 ctest --verbose
 cd ..
