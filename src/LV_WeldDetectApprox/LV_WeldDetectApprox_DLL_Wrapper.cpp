@@ -5,7 +5,7 @@
 * - LV_WeldDetectApprox  - Performs weld detection using approximation
 * \author  PB
 * \date    2014/10/18
-* \version 1.0
+* \version 1.0 Implementation based on ISAR project with huge code revorking
 */
 
 #include "LV_WeldDetectApprox/LV_WeldDetectApprox_DLL_Wrapper.h"

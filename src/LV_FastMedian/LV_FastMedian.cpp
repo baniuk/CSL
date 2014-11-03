@@ -6,6 +6,7 @@
 * \author  PB
 * \date    2012/09/08
 * \version 1.0 Initial version based on ISAR project
+* \version 1.1 Fixed bug #3
 */
 
 #include "LV_FastMedian/LV_FastMedian.h"
