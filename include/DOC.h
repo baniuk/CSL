@@ -15,9 +15,19 @@
 * \subsection static_lib Bibiloteki statyczne
 * -# setError - \copybrief setError
 * \subsection shared_lib Biblioteki dynamiczne
-* \subsubsection LV_FastMEdian
+* \subsubsection LV_FastMedian
 * \copybrief LV_FastMedian.cpp
-*
+* 
 * \b Exports:
 * -# ::LV_MedFilt \copybrief LV_MedFilt
+* \subsubsection LV_Threshold
+* \copybrief LV_Threshold.cpp
+* 
+* \b Exports:
+* -# ::LV_Thresh \copybrief LV_Thresh
+* \subsubsection LV_WeldDetectApprox
+* \copybrief C_LinearWeld.cpp
+* 
+* \b Exports:
+* -# ::LV_WeldDetectApprox() \copybrief LV_WeldDetectApprox()
 */
