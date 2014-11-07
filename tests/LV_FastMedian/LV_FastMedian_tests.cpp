@@ -113,7 +113,7 @@ TEST_F(DLL_Tests,_FastMedian_imag2)
 	std::unique_ptr<double[]> data;
 	unsigned int rows,cols;
 	char err[MAX_ERROR_STRING];
-	C_MatlabExchange::ReadData("imag2.dat",data, rows, cols);
+	ASSERT_NO_THROW(C_MatlabExchange::ReadData("imag2.dat",data, rows, cols));
 	// konwersja INT
 	UINT16* inTab = new UINT16[rows*cols];
 	for (unsigned int a=0;a<rows*cols;a++)
@@ -145,7 +145,7 @@ TEST_F(DLL_Tests,_FastMedian_testimag1)
 	std::unique_ptr<double[]> data;
 	unsigned int rows,cols;
 	char err[MAX_ERROR_STRING];
-	C_MatlabExchange::ReadData("testimag1.dat",data, rows, cols);
+	ASSERT_NO_THROW(C_MatlabExchange::ReadData("testimag1.dat",data, rows, cols));
 	// konwersja INT
 	UINT16* inTab = new UINT16[rows*cols];
 	for (unsigned int a=0;a<rows*cols;a++)
@@ -177,7 +177,7 @@ TEST_F(DLL_Tests,_FastMedian_testimag6)
 	std::unique_ptr<double[]> data;
 	unsigned int rows,cols;
 	char err[MAX_ERROR_STRING];
-	C_MatlabExchange::ReadData("testimag6.dat",data, rows, cols);
+	ASSERT_NO_THROW(C_MatlabExchange::ReadData("testimag6.dat",data, rows, cols));
 	// konwersja INT
 	UINT16* inTab = new UINT16[rows*cols];
 	for (unsigned int a=0;a<rows*cols;a++)
@@ -209,7 +209,7 @@ TEST_F(DLL_Tests,_FastMedian_testimag9)
 	std::unique_ptr<double[]> data;
 	unsigned int rows,cols;
 	char err[MAX_ERROR_STRING];
-	C_MatlabExchange::ReadData("testimag9.dat",data, rows, cols);
+	ASSERT_NO_THROW(C_MatlabExchange::ReadData("testimag9.dat",data, rows, cols));
 	// konwersja INT
 	UINT16* inTab = new UINT16[rows*cols];
 	for (unsigned int a=0;a<rows*cols;a++)
@@ -241,7 +241,7 @@ TEST_F(DLL_Tests,_FastMedian_testimag17_m31)
 	std::unique_ptr<double[]> data;
 	unsigned int rows,cols;
 	char err[MAX_ERROR_STRING];
-	C_MatlabExchange::ReadData("testimag17.dat",data, rows, cols);
+	ASSERT_NO_THROW(C_MatlabExchange::ReadData("testimag17.dat",data, rows, cols));
 	// konwersja INT
 	UINT16* inTab = new UINT16[rows*cols];
 	for (unsigned int a=0;a<rows*cols;a++)
@@ -273,7 +273,7 @@ TEST_F(DLL_Tests,_FastMedian_testimag17_m51)
 	std::unique_ptr<double[]> data;
 	unsigned int rows,cols;
 	char err[MAX_ERROR_STRING];
-	C_MatlabExchange::ReadData("testimag17.dat",data, rows, cols);
+	ASSERT_NO_THROW(C_MatlabExchange::ReadData("testimag17.dat",data, rows, cols));
 	// konwersja INT
 	UINT16* inTab = new UINT16[rows*cols];
 	for (unsigned int a=0;a<rows*cols;a++)
@@ -305,7 +305,7 @@ TEST_F(DLL_Tests,_FastMedian_testimag17_m91)
 	std::unique_ptr<double[]> data;
 	unsigned int rows,cols;
 	char err[MAX_ERROR_STRING];
-	C_MatlabExchange::ReadData("testimag17.dat",data, rows, cols);
+	ASSERT_NO_THROW(C_MatlabExchange::ReadData("testimag17.dat",data, rows, cols));
 	// konwersja INT
 	UINT16* inTab = new UINT16[rows*cols];
 	for (unsigned int a=0;a<rows*cols;a++)
@@ -337,7 +337,7 @@ TEST_F(DLL_Tests,_FastMedian_testimag17_m3)
 	std::unique_ptr<double[]> data;
 	unsigned int rows,cols;
 	char err[MAX_ERROR_STRING];
-	C_MatlabExchange::ReadData("testimag17.dat",data, rows, cols);
+	ASSERT_NO_THROW(C_MatlabExchange::ReadData("testimag17.dat",data, rows, cols));
 	// konwersja INT
 	UINT16* inTab = new UINT16[rows*cols];
 	for (unsigned int a=0;a<rows*cols;a++)

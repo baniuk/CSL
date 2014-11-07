@@ -42,10 +42,10 @@ extern "C" __declspec(dllexport) retCode LV_WeldDetectApprox(	const UINT16* inpu
 	const std::vector<bool> *_lineOK;	// outputs
 	const std::vector<C_WeldPos> *_weldPos;
 	// possible external params
-	const UINT16 start_x_point = 10;
+	const UINT16 start_x_point = 10; // punkt startowy
 	const UINT16 buffor_size = 130;	// wielkość bufora
 	const UINT16 step  = 4; // ktok analizy radiogramu
-	const double weld_edge = 0.2;
+	const double weld_edge = 0.2; // procent amplitudy spawu będący krawędzią
 
 	// settings temprary obj
 	// conversion for double is requid=red due to compatibility with old code
