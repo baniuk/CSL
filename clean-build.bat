@@ -14,10 +14,12 @@ rem start build process from bin dir
 cd bin
 rem Additional flags can be passed here or in CMakeLists.txt
 cmake -DCMAKE_BUILD_TYPE=Debug -G "NMake Makefiles" ..\
+IF %ERRORLEVEL% NEQ 0 goto :ERROR
 nmake
 ctest --verbose
 cd ..
 GOTO :EOF
 :ERROR
 echo Error occured
+cd ..
 GOTO :EOF
