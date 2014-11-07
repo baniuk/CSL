@@ -13,7 +13,7 @@
 using namespace std;
 
 /// \copydoc ::LV_MedFilt
-typedef void (*pLV_MedFilt_t)(UINT16*, UINT16*, UINT16, UINT16, UINT16, char*);
+typedef retCode (*pLV_MedFilt_t)(UINT16*, UINT16*, UINT16, UINT16, UINT16, char*);
 
 int main(int argc, char* argv[])
 {
@@ -43,7 +43,6 @@ protected:
 		hinstLib = LoadLibrary(TEXT("../../../src/LV_FastMedian/Debug/LV_FastMedian.dll"));
 		if(hinstLib==NULL)
 		{
-			cerr << "Error in LoadLibrary. Trying other directory" << endl;
 			// wersja nmake
 			hinstLib = LoadLibrary(TEXT("../../src/LV_FastMedian/LV_FastMedian.dll"));
 			if(hinstLib==NULL)
@@ -73,15 +72,44 @@ protected:
 };
 
 /**
-* \test DLL_Tests:_FastMedian
-* \brief Testuje filtrowanie algorytmem szybkiej mediany
-* \post Wynik nagrany na dysku, weryfikacja w Matlabie
+* \test DLL_Tests:_FastMedian_evenmask
+* \brief Testuje filtrowanie algorytmem szybkiej mediany dla maski 31
+* \pre imag2.dat
+* \post Błąd LV_FAIL oraz komunikat
+* \author PB
+* \date 2014/11/07
+*/
+TEST_F(DLL_Tests,_FastMedian_evenmask)
+{
+	ASSERT_FALSE(init_error); // expect no error during initialization
+	retCode ret;
+	std::unique_ptr<double[]> data;
+	unsigned int rows,cols;
+	rows = cols = 1024;
+	char err[MAX_ERROR_STRING];
+	// konwersja INT
+	UINT16* inTab = new UINT16[rows*cols];
+	// tablica wyjściowa
+	UINT16 *outTab = new UINT16[rows*cols];
+	ret = pLV_MedFilt(inTab, outTab, rows, cols, 30, err);
+	EXPECT_EQ(ret, retCode::LV_FAIL);
+
+	delete[] inTab;
+	delete[] outTab;
+}
+
+/**
+* \test DLL_Tests:_FastMedian_imag2
+* \brief Testuje filtrowanie algorytmem szybkiej mediany dla maski 31
+* \pre imag2.dat
+* \post imag2.out - wynik nagrany na dysku, weryfikacja w Matlabie
 * \author PB
 * \date 2014/10/02
 */
-TEST_F(DLL_Tests,_FastMedian)
+TEST_F(DLL_Tests,_FastMedian_imag2)
 {
 	ASSERT_FALSE(init_error); // expect no error during initialization
+	retCode ret;
 	std::unique_ptr<double[]> data;
 	unsigned int rows,cols;
 	char err[MAX_ERROR_STRING];
@@ -93,11 +121,235 @@ TEST_F(DLL_Tests,_FastMedian)
 
 	// tablica wyjściowa
 	UINT16 *outTab = new UINT16[rows*cols];
-	pLV_MedFilt(inTab, outTab, rows, cols, 31, err);
+	ret = pLV_MedFilt(inTab, outTab, rows, cols, 31, err);
+	EXPECT_EQ(ret, retCode::LV_OK);
 
-	C_MatlabExchange out("FastMedian.out");
+	C_MatlabExchange out("imag2.out");
 	out.AddEntry2D<UINT16>(outTab,rows,cols,"filtered_image");
-	std::cout << "Check FastMedian.out for results" << std::endl;
+	delete[] inTab;
+	delete[] outTab;
+}
+
+/**
+* \test DLL_Tests:_FastMedian_testimag1
+* \brief Testuje filtrowanie algorytmem szybkiej mediany dla maski 31
+* \pre testimag1.dat
+* \post testimag1.out - wynik nagrany na dysku, weryfikacja w Matlabie
+* \author PB
+* \date 2014/11/07
+*/
+TEST_F(DLL_Tests,_FastMedian_testimag1)
+{
+	ASSERT_FALSE(init_error); // expect no error during initialization
+	retCode ret;
+	std::unique_ptr<double[]> data;
+	unsigned int rows,cols;
+	char err[MAX_ERROR_STRING];
+	C_MatlabExchange::ReadData("testimag1.dat",data, rows, cols);
+	// konwersja INT
+	UINT16* inTab = new UINT16[rows*cols];
+	for (unsigned int a=0;a<rows*cols;a++)
+		inTab[a] = static_cast<UINT16>(data[a]);
+
+	// tablica wyjściowa
+	UINT16 *outTab = new UINT16[rows*cols];
+	ret = pLV_MedFilt(inTab, outTab, rows, cols, 31, err);
+	EXPECT_EQ(ret, retCode::LV_OK);
+	
+	C_MatlabExchange out("testimag1.out");
+	out.AddEntry2D<UINT16>(outTab,rows,cols,"filtered_image");
+	delete[] inTab;
+	delete[] outTab;
+}
+
+/**
+* \test DLL_Tests:_FastMedian_testimag6
+* \brief Testuje filtrowanie algorytmem szybkiej mediany dla maski 31
+* \pre testimag6.dat
+* \post testimag6.out - wynik nagrany na dysku, weryfikacja w Matlabie
+* \author PB
+* \date 2014/11/07
+*/
+TEST_F(DLL_Tests,_FastMedian_testimag6)
+{
+	ASSERT_FALSE(init_error); // expect no error during initialization
+	retCode ret;
+	std::unique_ptr<double[]> data;
+	unsigned int rows,cols;
+	char err[MAX_ERROR_STRING];
+	C_MatlabExchange::ReadData("testimag6.dat",data, rows, cols);
+	// konwersja INT
+	UINT16* inTab = new UINT16[rows*cols];
+	for (unsigned int a=0;a<rows*cols;a++)
+		inTab[a] = static_cast<UINT16>(data[a]);
+
+	// tablica wyjściowa
+	UINT16 *outTab = new UINT16[rows*cols];
+	ret = pLV_MedFilt(inTab, outTab, rows, cols, 31, err);
+	EXPECT_EQ(ret, retCode::LV_OK);
+	
+	C_MatlabExchange out("testimag6.out");
+	out.AddEntry2D<UINT16>(outTab,rows,cols,"filtered_image");
+	delete[] inTab;
+	delete[] outTab;
+}
+
+/**
+* \test DLL_Tests:_FastMedian_testimag9
+* \brief Testuje filtrowanie algorytmem szybkiej mediany dla maski 31
+* \pre testimag9.dat
+* \post testimag9.out - wynik nagrany na dysku, weryfikacja w Matlabie
+* \author PB
+* \date 2014/11/07
+*/
+TEST_F(DLL_Tests,_FastMedian_testimag9)
+{
+	ASSERT_FALSE(init_error); // expect no error during initialization
+	retCode ret;
+	std::unique_ptr<double[]> data;
+	unsigned int rows,cols;
+	char err[MAX_ERROR_STRING];
+	C_MatlabExchange::ReadData("testimag9.dat",data, rows, cols);
+	// konwersja INT
+	UINT16* inTab = new UINT16[rows*cols];
+	for (unsigned int a=0;a<rows*cols;a++)
+		inTab[a] = static_cast<UINT16>(data[a]);
+
+	// tablica wyjściowa
+	UINT16 *outTab = new UINT16[rows*cols];
+	ret = pLV_MedFilt(inTab, outTab, rows, cols, 31, err);
+	EXPECT_EQ(ret, retCode::LV_OK);
+	
+	C_MatlabExchange out("testimag9.out");
+	out.AddEntry2D<UINT16>(outTab,rows,cols,"filtered_image");
+	delete[] inTab;
+	delete[] outTab;
+}
+
+/**
+* \test DLL_Tests:_FastMedian_testimag17_m31
+* \brief Testuje filtrowanie algorytmem szybkiej mediany dla maski 31
+* \pre testimag17.dat
+* \post testimag17m31.out - wynik nagrany na dysku, weryfikacja w Matlabie
+* \author PB
+* \date 2014/11/07
+*/
+TEST_F(DLL_Tests,_FastMedian_testimag17_m31)
+{
+	ASSERT_FALSE(init_error); // expect no error during initialization
+	retCode ret;
+	std::unique_ptr<double[]> data;
+	unsigned int rows,cols;
+	char err[MAX_ERROR_STRING];
+	C_MatlabExchange::ReadData("testimag17.dat",data, rows, cols);
+	// konwersja INT
+	UINT16* inTab = new UINT16[rows*cols];
+	for (unsigned int a=0;a<rows*cols;a++)
+		inTab[a] = static_cast<UINT16>(data[a]);
+
+	// tablica wyjściowa
+	UINT16 *outTab = new UINT16[rows*cols];
+	ret = pLV_MedFilt(inTab, outTab, rows, cols, 31, err);
+	EXPECT_EQ(ret, retCode::LV_OK);
+	
+	C_MatlabExchange out("testimag17m31.out");
+	out.AddEntry2D<UINT16>(outTab,rows,cols,"filtered_image");
+	delete[] inTab;
+	delete[] outTab;
+}
+
+/**
+* \test DLL_Tests:_FastMedian_testimag17_m51
+* \brief Testuje filtrowanie algorytmem szybkiej mediany dla maski 51
+* \pre testimag17.dat
+* \post testimag17m31.out - wynik nagrany na dysku, weryfikacja w Matlabie
+* \author PB
+* \date 2014/11/07
+*/
+TEST_F(DLL_Tests,_FastMedian_testimag17_m51)
+{
+	ASSERT_FALSE(init_error); // expect no error during initialization
+	retCode ret;
+	std::unique_ptr<double[]> data;
+	unsigned int rows,cols;
+	char err[MAX_ERROR_STRING];
+	C_MatlabExchange::ReadData("testimag17.dat",data, rows, cols);
+	// konwersja INT
+	UINT16* inTab = new UINT16[rows*cols];
+	for (unsigned int a=0;a<rows*cols;a++)
+		inTab[a] = static_cast<UINT16>(data[a]);
+
+	// tablica wyjściowa
+	UINT16 *outTab = new UINT16[rows*cols];
+	ret = pLV_MedFilt(inTab, outTab, rows, cols, 51, err);
+	EXPECT_EQ(ret, retCode::LV_OK);
+	
+	C_MatlabExchange out("testimag17m51.out");
+	out.AddEntry2D<UINT16>(outTab,rows,cols,"filtered_image");
+	delete[] inTab;
+	delete[] outTab;
+}
+
+/**
+* \test DLL_Tests:_FastMedian_testimag17_m91
+* \brief Testuje filtrowanie algorytmem szybkiej mediany dla maski 91
+* \pre testimag17.dat
+* \post testimag17m31.out - wynik nagrany na dysku, weryfikacja w Matlabie
+* \author PB
+* \date 2014/11/07
+*/
+TEST_F(DLL_Tests,_FastMedian_testimag17_m91)
+{
+	ASSERT_FALSE(init_error); // expect no error during initialization
+	retCode ret;
+	std::unique_ptr<double[]> data;
+	unsigned int rows,cols;
+	char err[MAX_ERROR_STRING];
+	C_MatlabExchange::ReadData("testimag17.dat",data, rows, cols);
+	// konwersja INT
+	UINT16* inTab = new UINT16[rows*cols];
+	for (unsigned int a=0;a<rows*cols;a++)
+		inTab[a] = static_cast<UINT16>(data[a]);
+
+	// tablica wyjściowa
+	UINT16 *outTab = new UINT16[rows*cols];
+	ret = pLV_MedFilt(inTab, outTab, rows, cols, 91, err);
+	EXPECT_EQ(ret, retCode::LV_OK);
+	
+	C_MatlabExchange out("testimag17m91.out");
+	out.AddEntry2D<UINT16>(outTab,rows,cols,"filtered_image");
+	delete[] inTab;
+	delete[] outTab;
+}
+
+/**
+* \test DLL_Tests:_FastMedian_testimag17_m3
+* \brief Testuje filtrowanie algorytmem szybkiej mediany dla maski 3
+* \pre testimag17.dat
+* \post testimag17m31.out - wynik nagrany na dysku, weryfikacja w Matlabie
+* \author PB
+* \date 2014/11/07
+*/
+TEST_F(DLL_Tests,_FastMedian_testimag17_m3)
+{
+	ASSERT_FALSE(init_error); // expect no error during initialization
+	retCode ret;
+	std::unique_ptr<double[]> data;
+	unsigned int rows,cols;
+	char err[MAX_ERROR_STRING];
+	C_MatlabExchange::ReadData("testimag17.dat",data, rows, cols);
+	// konwersja INT
+	UINT16* inTab = new UINT16[rows*cols];
+	for (unsigned int a=0;a<rows*cols;a++)
+		inTab[a] = static_cast<UINT16>(data[a]);
+
+	// tablica wyjściowa
+	UINT16 *outTab = new UINT16[rows*cols];
+	ret = pLV_MedFilt(inTab, outTab, rows, cols, 3, err);
+	EXPECT_EQ(ret, retCode::LV_OK);
+	
+	C_MatlabExchange out("testimag17m3.out");
+	out.AddEntry2D<UINT16>(outTab,rows,cols,"filtered_image");
 	delete[] inTab;
 	delete[] outTab;
 }

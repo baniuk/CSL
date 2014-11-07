@@ -4,6 +4,18 @@ set(LOCAL_PROJECT_NAME LV_FastMedian_tests)
 configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/imag2.dat 
 				${CMAKE_CURRENT_BINARY_DIR}/imag2.dat
 				COPYONLY)
+configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/testimag1.dat 
+				${CMAKE_CURRENT_BINARY_DIR}/testimag1.dat
+				COPYONLY)
+configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/testimag6.dat 
+				${CMAKE_CURRENT_BINARY_DIR}/testimag6.dat
+				COPYONLY)
+configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/testimag9.dat 
+				${CMAKE_CURRENT_BINARY_DIR}/testimag9.dat
+				COPYONLY)
+configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/testimag17.dat 
+				${CMAKE_CURRENT_BINARY_DIR}/testimag17.dat
+				COPYONLY)
 
 project(${LOCAL_PROJECT_NAME})
 ExternalProject_Get_Property(googletest binary_dir)
