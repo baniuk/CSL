@@ -54,6 +54,7 @@ add_library(${LOCAL_PROJECT_NAME} SHARED
 target_link_libraries(${LOCAL_PROJECT_NAME} setError ${LOCAL_PROJECT_NAME}_static ${LOCAL_PROJECT_NAME}_WeldPostProcess_static)
 
 add_dependencies(${LOCAL_PROJECT_NAME} setError PBToolset)
+add_dependencies(${LOCAL_PROJECT_NAME}_static setError PBToolset levmar clapack)
 
 # instalacja - kopiowanie wyników do katalogu po nmake install (nie potrzebne do testów)
 install (TARGETS ${LOCAL_PROJECT_NAME} RUNTIME DESTINATION ${${ROOT_PROJECT_NAME}_SOURCE_DIR}/lib)
