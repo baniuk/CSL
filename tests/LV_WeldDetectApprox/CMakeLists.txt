@@ -79,6 +79,8 @@ project(${LOCAL_PROJECT_NAME})
 # Biblioteki zewnętrzne - targety trafiają do lib więc nie ma potrzeby pobierania scierzki do bin
 ExternalProject_Get_Property(googletest source_dir)
 set(GTest_SRC ${source_dir}) 	
+ExternalProject_Get_Property(googletest binary_dir)
+set(GTest_LIB ${binary_dir}) 
 ExternalProject_Get_Property(PBToolset source_dir)
 set(PBToolset_SRC ${source_dir}) 	
 ExternalProject_Get_Property(levmar source_dir)
@@ -94,9 +96,9 @@ add_executable(${LOCAL_PROJECT_NAME} GTest_starter.cpp
 # gtest specific
 target_compile_options(${LOCAL_PROJECT_NAME} PUBLIC -D_VARIADIC_MAX=10)
 target_link_libraries(	${LOCAL_PROJECT_NAME} 
-						${CMAKE_SOURCE_DIR}/lib/gtest${CMAKE_FIND_LIBRARY_SUFFIXES} 
-						${CMAKE_SOURCE_DIR}/lib/gtest_main${CMAKE_FIND_LIBRARY_SUFFIXES}
-						${CMAKE_SOURCE_DIR}/lib/MatlabExchange${CMAKE_FIND_LIBRARY_SUFFIXES}
+						${GTest_LIB}/gtest${CMAKE_FIND_LIBRARY_SUFFIXES} 
+						${GTest_LIB}/gtest_main${CMAKE_FIND_LIBRARY_SUFFIXES}
+						${External_dep_BINARY_DIR}/MatlabExchange${CMAKE_FIND_LIBRARY_SUFFIXES}
 						LV_WeldDetectApprox_static
 						LV_WeldDetectApprox_WeldPostProcess_static)
 

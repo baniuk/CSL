@@ -17,7 +17,7 @@ ENDIF()
 
 # If these variables are set in env build is performed offline:
 # 	PBToolset_GIT_REPOSITORY - path to PBToolset git repository (local)
-#	GTest_SVN_REPOSITORY - any value (gtest must be in /external_dep/gtest)
+#	GTest_SVN_REPOSITORY - path to the SVN gtest repository
 # WARNING - Paths must be in unix mode /
 IF(DEFINED ENV{PBToolset_GIT_REPOSITORY})
 	set(PBToolset_GIT_REPOSITORY $ENV{PBToolset_GIT_REPOSITORY})
@@ -27,9 +27,8 @@ IF(DEFINED ENV{PBToolset_GIT_REPOSITORY})
 ELSE ()
 	set(PBToolset_GIT_REPOSITORY https://github.com/baniuk/PBToolset.git) 
 ENDIF()
-set(PBToolset_GIT_TAG master)
 IF(DEFINED ENV{GTest_SVN_REPOSITORY})
-	set(GTest_SVN_REPOSITORY "")
+	set(GTest_SVN_REPOSITORY $ENV{GTest_SVN_REPOSITORY})
 	message("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 	message("Use local gtest repo " External_dep/gtest)
 	message("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
@@ -47,20 +46,6 @@ set(ROOT_PROJECT_NAME "LabView_Extensions")
 
 project(${ROOT_PROJECT_NAME})
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-
-# set additional compiler flags
-IF (${WIN32})
-	# default RELEASE flags /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MP /MD /O2 /Ob2 /D NDEBUG
-	SET(EXTRA_COMPILER_FLAGS "/MP")
-ELSEIF (${UNIX})
-	SET(EXTRA_COMPILER_FLAGS "") 
-ELSE (${WIN32})
-	message(FATAL_ERROR "Wrong System")
-ENDIF(${WIN32})	
-
-# FORCE flag is necessary for updating default variable in cmake cache
-# final flags results from  CMAKE_CXX_FLAGS & (CMAKE_CXX_FLAGS_DEBUG | CMAKE_CXX_FLAGS_RELEASE)
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${EXTRA_COMPILER_FLAGS}" CACHE STRING "" FORCE)
 
 # create lib output directory that can be removed by clean-build
 file(MAKE_DIRECTORY lib)

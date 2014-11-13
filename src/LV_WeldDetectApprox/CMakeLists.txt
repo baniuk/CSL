@@ -16,6 +16,7 @@ set(PBToolset_SRC ${source_dir})
 ExternalProject_Get_Property(levmar source_dir)
 set(levmar_SRC ${source_dir}) 
 
+
 # set include directory - patch to have include files in VC project (in add_library)
 set(INC_DIR ${${ROOT_PROJECT_NAME}_SOURCE_DIR}/include/${LOCAL_PROJECT_NAME})
 
@@ -36,14 +37,15 @@ add_library(${LOCAL_PROJECT_NAME}_static STATIC
 			${INC_DIR}/C_CircBuff.h
 			ParamEstimation.cpp ${INC_DIR}/ParamEstimation.h)
 add_library(${LOCAL_PROJECT_NAME}_WeldPostProcess_static STATIC 
-			CV_WeldPostProcess.cpp ${INC_DIR}/CV_WeldPostProcess.h)			
+			CV_WeldPostProcess.cpp ${INC_DIR}/CV_WeldPostProcess.h)		
+# external libs				
 target_link_libraries(	${LOCAL_PROJECT_NAME}_static
-						${CMAKE_SOURCE_DIR}/lib/Geom${CMAKE_FIND_LIBRARY_SUFFIXES}
-						${CMAKE_SOURCE_DIR}/lib/levmar${CMAKE_FIND_LIBRARY_SUFFIXES}
-						${CMAKE_SOURCE_DIR}/lib/f2c${CMAKE_FIND_LIBRARY_SUFFIXES}
-						${CMAKE_SOURCE_DIR}/lib/blas${CMAKE_FIND_LIBRARY_SUFFIXES}
-						${CMAKE_SOURCE_DIR}/lib/tmglib${CMAKE_FIND_LIBRARY_SUFFIXES}
-						${CMAKE_SOURCE_DIR}/lib/lapack${CMAKE_FIND_LIBRARY_SUFFIXES})
+						${External_dep_BINARY_DIR}/Geom${CMAKE_FIND_LIBRARY_SUFFIXES}
+						${External_dep_BINARY_DIR}/levmar${CMAKE_FIND_LIBRARY_SUFFIXES}
+						${External_dep_BINARY_DIR}/f2c${CMAKE_FIND_LIBRARY_SUFFIXES}
+						${External_dep_BINARY_DIR}/blas${CMAKE_FIND_LIBRARY_SUFFIXES}
+						${External_dep_BINARY_DIR}/tmglib${CMAKE_FIND_LIBRARY_SUFFIXES}
+						${External_dep_BINARY_DIR}/lapack${CMAKE_FIND_LIBRARY_SUFFIXES})
 # linkowanie OpenCV
 target_link_libraries(${LOCAL_PROJECT_NAME}_WeldPostProcess_static ${OpenCV_LIBS})
 # budowanie DLL (linkuje static)

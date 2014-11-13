@@ -17,8 +17,6 @@ set(GTest_LIB ${binary_dir})
 ExternalProject_Get_Property(googletest source_dir)
 set(GTest_SRC ${source_dir}) 	
 
-ExternalProject_Get_Property(PBToolset binary_dir)
-set(PBToolset_LIB ${binary_dir})
 ExternalProject_Get_Property(PBToolset source_dir)
 set(PBToolset_SRC ${source_dir}) 	
 
@@ -28,9 +26,9 @@ add_executable(${LOCAL_PROJECT_NAME} LV_Threshold_tests.cpp)
 # gtest specific
 target_compile_options(${LOCAL_PROJECT_NAME} PUBLIC -D_VARIADIC_MAX=10)
 target_link_libraries(	${LOCAL_PROJECT_NAME} 
-						${CMAKE_SOURCE_DIR}/lib/gtest${CMAKE_FIND_LIBRARY_SUFFIXES} 
-						${CMAKE_SOURCE_DIR}/lib/gtest_main${CMAKE_FIND_LIBRARY_SUFFIXES}
-						${CMAKE_SOURCE_DIR}/lib/MatlabExchange${CMAKE_FIND_LIBRARY_SUFFIXES}
+						${GTest_LIB}/gtest${CMAKE_FIND_LIBRARY_SUFFIXES} 
+						${GTest_LIB}/gtest_main${CMAKE_FIND_LIBRARY_SUFFIXES}
+						${External_dep_BINARY_DIR}/MatlabExchange${CMAKE_FIND_LIBRARY_SUFFIXES}
 						LV_Threshold_static)
 
 # linking with tested lib
