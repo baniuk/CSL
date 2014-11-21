@@ -1,4 +1,5 @@
 ﻿project("External_dep")
+# By default all external projects should ends with bins in External_dep_BINARY_DIR
 
 ExternalProject_Add(	googletest
 						SVN_REPOSITORY ${GTest_SVN_REPOSITORY}

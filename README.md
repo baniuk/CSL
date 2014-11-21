@@ -11,7 +11,7 @@ This project depends on:
 
  1. Google test API - which is included as **ExternalProject** and can be obtained in two ways:
   * Automatically by *cmake*  checking out from repository http://googletest.googlecode.com/svn/trunk/
-  * Using local hard copy of this repo in case of working off-line. To use hard copy of *gtest* the repository must be manually cloned into `External_dep/gtest` and environmental variable `GTest_SVN_REPOSITORY` must be set to **any** value.
+  * Using local hard copy of this repo in case of working off-line. To use hard copy of *gtest* the repository must be manually cloned somewhere and environmental variable `GTest_SVN_REPOSITORY` must be set to **repo path**.
  2. PBToolset - which is included as **ExternalProject** and can be obtained in two ways:
   * Automatically by *cmake* checking out from repository on https://github.com/baniuk/PBToolset.git
   * Using local hard copy of this repo in case of working off-line. To use hard copy of *PBToolset.git* the repository must be manually cloned into `External_dep/PBToolset` and environmental variable `PBToolset_GIT_REPOSITORY` must be pointing directory with git repository. **This path must be in UNIX mode**
