@@ -1,6 +1,7 @@
 # CMake build script for CASELOT
 
 cmake_minimum_required (VERSION 3.0.2)
+cmake_policy(SET CMP0054 OLD) # for dtrange warnings from cmake internal modules??
 # check for external dependencies - OpenCV
 # OpenCV must be installed and env variable OPENCV_DIR must be st poining to OpenCVConfig.cmake Moreover correct bin (dlls) dir must be set in PATH
 # vc8 = Visual Studio 2005
@@ -40,12 +41,16 @@ ENDIF()
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake-modules)
 find_package(Subversion REQUIRED)
 find_package(OpenCV REQUIRED)
+find_package(GIT REQUIRED)
+find_package(CP REQUIRED)
 
 # do ustawienia
 set(ROOT_PROJECT_NAME "LabView_Extensions")
 
 project(${ROOT_PROJECT_NAME})
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
+include(CMake/tools.cmake)
 
 # create lib output directory that can be removed by clean-build
 file(MAKE_DIRECTORY lib)
@@ -55,7 +60,7 @@ file(MAKE_DIRECTORY doc)
 enable_language(RC)
 
 include(ExternalProject)
-add_subdirectory(External_dep)
+add_subdirectory(Externals)
 
 # additional subdirs are there - see src dir
 add_subdirectory(src)

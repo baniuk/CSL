@@ -6,6 +6,8 @@ rem clear all dirs
 IF EXIST doc rmdir doc /s /q
 IF EXIST bin rmdir bin /s /q
 IF EXIST lib rmdir lib /s/q
+rem delete all external projects in Externals
+FOR /D /R %%X IN (Externals\*) DO rmdir "%%X" /s /q
 
 rem recreate dirs
 mkdir bin

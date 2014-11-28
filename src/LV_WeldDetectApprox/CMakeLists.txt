@@ -11,11 +11,7 @@ configure_file(
   ${CMAKE_CURRENT_BINARY_DIR}/resources.rc
   @ONLY)
 
-ExternalProject_Get_Property(PBToolset source_dir)
-set(PBToolset_SRC ${source_dir}) 
-ExternalProject_Get_Property(levmar source_dir)
-set(levmar_SRC ${source_dir}) 
-
+getPathToExternals()
 
 # set include directory - patch to have include files in VC project (in add_library)
 set(INC_DIR ${${ROOT_PROJECT_NAME}_SOURCE_DIR}/include/${LOCAL_PROJECT_NAME})
@@ -23,7 +19,9 @@ set(INC_DIR ${${ROOT_PROJECT_NAME}_SOURCE_DIR}/include/${LOCAL_PROJECT_NAME})
 project(${LOCAL_PROJECT_NAME})
 # includes in source files must be relative to ./include dir. Includes specific to 
 # given project are in separate subdirectories
-include_directories(${${ROOT_PROJECT_NAME}_SOURCE_DIR}/include ${PBToolset_SRC}/include ${levmar_SRC})
+include_directories(${${ROOT_PROJECT_NAME}_SOURCE_DIR}/include ${ALL_EXTERNAL_INCS})
+# link directories - external
+link_directories(${ALL_EXTERNAL_LIBS})
 # budowanie biblioteki statycznej
 add_library(${LOCAL_PROJECT_NAME}_static STATIC 
 			C_LineInterp.cpp ${INC_DIR}/C_LineInterp.h
@@ -40,12 +38,12 @@ add_library(${LOCAL_PROJECT_NAME}_WeldPostProcess_static STATIC
 			CV_WeldPostProcess.cpp ${INC_DIR}/CV_WeldPostProcess.h)		
 # external libs				
 target_link_libraries(	${LOCAL_PROJECT_NAME}_static
-						${External_dep_BINARY_DIR}/Geom${CMAKE_FIND_LIBRARY_SUFFIXES}
-						${External_dep_BINARY_DIR}/levmar${CMAKE_FIND_LIBRARY_SUFFIXES}
-						${External_dep_BINARY_DIR}/f2c${CMAKE_FIND_LIBRARY_SUFFIXES}
-						${External_dep_BINARY_DIR}/blas${CMAKE_FIND_LIBRARY_SUFFIXES}
-						${External_dep_BINARY_DIR}/tmglib${CMAKE_FIND_LIBRARY_SUFFIXES}
-						${External_dep_BINARY_DIR}/lapack${CMAKE_FIND_LIBRARY_SUFFIXES})
+						Geom${CMAKE_FIND_LIBRARY_SUFFIXES}
+						levmar${CMAKE_FIND_LIBRARY_SUFFIXES}
+						f2c${CMAKE_FIND_LIBRARY_SUFFIXES}
+						blas${CMAKE_FIND_LIBRARY_SUFFIXES}
+						tmglib${CMAKE_FIND_LIBRARY_SUFFIXES}
+						lapack${CMAKE_FIND_LIBRARY_SUFFIXES})
 # linkowanie OpenCV
 target_link_libraries(${LOCAL_PROJECT_NAME}_WeldPostProcess_static ${OpenCV_LIBS})
 # budowanie DLL (linkuje static)

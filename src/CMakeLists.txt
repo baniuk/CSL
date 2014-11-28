@@ -1,4 +1,9 @@
-add_subdirectory(setError)
-add_subdirectory(LV_FastMedian)
-add_subdirectory(LV_Threshold)
-add_subdirectory(LV_WeldDetectApprox)
+###############################################################################
+#    \brief   Adds tests from subdirs                                         #
+#    \author  Piotr Baniukiewicz                                              #
+#    \date    17.11.2014                                                      #
+#    \todo                                                                    #
+#                                                                             #
+###############################################################################
+
+addSubirectories(${CMAKE_CURRENT_LIST_DIR})

@@ -78,19 +78,19 @@ if (NOT OpenCV_CONFIG_MODE)
 ##====================================================
 ## Find OpenCV libraries
 ##----------------------------------------------------
-if(EXISTS "${OpenCV_DIR}")
+if(EXISTS ${OpenCV_DIR})
 
         #When its possible to use the Config script use it.
-        if(EXISTS "${OpenCV_DIR}/OpenCVConfig.cmake")
+        if(EXISTS ${OpenCV_DIR}/OpenCVConfig.cmake)
 
                 ## Include the standard CMake script
-                include("${OpenCV_DIR}/OpenCVConfig.cmake")
+                include(${OpenCV_DIR}/OpenCVConfig.cmake)
 
                 ## Search for a specific version
                 set(CVLIB_SUFFIX "${OpenCV_VERSION_MAJOR}${OpenCV_VERSION_MINOR}${OpenCV_VERSION_PATCH}")
 
         #Otherwise it try to guess it.
-        else(EXISTS "${OpenCV_DIR}/OpenCVConfig.cmake")
+        else(EXISTS ${OpenCV_DIR}/OpenCVConfig.cmake)
 
                 set(OPENCV_LIB_COMPONENTS cxcore cv ml highgui cvaux)
                 find_path(OpenCV_INCLUDE_DIR "cv.h" PATHS "${OpenCV_DIR}" PATH_SUFFIXES "include" "include/opencv" DOC "")
@@ -106,7 +106,7 @@ if(EXISTS "${OpenCV_DIR}")
                 set(OpenCV_VERSION ${OpenCV_VERSION_MAJOR}.${OpenCV_VERSION_MINOR}.${OpenCV_VERSION_PATCH} CACHE STRING "" FORCE)
                 set(CVLIB_SUFFIX "${OpenCV_VERSION_MAJOR}${OpenCV_VERSION_MINOR}${OpenCV_VERSION_PATCH}")
                 
-        endif(EXISTS "${OpenCV_DIR}/OpenCVConfig.cmake")
+        endif(EXISTS ${OpenCV_DIR}/OpenCVConfig.cmake)
 
         
         
@@ -149,9 +149,9 @@ if(EXISTS "${OpenCV_DIR}")
         set(OpenCV_FOUND ${OpenCV_FOUND_TMP} CACHE BOOL "" FORCE)
 
 
-else(EXISTS "${OpenCV_DIR}")
+else(EXISTS ${OpenCV_DIR})
         set(ERR_MSG "Please specify OpenCV directory using OpenCV_DIR env. variable")
-endif(EXISTS "${OpenCV_DIR}")
+endif(EXISTS ${OpenCV_DIR})
 
 ##====================================================
 if (NOT OpenCV_FOUND)
@@ -225,7 +225,7 @@ IF    (${CMAKE_COMPILER_IS_GNUCXX})
 ENDIF (${CMAKE_COMPILER_IS_GNUCXX})
 
 # CHECK OPENCV_ROOT
-IF (EXISTS "$ENV{OPENCV_ROOT}")
+IF (EXISTS $ENV{OPENCV_ROOT})
 SET(OPENCV_POSSIBLE_INCDIRS
   "$ENV{OPENCV_ROOT}"
   "$ENV{OPENCV_ROOT}/include"
@@ -241,10 +241,10 @@ SET(OPENCV_POSSIBLE_INCDIRS
 SET(OPENCV_POSSIBLE_LIBRARY_PATHS
   "$ENV{OPENCV_ROOT}/lib"
   "$ENV{OPENCV_ROOT}")
-ENDIF (EXISTS "$ENV{OPENCV_ROOT}")
+ENDIF (EXISTS $ENV{OPENCV_ROOT})
 
 # CHECK OPENCV_DIR
-IF (EXISTS "$ENV{OPENCV_DIR}")
+IF (EXISTS $ENV{OPENCV_DIR})
 SET(OPENCV_POSSIBLE_INCDIRS
   "$ENV{OPENCV_DIR}"
   "$ENV{OPENCV_DIR}/include"
@@ -261,16 +261,16 @@ SET(OPENCV_POSSIBLE_LIBRARY_PATHS
   "$ENV{OPENCV_DIR}"
   "$ENV{OPENCV_DIR}/lib")
 
-ENDIF(EXISTS "$ENV{OPENCV_DIR}")
+ENDIF(EXISTS $ENV{OPENCV_DIR})
 
 # CHECK OPENCV_HOME
-IF (EXISTS "$ENV{OPENCV_HOME}")
+IF (EXISTS $ENV{OPENCV_HOME})
 SET(OPENCV_POSSIBLE_INCDIRS
   "$ENV{OPENCV_HOME}"
   "$ENV{OPENCV_HOME}/include"
   "$ENV{OPENCV_HOME}/include/cv"
   "$ENV{OPENCV_HOME}/include/opencv")
-ENDIF (EXISTS "$ENV{OPENCV_HOME}")
+ENDIF (EXISTS $ENV{OPENCV_HOME})
 
 IF (NOT OPENCV_POSSIBLE_INCDIRS)
 SET(OPENCV_POSSIBLE_INCDIRS
