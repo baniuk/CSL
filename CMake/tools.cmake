@@ -66,8 +66,6 @@ function(addTest LOCAL_PROJECT_NAME libs dependencies)
 	project(${LOCAL_PROJECT_NAME})
 	# external dependencies in format ExternalProject_[INC LIB]
 	getPathToExternals()
-	message(STATUS "-------- ${ALL_EXTERNAL_LIBS} --------")
-	message(STATUS "-------- ${ALL_EXTERNAL_INCS} --------")
 	# add all files in DIRECTORY
 	file(GLOB local_files ${CMAKE_CURRENT_SOURCE_DIR} "*.h" "*.cpp" "*.rc")
 	# important if test is run with paameters or external files
@@ -87,6 +85,8 @@ function(addTest LOCAL_PROJECT_NAME libs dependencies)
 							gtest${CMAKE_STATIC_LIBRARY_SUFFIX} 
 							gtest_main${CMAKE_STATIC_LIBRARY_SUFFIX})
 	target_link_libraries(	${LOCAL_PROJECT_NAME} ${libs})
+	message(STATUS "-------- ${libs} -------- ${dependencies}")
+
 	# depends on:
 	IF(dependencies)
 		add_dependencies(${LOCAL_PROJECT_NAME} ${dependencies})

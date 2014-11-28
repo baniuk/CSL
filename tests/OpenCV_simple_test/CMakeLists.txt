@@ -7,15 +7,15 @@ configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/lena.jpg
 
 project(${LOCAL_PROJECT_NAME})
 
-ExternalProject_Get_Property(googletest source_dir)
-set(GTest_SRC ${source_dir}) 	
-ExternalProject_Get_Property(googletest binary_dir)
-set(GTest_LIB ${binary_dir}) 
+getPathToExternals()	
 
-include_directories(${OpenCV_INCLUDE_DIRS})
+include_directories(${ALL_EXTERNAL_INCS} ${OpenCV_INCLUDE_DIRS})
+# link directories - external
+link_directories(${ALL_EXTERNAL_LIBS})
+
 add_executable(${LOCAL_PROJECT_NAME} DisplayImage.cpp)
 
-target_link_libraries(${LOCAL_PROJECT_NAME} ${GTest_LIB}/gtest${CMAKE_FIND_LIBRARY_SUFFIXES} ${GTest_LIB}/gtest_main${CMAKE_FIND_LIBRARY_SUFFIXES})
+target_link_libraries(${LOCAL_PROJECT_NAME} gtest${CMAKE_FIND_LIBRARY_SUFFIXES} gtest_main${CMAKE_FIND_LIBRARY_SUFFIXES})
 
 # linking with tested lib
 target_link_libraries(${LOCAL_PROJECT_NAME} ${OpenCV_LIBS})
