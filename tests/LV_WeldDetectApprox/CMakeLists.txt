@@ -74,28 +74,6 @@ configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/lineok_WeldDetexApprox_1.dat
 				${CMAKE_CURRENT_BINARY_DIR}/lineok_WeldDetexApprox_1.dat
 				COPYONLY)
 
-project(${LOCAL_PROJECT_NAME})
-
-getPathToExternals()
-
-include_directories(${ALL_EXTERNAL_INCS} ${${ROOT_PROJECT_NAME}_SOURCE_DIR}/include)
-# link directories - external
-link_directories(${ALL_EXTERNAL_LIBS})
-
-add_executable(${LOCAL_PROJECT_NAME} GTest_starter.cpp
-				LV_WeldDetectApprox_DLL_tests.cpp
-				LV_WeldDetectApprox_tests.cpp
-				LV_WeldDetectApprox_WeldPostProcess_tests.cpp
-				C_Matrix_Container.cpp  C_Matrix_Container.h)
-# gtest specific
-target_compile_options(${LOCAL_PROJECT_NAME} PUBLIC -D_VARIADIC_MAX=10)
-target_link_libraries(	${LOCAL_PROJECT_NAME} 
-						gtest${CMAKE_FIND_LIBRARY_SUFFIXES} 
-						gtest_main${CMAKE_FIND_LIBRARY_SUFFIXES}
-						MatlabExchange${CMAKE_FIND_LIBRARY_SUFFIXES}
-						LV_WeldDetectApprox_static
-						LV_WeldDetectApprox_WeldPostProcess_static)
-
-# linking with tested lib
-add_dependencies(${LOCAL_PROJECT_NAME} googletest PBToolset LV_WeldDetectApprox LV_WeldDetectApprox_WeldPostProcess_static)
-add_test(${LOCAL_PROJECT_NAME} ${LOCAL_PROJECT_NAME})
+set(dependencies googletest PBToolset LV_WeldDetectApprox LV_WeldDetectApprox_WeldPostProcess_static)
+set(libs LV_WeldDetectApprox_static MatlabExchange LV_WeldDetectApprox_WeldPostProcess_static)
+addTest(${LOCAL_PROJECT_NAME} "${libs}" "${dependencies}")

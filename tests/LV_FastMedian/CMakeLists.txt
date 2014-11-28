@@ -18,4 +18,4 @@ configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/testimag17.dat
 				COPYONLY)
 
 set(dependencies googletest PBToolset)
-addTest(${LOCAL_PROJECT_NAME} MatlabExchange ${dependencies})
+addTest(${LOCAL_PROJECT_NAME} MatlabExchange "${dependencies}")

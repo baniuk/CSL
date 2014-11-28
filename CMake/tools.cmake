@@ -62,6 +62,10 @@ endmacro()
 #						except those that do not support auto linking)
 # \param[in]	dependencies - names of porjects that LOCAL_PROJECT_NAME depends on
 # \todo for multi-target projects compile options should be set by function
+# \example 
+# 			set(dependencies googletest PBToolset)
+# 			set(libs LV_Threshold_static MatlabExchange)
+# 			addTest(${LOCAL_PROJECT_NAME} "${libs}" "${dependencies}") # quotes are extremally important here!
 function(addTest LOCAL_PROJECT_NAME libs dependencies)
 	project(${LOCAL_PROJECT_NAME})
 	# external dependencies in format ExternalProject_[INC LIB]
@@ -84,13 +88,15 @@ function(addTest LOCAL_PROJECT_NAME libs dependencies)
 	target_link_libraries(	${LOCAL_PROJECT_NAME}
 							gtest${CMAKE_STATIC_LIBRARY_SUFFIX} 
 							gtest_main${CMAKE_STATIC_LIBRARY_SUFFIX})
-	target_link_libraries(	${LOCAL_PROJECT_NAME} ${libs})
-	message(STATUS "-------- ${libs} -------- ${dependencies}")
-
+	foreach(lib ${libs})
+		target_link_libraries(	${LOCAL_PROJECT_NAME} ${lib})
+	endforeach()	
 	# depends on:
-	IF(dependencies)
-		add_dependencies(${LOCAL_PROJECT_NAME} ${dependencies})
-	ENDIF()
+	if(dependencies)
+		foreach (dep ${dependencies})
+			add_dependencies(${LOCAL_PROJECT_NAME} ${dep})
+  		endforeach()
+	endif()
 	# add TEST
 	add_test(${LOCAL_PROJECT_NAME} ${LOCAL_PROJECT_NAME})
 endfunction()
