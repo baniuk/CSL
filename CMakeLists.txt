@@ -53,7 +53,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 include(CMake/tools.cmake)
 
 # create lib output directory that can be removed by clean-build
-file(MAKE_DIRECTORY lib)
+file(MAKE_DIRECTORY build)
 # create doc output directory that can be removed by clean-build
 file(MAKE_DIRECTORY doc)
 

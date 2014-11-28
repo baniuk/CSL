@@ -11,6 +11,7 @@ configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/100_01_91_005.dat
 				${CMAKE_CURRENT_BINARY_DIR}/100_01_91_005.dat
 				COPYONLY)
 
-set(dependencies googletest PBToolset)
+project(${LOCAL_PROJECT_NAME})
+set(dependencies PBToolset)
 set(libs LV_Threshold_static MatlabExchange)
 addTest(${LOCAL_PROJECT_NAME} "${libs}" "${dependencies}")

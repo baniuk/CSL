@@ -74,6 +74,7 @@ configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/lineok_WeldDetexApprox_1.dat
 				${CMAKE_CURRENT_BINARY_DIR}/lineok_WeldDetexApprox_1.dat
 				COPYONLY)
 
-set(dependencies googletest PBToolset LV_WeldDetectApprox LV_WeldDetectApprox_WeldPostProcess_static)
+project(${LOCAL_PROJECT_NAME})
+set(dependencies PBToolset LV_WeldDetectApprox LV_WeldDetectApprox_WeldPostProcess_static)
 set(libs LV_WeldDetectApprox_static MatlabExchange LV_WeldDetectApprox_WeldPostProcess_static)
 addTest(${LOCAL_PROJECT_NAME} "${libs}" "${dependencies}")

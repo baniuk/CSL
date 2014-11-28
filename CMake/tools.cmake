@@ -67,15 +67,14 @@ endmacro()
 # 			set(libs LV_Threshold_static MatlabExchange)
 # 			addTest(${LOCAL_PROJECT_NAME} "${libs}" "${dependencies}") # quotes are extremally important here!
 function(addTest LOCAL_PROJECT_NAME libs dependencies)
-	project(${LOCAL_PROJECT_NAME})
 	# external dependencies in format ExternalProject_[INC LIB]
 	getPathToExternals()
 	# add all files in DIRECTORY
-	file(GLOB local_files ${CMAKE_CURRENT_SOURCE_DIR} "*.h" "*.cpp" "*.rc")
+	file(GLOB local_files ${CMAKE_CURRENT_SOURCE_DIR} "*.h" "*.cpp" "*.rc" "*.hpp")
 	# important if test is run with paameters or external files
-	IF(${CMAKE_GENERATOR} MATCHES "^(Visual Studio)")
+	if(${CMAKE_GENERATOR} MATCHES "^(Visual Studio)")
 		set(CMAKE_CURRENT_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE}")
-	ENDIF()
+	endif()
 	# set includes - external
 	include_directories(${ALL_EXTERNAL_INCS} ${CMAKE_SOURCE_DIR}/include)
 	# link directories - external
@@ -92,6 +91,7 @@ function(addTest LOCAL_PROJECT_NAME libs dependencies)
 		target_link_libraries(	${LOCAL_PROJECT_NAME} ${lib})
 	endforeach()	
 	# depends on:
+	add_dependencies(${LOCAL_PROJECT_NAME} googletest)
 	if(dependencies)
 		foreach (dep ${dependencies})
 			add_dependencies(${LOCAL_PROJECT_NAME} ${dep})
@@ -99,6 +99,65 @@ function(addTest LOCAL_PROJECT_NAME libs dependencies)
 	endif()
 	# add TEST
 	add_test(${LOCAL_PROJECT_NAME} ${LOCAL_PROJECT_NAME})
+endfunction()
+
+# Adds static library
+# Build static library
+# List of source and include files should be provided as last argument
+# adds also path for include files to get them in VC
+# Provides paths for:
+#	All external projects (LIB/INC)
+#	./include dir (all includes paths in source files are relative to ./include)
+#	./include/LOCAL_PROJECT_NAME - assuming that subirs and local project name are consistent
+# \type[in]		SHARED or STATIC
+# \param[in]	LOCAL_PROJECT_NAME - name of the local project
+# \param[in]	LIBRARY_NAME - name of the output library (the same as project or different)
+# \param[in]	libs - 	list of libs to link to (external libs are automatically linked inside function,
+#						except those that do not support auto linking)
+# \param[in]	dependencies - names of porjects that LOCAL_PROJECT_NAME depends on
+# \example 
+# 			set(libs setError ${LOCAL_PROJECT_NAME}_static)
+# 			set(dep setError)
+# 			addLibrary(	SHARED 							# type
+# 						${LOCAL_PROJECT_NAME}			# name of the project
+# 						${LOCAL_PROJECT_NAME}			# name of the LIBRARY
+# 						"${libs}"						# libs to link
+# 						"${dep}"						# dependencies
+# 						dllmain.cpp LV_Threshold_DLL_Wrapper.cpp LV_Threshold_DLL_Wrapper.h
+# 						${CMAKE_CURRENT_BINARY_DIR}/resources.rc) # files to build # quotes are extremally important here!
+function(addLibrary type LOCAL_PROJECT_NAME LIBRARY_NAME libs dependencies)
+	# external dependencies in format ExternalProject_[INC LIB]
+	getPathToExternals()
+	if(${CMAKE_GENERATOR} MATCHES "^(Visual Studio)")
+		set(CMAKE_CURRENT_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE}")
+	endif()
+	# set include directory - patch to have include files in VC project  (in add_library)
+	set(INC_DIR ${${ROOT_PROJECT_NAME}_SOURCE_DIR}/include/${LOCAL_PROJECT_NAME})
+	# adding path to INCLUDES
+	set(SRC_FILES "")
+	foreach( src ${ARGN})
+		if(${src} MATCHES "(\\.hpp|\\.h)$")	# if include
+			set(SRC_FILES ${SRC_FILES} ${INC_DIR}/${src})	# add path
+		else()
+			set(SRC_FILES ${SRC_FILES} ${src})
+		endif()
+	endforeach()
+	# set includes - external
+	include_directories(${ALL_EXTERNAL_INCS}
+						${CMAKE_SOURCE_DIR}/include)
+	# link directories - external
+	link_directories(${ALL_EXTERNAL_LIBS})
+	add_library(${LIBRARY_NAME} ${type} "${SRC_FILES}")
+
+	foreach(lib ${libs})
+		target_link_libraries(${LIBRARY_NAME} ${lib})
+	endforeach()	
+	# depends on:
+	if(dependencies)
+		foreach (dep ${dependencies})
+			add_dependencies(${LIBRARY_NAME} ${dep})
+  		endforeach()
+	endif()
 endfunction()
 
 # Creates test template of GTest Running
