@@ -1,5 +1,15 @@
+###############################################################################
+#    \brief   Adds external dependencies                                      #
+#    \details Content of this file is strongly related to tools.cmake         #
+#		Generally all binaries are in ${install_dir} and sources in           #
+#		 ${source_dir}                                                        #
+#    \author  Piotr Baniukiewicz                                              #
+#    \date    29.11.2014                                                      #
+#    \todo                                                                    #
+#                                                                             #
+###############################################################################
 project("Externals")
-# By default all external projects should ends with bins in External_dep_BINARY_DIR
+
 
 set(PROGRAM_UPDATE_COMMAND "") # found http://www.cmake.org/pipermail/cmake/2014-February/056988.html
 
