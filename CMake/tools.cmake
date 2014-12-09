@@ -33,8 +33,11 @@ function(getPathToExternals)
 	set(levmar_LIB ${install_dir}/lib)
 	set(levmar_INC ${source_dir})
 
-	set(ALL_EXTERNAL_LIBS ${googletest_LIB} ${PBToolset_LIB} ${clapack_LIB} ${levmar_LIB} PARENT_SCOPE)
-	set(ALL_EXTERNAL_INCS ${googletest_INC} ${PBToolset_INC} ${clapack_INC} ${levmar_INC} PARENT_SCOPE)
+	set(LabView_LIB ${CMAKE_SOURCE_DIR}/static_resources/LabView2014/cintools)
+	set(LabView_INC ${CMAKE_SOURCE_DIR}/static_resources/LabView2014/cintools)
+
+	set(ALL_EXTERNAL_LIBS ${googletest_LIB} ${PBToolset_LIB} ${clapack_LIB} ${levmar_LIB} ${LabView_LIB} PARENT_SCOPE)
+	set(ALL_EXTERNAL_INCS ${googletest_INC} ${PBToolset_INC} ${clapack_INC} ${levmar_INC} ${LabView_INC} PARENT_SCOPE)
 endfunction()
 
 
