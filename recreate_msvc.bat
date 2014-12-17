@@ -11,6 +11,6 @@ rem FOR /R %%A IN (*) DO IF %%~nA%%~xA==Makefile del /q %%~fA
 del /q CMakeCache.txt
 rem FOR /D /R %%X IN (CMakeFiles*) DO rmdir "%%X" /s /q
 echo on
-cmake -DCMAKE_BUILD_TYPE=Debug -G "Visual Studio 11 2012" --graphviz=Dep.dot ..\
+cmake -DCMAKE_BUILD_TYPE=Debug -G "Visual Studio 12 2013" --graphviz=Dep.dot ..\
 dot -Tpng Dep.dot > Dep.png
 cd ..
