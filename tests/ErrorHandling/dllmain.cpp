@@ -8,6 +8,8 @@
 */
 
 #include <windows.h>
+#include <ctime>
+#include <crtdbg.h>
 #include <definitions.h>
 #include "errordef.h"
 
@@ -16,6 +18,17 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 					  LPVOID lpReserved
 					  )
 {
+	HANDLE hLogFile;
+	time_t seconds;
+	time(&seconds);
+
+	hLogFile = CreateFile("errortestlib.log", FILE_APPEND_DATA,
+		FILE_SHARE_WRITE, NULL, CREATE_ALWAYS,
+		FILE_ATTRIBUTE_NORMAL, NULL);
+	_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_FILE);
+	_CrtSetReportFile(_CRT_WARN, hLogFile);
+	_RPT1(_CRT_WARN, "The current local time is: %s\n", ctime(&seconds));
+
 	switch (ul_reason_for_call)
 	{
 	case DLL_PROCESS_ATTACH:
@@ -23,8 +36,10 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 		break;
 	case DLL_THREAD_DETACH:
 	case DLL_PROCESS_DETACH:
+		_RPT0(_CRT_WARN, "Free Library");
 		break;
 	}
+	CloseHandle(hLogFile);
 	return TRUE;
 }
 
@@ -34,6 +49,8 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 */
 extern "C" __declspec(dllexport) UINT32 bar(int err)
 {
+	_RPT0(_CRT_WARN, "Entering bar()\n");
+	_RPT1(_CRT_WARN, "Error code %d\n", err);
 	switch (err)
 	{
 	case 0:

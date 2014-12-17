@@ -37,8 +37,10 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 		break;
 	case DLL_THREAD_DETACH:
 	case DLL_PROCESS_DETACH:
+		_RPT0(_CRT_WARN, "Free Library");
 		break;
 	}
+	CloseHandle(hLogFile);
 	return TRUE;
 }
 

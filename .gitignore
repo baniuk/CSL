@@ -5,6 +5,7 @@ lib
 build
 doc
 MSVC
+*.aps
 
 # cmake stuff
 
