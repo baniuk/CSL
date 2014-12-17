@@ -32,7 +32,7 @@ addLibrary(	STATIC 							# type
 			${LOCAL_PROJECT_NAME}			# name of the project
 			${LOCAL_PROJECT_NAME}_WeldPostProcess_static	# name of the LIBRARY
 			"${OpenCV_LIBS}"				# libs to link (if any)
-			""								# dependencies (if any)
+			"${dep}"								# dependencies (if any)
 			CV_WeldPostProcess.cpp CV_WeldPostProcess.h) # files to build
 
 set(libs setError ${LOCAL_PROJECT_NAME}_static ${LOCAL_PROJECT_NAME}_WeldPostProcess_static)

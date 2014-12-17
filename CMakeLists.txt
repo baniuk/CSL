@@ -1,7 +1,7 @@
 # CMake build script for CASELOT
 
 cmake_minimum_required (VERSION 3.0.2)
-cmake_policy(SET CMP0054 OLD) # for dtrange warnings from cmake internal modules??
+cmake_policy(SET CMP0054 OLD) # for strange warnings from cmake internal modules??
 # check for external dependencies - OpenCV
 # OpenCV must be installed and env variable OPENCV_DIR must be st poining to OpenCVConfig.cmake Moreover correct bin (dlls) dir must be set in PATH
 # vc8 = Visual Studio 2005
@@ -51,6 +51,11 @@ project(${ROOT_PROJECT_NAME})
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 include(CMake/tools.cmake)
+
+# add flags
+# if flags are added after project, they must be with FORCE. If before project, the variable CMAKE_...
+# is not initialized yet.
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Qpar -Qpar-report:1 -arch:SSE2" CACHE STRING "" FORCE)
 
 # create lib output directory that can be removed by clean-build
 file(MAKE_DIRECTORY build)
