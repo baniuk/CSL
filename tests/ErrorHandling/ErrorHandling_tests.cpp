@@ -66,7 +66,7 @@ TEST(ReadResource, readString)
 	char buffer[512];
 	int retVal;
 	retVal = LoadString(hinstLib,
-		102,
+		1002,
 		buffer,
 		512);
 	FreeLibrary(hinstLib);
