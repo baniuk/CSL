@@ -1,5 +1,5 @@
 /**
-* \file    ErrorHandling/dllmain.cpp
+* \file    ErrorHandling/dummydllmain.cpp
 * \brief	Main entry to DLL
 * \details Dummy DLL that will be extended by resource strings and will be 
 * tested as input for error handling DLL 
@@ -11,7 +11,8 @@
 #include <ctime>
 #include <crtdbg.h>
 #include <definitions.h>
-#include "errordef.h"
+/// Here are definitions of errors
+#include "errordef.h"	
 
 BOOL APIENTRY DllMain( HMODULE hModule,
 					  DWORD  ul_reason_for_call,

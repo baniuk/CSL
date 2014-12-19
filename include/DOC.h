@@ -30,4 +30,11 @@
 * 
 * \b Exports:
 * -# ::LV_WeldDetectApprox() \copybrief LV_WeldDetectApprox()
+* \subsubsection LV_ErrorDecode
+* \copybrief LV_ErrorDecode.cpp
+* 
+* \b Exports:
+* -# ::getErrorDesc \copybrief getErrorDesc
+* \b Error codes ranges
+* -# \copydetails LV_ErrorDecode.h
 */

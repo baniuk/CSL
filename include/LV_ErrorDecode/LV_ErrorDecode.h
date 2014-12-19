@@ -3,10 +3,11 @@
  * \brief Header for ErrorDecode LV library
  * \details Ranges of error codes assigned for DLLs:
  *	\li 0 - no error (defined in definitions.h)
- *	\li  9000 - 9999	- general errors for ErrorDecode lib
- *	\li 10000 - 19999 - LV_FastMedian
- *	\li 20000 - 29999 - LV_Threshold
- *	\li 30000 - 39999 - LV_WeldDetectApprox
+ *	\li 0xF0000000 - 0xF00000FF	- general errors for ErrorDecode lib
+ *	\li 0x01000000 - 0x010000FF - LV_FastMedian
+ *	\li 0x02000000 - 0x020000FF - LV_Threshold
+ *	\li 0x03000000 - 0x030000FF - LV_WeldDetectApprox
+ *  \li 0xFFFFFF00 - 0xFFFFFFFE - LV_ErrorDecode_dummyDLL.dll - do testów tylko
  * \author PB
  * \date 2014/12/18
  */
