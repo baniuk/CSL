@@ -1,5 +1,5 @@
 /**
-* \file    ErrorHandling/dummydllmain.cpp
+* \file    dummydllmain.cpp
 * \brief	Main entry to DLL
 * \details Dummy DLL that will be extended by resource strings and will be 
 * tested as input for error handling DLL 
