@@ -74,10 +74,6 @@ function(addTest LOCAL_PROJECT_NAME libs dependencies)
 	getPathToExternals()
 	# add all files in DIRECTORY
 	file(GLOB local_files ${CMAKE_CURRENT_SOURCE_DIR} "*.h" "*.cpp" "*.rc" "*.hpp")
-	# important if test is run with paameters or external files
-	if(${CMAKE_GENERATOR} MATCHES "^(Visual Studio)")
-		set(CMAKE_CURRENT_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE}")
-	endif()
 	# set includes - external
 	include_directories(${ALL_EXTERNAL_INCS} ${CMAKE_SOURCE_DIR}/include)
 	# link directories - external

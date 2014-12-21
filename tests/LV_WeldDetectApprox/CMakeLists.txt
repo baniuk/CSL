@@ -1,6 +1,9 @@
 # rzeczy do zmiany
 set(LOCAL_PROJECT_NAME LV_WeldDetectApprox_tests)
 # test case kopiowne z source do binary
+if(${CMAKE_GENERATOR} MATCHES "^(Visual Studio)")
+	set(CMAKE_CURRENT_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE}")
+endif()
 configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/testimag1.dat 
 				${CMAKE_CURRENT_BINARY_DIR}/testimag1.dat
 				COPYONLY)
