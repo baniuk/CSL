@@ -9,6 +9,7 @@
 #include "gtest/gtest.h"
 #include "definitions.h"
 #include "MatlabExchange/C_MatlabExchange.hpp"
+#include "LV_FastMedian/errordef.h"
 
 using namespace std;
 
@@ -92,7 +93,7 @@ TEST_F(DLL_Tests,_FastMedian_evenmask)
 	// tablica wyjściowa
 	UINT16 *outTab = new UINT16[rows*cols];
 	ret = pLV_MedFilt(inTab, outTab, rows, cols, 30, err);
-	EXPECT_EQ(ret, retCode::LV_FAIL);
+	EXPECT_EQ(ret, IDS_EVENMASK);
 
 	delete[] inTab;
 	delete[] outTab;
