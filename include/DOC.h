@@ -34,7 +34,6 @@
 * \copybrief LV_ErrorDecode.cpp
 * 
 * \b Exports:
-* -# ::getErrorDesc \copybrief getErrorDesc
-* \b Error codes ranges
-* -# \copydetails LV_ErrorDecode.h
+* -# ::getErrorDesc \copybrief getErrorDesc \n
+* See LV_ErrorDecode.h for details
 */
