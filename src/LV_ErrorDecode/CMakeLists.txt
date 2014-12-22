@@ -20,14 +20,27 @@ addLibrary( STATIC
 			"${dep}"						# dependencies
 			LV_ErrorDecode.cpp LV_ErrorDecode.h
 	)
-set(libs setError ${LOCAL_PROJECT_NAME}_static)
-addLibrary(	SHARED 							# type
-			${LOCAL_PROJECT_NAME}			# name of the project
-			${LOCAL_PROJECT_NAME}			# name of the LIBRARY
-			"${libs}"						# libs to link
-			"${dep}"						# dependencies
-			dllmain.cpp 
-			${CMAKE_CURRENT_BINARY_DIR}/resources.rc) # files to build
+
+# not using function because of extra settings passed here
+getPathToExternals()
+set(INC_DIR ${${ROOT_PROJECT_NAME}_SOURCE_DIR}/include/${LOCAL_PROJECT_NAME})
+include_directories(${ALL_EXTERNAL_INCS}
+					${CMAKE_SOURCE_DIR}/include)
+link_directories(${ALL_EXTERNAL_LIBS})
+add_library( ${LOCAL_PROJECT_NAME} SHARED
+			 dllmain.cpp
+			 ${INC_DIR}/LV_ErrorDecode.h
+			 ${CMAKE_CURRENT_BINARY_DIR}/resources.rc)
+target_link_libraries(  ${LOCAL_PROJECT_NAME}
+						setError
+						${LOCAL_PROJECT_NAME}_static
+						labview.lib
+						labviewv.lib)
+add_dependencies(${LOCAL_PROJECT_NAME} setError)
+# must be because of LV libraries
+set_target_properties(  ${LOCAL_PROJECT_NAME}
+						PROPERTIES
+						LINK_FLAGS "/SAFESEH:NO")
 
 set(libs "")
 set(dep "")
@@ -50,3 +63,4 @@ add_custom_command(	TARGET ${LOCAL_PROJECT_NAME}_dummyDLL
 	)
 # instalacja - kopiowanie wyników do katalogu po nmake install (nie potrzebne do testów)
 install (TARGETS ${LOCAL_PROJECT_NAME} RUNTIME DESTINATION ${${ROOT_PROJECT_NAME}_SOURCE_DIR}/bin)
+install (TARGETS ${LOCAL_PROJECT_NAME}_dummyDLL RUNTIME DESTINATION ${${ROOT_PROJECT_NAME}_SOURCE_DIR}/bin)

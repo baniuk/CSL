@@ -41,6 +41,7 @@
 #ifndef LV_ErrorDecode_h__
 #define LV_ErrorDecode_h__
 
+#include "extcode.h"
 #include <stdint.h>
 #include <string>
 #include "setError/setError.h"
@@ -61,9 +62,31 @@
  * \author PB
  * \date 2014/12/18
  * \note This method is for testing only. It returns raw c-string pointer
+ * \remarks It is exportable method
 */
 extern "C" __declspec(dllexport) void getErrorDesc(uint32_t errCode,
 	char* errorDescription);
+
+/**
+* \brief Converts error code to description, uses LV memory handling
+* \details This method looks for error codes ranges and obtains name of the
+* library which error code belongs to. Next loads selected library and read
+* ints resources to obtain \c STRINGTABLE entry of given code. This string
+* is limited to certain length and returned. Absolute length of string is
+* defined by \c MAX_ERROR_STRING in definitions.h. Uses memory handling from LV
+* to resize input table
+* \param[in] errCode code of the error to read
+* \param[out] errorDescription description of the error for \c errCode read
+* from library
+* \return Description of the error if found
+* \retval void
+* \author PB
+* \date 2014/12/18
+* \remarks It is exportable method
+* \see External code (DLL) Execution.vi
+*/
+extern "C" __declspec(dllexport) void LV_getErrorDesc(uint32_t errCode,
+	LStrHandle errorDescription);
 
 /**
  * \brief Decodes name of the library
