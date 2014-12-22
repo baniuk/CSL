@@ -35,5 +35,6 @@
 * 
 * \b Exports:
 * -# ::getErrorDesc \copybrief getErrorDesc \n
+* -# ::LV_getErrorDesc \copybrief LV_getErrorDesc \n
 * See LV_ErrorDecode.h for details
 */
