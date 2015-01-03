@@ -15,7 +15,7 @@ mkdir build
 rem start build process from build dir
 cd build
 rem Additional flags can be passed here or in CMakeLists.txt
-cmake -DCMAKE_BUILD_TYPE=Debug -G "NMake Makefiles" ..\
+cmake -DCMAKE_BUILD_TYPE=Release -G "NMake Makefiles" ..\
 IF %ERRORLEVEL% NEQ 0 goto :ERROR
 nmake
 ctest --verbose
