@@ -1,0 +1,7 @@
+#include "errordef.h"
+
+STRINGTABLE
+{
+	IDS_ERROR1, "Hello"
+	IDS_ERROR2, "Goodbye"
+}

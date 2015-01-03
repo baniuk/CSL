@@ -89,7 +89,7 @@ TEST_P(DLL_Tests,_LV_WeldDetectApprox)
 	// input data
 	unsigned int rows, cols;
 	std::unique_ptr<double[]> rtgtmp_data;
-	C_MatlabExchange::ReadData(testname, rtgtmp_data, rows, cols);
+	ASSERT_NO_THROW(C_MatlabExchange::ReadData(testname, rtgtmp_data, rows, cols));
 	// konwersja INT
 	UINT16* inTab = new UINT16[rows*cols];
 	for (unsigned int a=0;a<rows*cols;a++)

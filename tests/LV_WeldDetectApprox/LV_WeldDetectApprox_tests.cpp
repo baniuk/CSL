@@ -59,7 +59,7 @@ TEST(STATIC_WeldDetexApprox, _WeldDetexApprox_7)
 	C_WeldPos wp;
 
 	C_MatlabExchange dump("WeldDetectApprox_7.out");
-	C_MatlabExchange::ReadData("testimag7.dat",rtgtmp_data,rtg._rows, rtg._cols);
+	ASSERT_NO_THROW(C_MatlabExchange::ReadData("testimag7.dat",rtgtmp_data,rtg._rows, rtg._cols));
 	// convert to internal struct
 	rtg.data = rtgtmp_data.get();
 	obj = new C_LinearWeld(&rtg);
@@ -130,7 +130,7 @@ TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_2)
 	C_WeldPos wp;
 
 	C_MatlabExchange dump("WeldDetectApprox_2.out");
-	C_MatlabExchange::ReadData("testimag2.dat",rtgtmp_data,rtg._rows, rtg._cols);
+	ASSERT_NO_THROW(C_MatlabExchange::ReadData("testimag2.dat",rtgtmp_data,rtg._rows, rtg._cols));
 	// convert to internal struct
 	rtg.data = rtgtmp_data.get();
 	obj = new C_LinearWeld(&rtg);
@@ -201,7 +201,7 @@ TEST(STATIC_WeldDetexApprox,_WeldDetexApprox_16)
 	C_WeldPos wp;
 
 	C_MatlabExchange dump("WeldDetectApprox_16.out");
-	C_MatlabExchange::ReadData("testimag16.dat",rtgtmp_data,rtg._rows, rtg._cols);
+	ASSERT_NO_THROW(C_MatlabExchange::ReadData("testimag16.dat",rtgtmp_data,rtg._rows, rtg._cols));
 	// convert to internal struct
 	rtg.data = rtgtmp_data.get();
 	obj = new C_LinearWeld(&rtg);

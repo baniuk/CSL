@@ -19,6 +19,7 @@
 * \author PB
 * \date 2014/10/02
 * \see definitions.h
+* \deprecated This method will be removed in future versions
 */
 retCode setError::throwError(const char* _errorDesc, char** _formattedErrorDesc)
 {

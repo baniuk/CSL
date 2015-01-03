@@ -1,0 +1,6 @@
+#include "LV_WeldDetectApprox/errordef.h"
+
+STRINGTABLE
+{
+	IDS_GENERALERROR, "Detekcja linii spawu zakkonczona niepowodzeniem"
+}

@@ -1,4 +1,11 @@
-﻿#include "LV_WeldDetectApprox/C_LineInterp.h"
+﻿/**
+* \file    C_LineInterp.cpp
+* \brief	Interpolacja liniowa
+* \author  PB
+* \date    2012/03/01
+* \version see LV_WeldDetectApprox_DLL_Wrapper.cpp
+*/
+#include "LV_WeldDetectApprox/C_LineInterp.h"
 
 /**
 * Podstawowy konstruktor - nie powinien być używany

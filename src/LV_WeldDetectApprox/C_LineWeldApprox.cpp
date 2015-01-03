@@ -4,6 +4,7 @@
 * \details Zbiór podstawowch funkcji do detekcji linii spawu
 * \author  PB
 * \date    2012/03/01
+* \version see LV_WeldDetectApprox_DLL_Wrapper.cpp
 */
 #include "LV_WeldDetectApprox/C_LineWeldApprox.h"
 

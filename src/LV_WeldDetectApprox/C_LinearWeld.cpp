@@ -3,7 +3,7 @@
 * \brief	Implementuje dekecje spawów liniowych
 * \author  PB
 * \date    2012/03/01
-* \version 1.0
+* \version see LV_WeldDetectApprox_DLL_Wrapper.cpp
 */
 
 #include "LV_WeldDetectApprox\C_LinearWeld.h"
@@ -135,8 +135,10 @@ bool C_LinearWeld::Start(unsigned int step,unsigned int ile, double weld_edge)
 		// generowanie nast punktu start (zwrocone z  blad oznacza koniec spawu i wtedy tu przerywamy)
 		ile_done++;
 		ret = evalNextStartPoint(step);
+#ifdef _DEBUG
 		if(!((int)P0.getX()%10))
 			std::cout<<P0.getX()<<"\n";
+#endif
 	}
 	_RPT0(_CRT_WARN,"\tLeaving C_LinearWeld::Start\n");
 	SAFE_DELETE(coef);
@@ -503,7 +505,6 @@ void C_LinearWeld::evalWeldPos( const C_LineWeldApprox *_approx, const C_LineInt
 			SAFE_DELETE(indexy);
 			_RPT0(_CRT_WARN,"\tLeaving C_LinearWeld::evalWeldPos\n");
 }
-
 /** \example WeldDetecApprox_example.cpp
 * Przykład użycia klasy
 */
