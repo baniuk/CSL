@@ -1,64 +1,50 @@
 # rzeczy do zmiany
 set(LOCAL_PROJECT_NAME LV_WeldDetectApprox)
 set(VERSION_MAJOR 1) # wersje powinny być skorelowane z /version w pliku
-set(VERSION_MINOR 0)
+set(VERSION_MINOR 1)
 
-IF(${CMAKE_GENERATOR} MATCHES "^(Visual Studio)")
-	set(CMAKE_CURRENT_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE}")
-ENDIF()
 configure_file(
   ${CMAKE_CURRENT_SOURCE_DIR}/resources.rc.in
   ${CMAKE_CURRENT_BINARY_DIR}/resources.rc
   @ONLY)
 
-ExternalProject_Get_Property(PBToolset source_dir)
-set(PBToolset_SRC ${source_dir}) 
-ExternalProject_Get_Property(levmar source_dir)
-set(levmar_SRC ${source_dir}) 
-
-# set include directory - patch to have include files in VC project (in add_library)
-set(INC_DIR ${${ROOT_PROJECT_NAME}_SOURCE_DIR}/include/${LOCAL_PROJECT_NAME})
-
 project(${LOCAL_PROJECT_NAME})
-# includes in source files must be relative to ./include dir. Includes specific to 
-# given project are in separate subdirectories
-include_directories(${${ROOT_PROJECT_NAME}_SOURCE_DIR}/include ${PBToolset_SRC}/include ${levmar_SRC})
-# budowanie biblioteki statycznej
-add_library(${LOCAL_PROJECT_NAME}_static STATIC 
-			C_LineInterp.cpp ${INC_DIR}/C_LineInterp.h
-			C_LineWeldApprox.cpp ${INC_DIR}/C_LineWeldApprox.h
-			C_Levmar_Warp.cpp ${INC_DIR}/C_Levmar_Warp.h
-			interpol.cpp ${INC_DIR}/interpol.h
-			coeff.cpp ${INC_DIR}/coeff.h
-			C_LinearWeld.cpp ${INC_DIR}/C_LinearWeld.h
-			C_WeldlineDetect.cpp ${INC_DIR}/C_WeldlineDetect.h
-			C_WeldPos.cpp ${INC_DIR}/C_WeldPos.h
-			${INC_DIR}/C_CircBuff.h
-			ParamEstimation.cpp ${INC_DIR}/ParamEstimation.h)
-add_library(${LOCAL_PROJECT_NAME}_WeldPostProcess_static STATIC 
-			CV_WeldPostProcess.cpp ${INC_DIR}/CV_WeldPostProcess.h)			
-target_link_libraries(	${LOCAL_PROJECT_NAME}_static
-						${CMAKE_SOURCE_DIR}/lib/Geom${CMAKE_FIND_LIBRARY_SUFFIXES}
-						${CMAKE_SOURCE_DIR}/lib/levmar${CMAKE_FIND_LIBRARY_SUFFIXES}
-						${CMAKE_SOURCE_DIR}/lib/f2c${CMAKE_FIND_LIBRARY_SUFFIXES}
-						${CMAKE_SOURCE_DIR}/lib/blas${CMAKE_FIND_LIBRARY_SUFFIXES}
-						${CMAKE_SOURCE_DIR}/lib/tmglib${CMAKE_FIND_LIBRARY_SUFFIXES}
-						${CMAKE_SOURCE_DIR}/lib/lapack${CMAKE_FIND_LIBRARY_SUFFIXES})
-# linkowanie OpenCV
-target_link_libraries(${LOCAL_PROJECT_NAME}_WeldPostProcess_static ${OpenCV_LIBS})
-# budowanie DLL (linkuje static)
-add_library(${LOCAL_PROJECT_NAME} SHARED 
-			dllmain.cpp LV_WeldDetectApprox_DLL_Wrapper.cpp
-			${CMAKE_CURRENT_BINARY_DIR}/resources.rc
-			${INC_DIR}/LV_WeldDetectApprox_DLL_Wrapper.h)
-target_link_libraries(${LOCAL_PROJECT_NAME} setError ${LOCAL_PROJECT_NAME}_static ${LOCAL_PROJECT_NAME}_WeldPostProcess_static)
 
-add_dependencies(${LOCAL_PROJECT_NAME} setError PBToolset)
+set(lib Geom levmar${CMAKE_FIND_LIBRARY_SUFFIXES} f2c blas tmglib lapack)
+set(dep setError PBToolset levmar clapack)
+addLibrary(	STATIC 							# type
+			${LOCAL_PROJECT_NAME}			# name of the project
+			${LOCAL_PROJECT_NAME}_static	# name of the LIBRARY
+			"${lib}"						# libs to link (if any)
+			"${dep}"						# dependencies (if any)
+			C_LineInterp.cpp C_LineInterp.h
+			C_LineWeldApprox.cpp C_LineWeldApprox.h
+			C_Levmar_Warp.cpp C_Levmar_Warp.h
+			interpol.cpp interpol.h
+			coeff.cpp coeff.h
+			C_LinearWeld.cpp C_LinearWeld.h
+			C_WeldlineDetect.cpp C_WeldlineDetect.h
+			C_WeldPos.cpp C_WeldPos.h
+			C_CircBuff.h
+			ParamEstimation.cpp ParamEstimation.h) # files to build
+
+addLibrary(	STATIC 							# type
+			${LOCAL_PROJECT_NAME}			# name of the project
+			${LOCAL_PROJECT_NAME}_WeldPostProcess_static	# name of the LIBRARY
+			"${OpenCV_LIBS}"				# libs to link (if any)
+			"${dep}"								# dependencies (if any)
+			CV_WeldPostProcess.cpp CV_WeldPostProcess.h) # files to build
+
+set(libs setError ${LOCAL_PROJECT_NAME}_static ${LOCAL_PROJECT_NAME}_WeldPostProcess_static)
+set(dep setError PBToolset)
+addLibrary(	SHARED 							# type
+			${LOCAL_PROJECT_NAME}			# name of the project
+			${LOCAL_PROJECT_NAME}			# name of the LIBRARY
+			"${libs}"						# libs to link
+			"${dep}"						# dependencies
+			dllmain.cpp LV_WeldDetectApprox_DLL_Wrapper.cpp LV_WeldDetectApprox_DLL_Wrapper.h
+			${CMAKE_CURRENT_BINARY_DIR}/resources.rc
+			errordef.rc) # files to build
 
 # instalacja - kopiowanie wyników do katalogu po nmake install (nie potrzebne do testów)
-install (TARGETS ${LOCAL_PROJECT_NAME} RUNTIME DESTINATION ${${ROOT_PROJECT_NAME}_SOURCE_DIR}/lib)
-
-# dodatkowe ustawienia projektu
-#set_target_properties(${LOCAL_PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${${ROOT_PROJECT_NAME}_SOURCE_DIR}/lib)
-# 
-# target_compile_options(setError PUBLIC "/D_CRT_SECURE_NO_WARNINGS")
+install (TARGETS ${LOCAL_PROJECT_NAME} RUNTIME DESTINATION ${${ROOT_PROJECT_NAME}_SOURCE_DIR}/bin)

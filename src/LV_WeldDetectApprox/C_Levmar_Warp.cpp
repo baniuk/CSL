@@ -4,6 +4,7 @@
 * \details Zawiera definicje funkcji wykorzystujących biblioteke levmar
 * \author  PB
 * \date    2012/03/01
+* \version see LV_WeldDetectApprox_DLL_Wrapper.cpp
 */
 #include "LV_WeldDetectApprox/C_Levmar_Warp.h"
 

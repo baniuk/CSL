@@ -1,10 +1,12 @@
 ﻿/**
 * \file    LV_Threshold.cpp
 * \brief	Implementation of Savuola thresholding
-* \details Contains static functions for testing purposes. Exported methods that call this library are in DLL_Wrapper
+* \details Contains static functions for testing purposes. Exported methods 
+* that call this library are in DLL_Wrapper
 * \author  PB
-* \date    2014/10/10
+* \date    2015/01/03
 * \version 1.0 Initial version based on ISAR project
+* \version 1.1 Fixed bug #34
 */
 
 #include "LV_Threshold/LV_Threshold.h"
@@ -24,7 +26,8 @@
 * \date 2014/10/10
 * \warning Obraz wyjściowy musi być rozmiaru obrazu wejściowego
 */
-void Sauv( const UINT16* input, UINT16* output, unsigned int rows, unsigned int cols, unsigned int w, double k )
+void Sauv( const UINT16* input, UINT16* output, unsigned int rows, 
+	unsigned int cols, unsigned int w, double k )
 {
 	_ASSERT(output);	// obraz wyjściowy alokowany na zewnątrz
 
@@ -54,7 +57,8 @@ void Sauv( const UINT16* input, UINT16* output, unsigned int rows, unsigned int 
 	CII<UINT16>(input, II, rows, cols);
 
 	//Podział obrazu
-	if(w < cols && w < rows) //Sprawdzamy czy obraz jest większy od maski, inaczej dalsze liczenie nie ma sensu
+	if(w < cols && w < rows) //Sprawdzamy czy obraz jest większy od maski, 
+	// inaczej dalsze liczenie nie ma sensu
 	{
 		if(cols > rows)
 		{
@@ -69,10 +73,12 @@ void Sauv( const UINT16* input, UINT16* output, unsigned int rows, unsigned int 
 		g = pom - 1;
 		if(xlonger)
 		{
-			sav.imin = (unsigned int)(w / 2.0) + 1;			// piksel środkowy na lewym górnym rogu - początek
+			// piksel środkowy na lewym górnym rogu - początek	
+			sav.imin = (unsigned int)(w / 2.0) + 1;			
 			sav.imax = rows - (unsigned int)(w / 2.0) - 1;
 			sav.jmin = (unsigned int)(w / 2.0);
-			sav.jmax = g + (unsigned int)(w / 2.0);			// g oznacza kolumny tu (wcześniej było - cała maska)
+			// g oznacza kolumny tu (wcześniej było - cała maska)
+			sav.jmax = g + (unsigned int)(w / 2.0);			
 		}
 		else
 		{

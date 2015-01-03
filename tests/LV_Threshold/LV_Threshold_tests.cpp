@@ -87,7 +87,7 @@ TEST_F(DLL_Tests,_Threshold)
 	retCode ret;
 	unsigned int rows,cols;
 	char err[MAX_ERROR_STRING];
-	C_MatlabExchange::ReadData("im8bit.dat",data, rows, cols);
+	ASSERT_NO_THROW(C_MatlabExchange::ReadData("im8bit.dat",data, rows, cols));
 	// konwersja INT
 	UINT16* inTab = new UINT16[rows*cols];
 	for (unsigned int a=0;a<rows*cols;a++)
@@ -120,7 +120,7 @@ TEST_F(DLL_Tests,_WrongParam)
 	retCode ret;
 	unsigned int rows,cols;
 	char err[MAX_ERROR_STRING];
-	C_MatlabExchange::ReadData("im8bit.dat",data, rows, cols);
+	ASSERT_NO_THROW(C_MatlabExchange::ReadData("im8bit.dat",data, rows, cols));
 	// konwersja INT
 	UINT16* inTab = new UINT16[rows*cols];
 	for (unsigned int a=0;a<rows*cols;a++)
@@ -137,7 +137,7 @@ TEST_F(DLL_Tests,_WrongParam)
 
 /**
 * \test STATIC_Test,_Threshold_1
-* \brief Tests main procedre from static lib
+* \brief Tests main procedre from static lib for settings w=23, k=0.05
 * \pre Image \c im8bit.dat
 * \post File \c LV_Threshold_tests.out
 * \author PB
@@ -165,7 +165,7 @@ TEST(STATIC_Test,_Threshold_1)
 
 /**
 * \test STATIC_Test,_Threshold_2
-* \brief Tests main procedre from static lib
+* \brief Tests main procedre from static lib for settings w=57, k=0.005
 * \pre Image \c imag2.dat
 * \post File \c LV_Threshold_tests_2.out
 * \author PB
@@ -193,7 +193,7 @@ TEST(STATIC_Test,_Threshold_2)
 
 /**
 * \test STATIC_Test,_Threshold_3
-* \brief Tests main procedre from static lib
+* \brief Tests main procedre from static lib for settings w=91, k= 0.05
 * \pre Image \c 100_01_91_005.dat
 * \post File \c LV_Threshold_tests_3.out
 * \author PB

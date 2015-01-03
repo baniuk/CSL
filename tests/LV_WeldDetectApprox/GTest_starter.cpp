@@ -1,5 +1,5 @@
 /**
-* \file    GTest_starter.cpp
+* \file    LV_WeldDetectApprox/GTest_starter.cpp
 * \brief	Starter for google test API
 * \author  PB
 * \date    2014/10/24

@@ -8,8 +8,8 @@
 #ifndef fastMedian_h__
 #define fastMedian_h__
 
-#include "setError/setError.h"
-
+#include "definitions.h"
+#include <inttypes.h>
 /**
 * \struct OBRAZ
 * \brief Struktura opisująca obraz lub bardziej generalnie obszar pamięci
@@ -44,11 +44,10 @@ void CopyWindow(OBRAZ *input_image,
 /// Kopiuje jedną kolumnę obrazu
 void CopyOneColumn( OBRAZ *input_image, unsigned short mask, int r, int k, unsigned short *out );
 /// Exported method for median filtering using fast median alghoritm
-extern "C" __declspec(dllexport) retCode LV_MedFilt(const UINT16* input_image,
+extern "C" __declspec(dllexport) uint32_t LV_MedFilt(const UINT16* input_image,
 													UINT16* output_image,
 													UINT16 nrows, UINT16 ncols,
-													UINT16 mask,
-													char* errDesc);
+													UINT16 mask);
 /// Number of gray levels in the image
 #define GRAYSCALE 65536
 

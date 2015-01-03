@@ -2,8 +2,10 @@
 
 [Bb]in
 lib
+build
 doc
 MSVC
+*.aps
 
 # cmake stuff
 

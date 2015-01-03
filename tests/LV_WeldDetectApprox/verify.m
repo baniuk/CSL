@@ -6,9 +6,6 @@
 
 % Wyniki testu
 p  = '..\..\bin\tests\LV_WeldDetectApprox\';
-if exist([p 'Debug\'],'dir')~=7
-    fprintf('------ Uwaga nie istnieje kalaog - zbuduj projekt --------\n');
-end
 %% Przygotowanie danych ------------
 % TEST STATIC_WeldPostProcess, _getRawPointer
 % przygotowanie danych - uruchomiæ TEST STATIC_WeldDetexApprox._WeldDetexApprox_1

@@ -64,9 +64,9 @@ TEST(STATIC_WeldPostProcess, _fillWeldShape)
 	std::unique_ptr<double[]> G;
 	std::unique_ptr<double[]> lineok;
 	unsigned int rows, cols;
-	C_MatlabExchange::ReadData("D_WeldDetexApprox_1.dat", D, rows, cols);
-	C_MatlabExchange::ReadData("G_WeldDetexApprox_1.dat", G, rows, cols);
-	C_MatlabExchange::ReadData("lineok_WeldDetexApprox_1.dat", lineok, rows, cols);
+	ASSERT_NO_THROW(C_MatlabExchange::ReadData("D_WeldDetexApprox_1.dat", D, rows, cols));
+	ASSERT_NO_THROW(C_MatlabExchange::ReadData("G_WeldDetexApprox_1.dat", G, rows, cols));
+	ASSERT_NO_THROW(C_MatlabExchange::ReadData("lineok_WeldDetexApprox_1.dat", lineok, rows, cols));
 	// recreate C_WeldPos
 	std::vector<C_WeldPos> wp;
 	std::vector<bool> line;

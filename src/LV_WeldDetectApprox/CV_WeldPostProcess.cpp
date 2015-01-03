@@ -16,11 +16,15 @@
 * \retval \c void
 * \author PB
 * \date 2014/10/30
+* \exception Can throw std::invalid_argument if input image is empty
 */
 void fillWeldShape(const vector<C_WeldPos>* _weldpos, const std::vector<bool>* _lineOK, cv::Mat& image)
 {
 	if(image.empty())
+	{
 		_RPT0(_CRT_ASSERT, "Input image is empty - it must be allocated first");
+		throw std::invalid_argument("Input image is empty - it must be allocated first");
+	}
 
 	bool data;
 	C_WeldPos wp;

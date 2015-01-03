@@ -1,6 +1,7 @@
 # CMake build script for CASELOT
 
 cmake_minimum_required (VERSION 3.0.2)
+cmake_policy(SET CMP0054 OLD) # for strange warnings from cmake internal modules??
 # check for external dependencies - OpenCV
 # OpenCV must be installed and env variable OPENCV_DIR must be st poining to OpenCVConfig.cmake Moreover correct bin (dlls) dir must be set in PATH
 # vc8 = Visual Studio 2005
@@ -17,7 +18,7 @@ ENDIF()
 
 # If these variables are set in env build is performed offline:
 # 	PBToolset_GIT_REPOSITORY - path to PBToolset git repository (local)
-#	GTest_SVN_REPOSITORY - any value (gtest must be in /external_dep/gtest)
+#	GTest_SVN_REPOSITORY - path to the SVN gtest repository
 # WARNING - Paths must be in unix mode /
 IF(DEFINED ENV{PBToolset_GIT_REPOSITORY})
 	set(PBToolset_GIT_REPOSITORY $ENV{PBToolset_GIT_REPOSITORY})
@@ -27,9 +28,8 @@ IF(DEFINED ENV{PBToolset_GIT_REPOSITORY})
 ELSE ()
 	set(PBToolset_GIT_REPOSITORY https://github.com/baniuk/PBToolset.git) 
 ENDIF()
-set(PBToolset_GIT_TAG master)
 IF(DEFINED ENV{GTest_SVN_REPOSITORY})
-	set(GTest_SVN_REPOSITORY "")
+	set(GTest_SVN_REPOSITORY $ENV{GTest_SVN_REPOSITORY})
 	message("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 	message("Use local gtest repo " External_dep/gtest)
 	message("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
@@ -41,6 +41,8 @@ ENDIF()
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake-modules)
 find_package(Subversion REQUIRED)
 find_package(OpenCV REQUIRED)
+find_package(GIT REQUIRED)
+find_package(CP REQUIRED)
 
 # do ustawienia
 set(ROOT_PROJECT_NAME "LabView_Extensions")
@@ -48,29 +50,22 @@ set(ROOT_PROJECT_NAME "LabView_Extensions")
 project(${ROOT_PROJECT_NAME})
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-# set additional compiler flags
-IF (${WIN32})
-	# default RELEASE flags /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MP /MD /O2 /Ob2 /D NDEBUG
-	SET(EXTRA_COMPILER_FLAGS "/MP")
-ELSEIF (${UNIX})
-	SET(EXTRA_COMPILER_FLAGS "") 
-ELSE (${WIN32})
-	message(FATAL_ERROR "Wrong System")
-ENDIF(${WIN32})	
+include(CMake/tools.cmake)
 
-# FORCE flag is necessary for updating default variable in cmake cache
-# final flags results from  CMAKE_CXX_FLAGS & (CMAKE_CXX_FLAGS_DEBUG | CMAKE_CXX_FLAGS_RELEASE)
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${EXTRA_COMPILER_FLAGS}" CACHE STRING "" FORCE)
+# add flags
+# if flags are added after project, they must be with FORCE. If before project, the variable CMAKE_...
+# is not initialized yet.
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Qpar -Qpar-report:1 -arch:SSE2" CACHE STRING "" FORCE)
 
 # create lib output directory that can be removed by clean-build
-file(MAKE_DIRECTORY lib)
+file(MAKE_DIRECTORY build)
 # create doc output directory that can be removed by clean-build
 file(MAKE_DIRECTORY doc)
 
 enable_language(RC)
 
 include(ExternalProject)
-add_subdirectory(External_dep)
+add_subdirectory(Externals)
 
 # additional subdirs are there - see src dir
 add_subdirectory(src)
