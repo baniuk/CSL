@@ -25,7 +25,8 @@ addLibrary(	SHARED 							# type
 			"${libs}"						# libs to link
 			"${dep}"						# dependencies
 			dllmain.cpp LV_Threshold_DLL_Wrapper.cpp LV_Threshold_DLL_Wrapper.h
-			${CMAKE_CURRENT_BINARY_DIR}/resources.rc) # files to build
+			${CMAKE_CURRENT_BINARY_DIR}/resources.rc
+			errordef.rc) # files to build
 
 # instalacja - kopiowanie wyników do katalogu po nmake install (nie potrzebne do testów)
 install (TARGETS ${LOCAL_PROJECT_NAME} RUNTIME DESTINATION ${${ROOT_PROJECT_NAME}_SOURCE_DIR}/bin)

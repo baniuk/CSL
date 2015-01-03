@@ -1,0 +1,8 @@
+#include "LV_Threshold/errordef.h"
+
+STRINGTABLE
+{
+	IDS_ZEROMASK, "Maska mniejsza lub równa 0"
+	IDS_BIGMASK, "Za duża maska"
+	IDS_EVENMASK, "Maska parzysta"
+}

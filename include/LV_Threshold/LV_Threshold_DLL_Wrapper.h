@@ -14,7 +14,7 @@
 #include "definitions.h"
 
 /// Exported method for median filtering using fast median alghoritm
-extern "C" __declspec(dllexport) retCode LV_Thresh(const UINT16* input_image,
+extern "C" __declspec(dllexport) uint32_t LV_Thresh(const UINT16* input_image,
 													UINT16* output_image,
 													UINT16 nrows, UINT16 ncols,
 													unsigned int w,

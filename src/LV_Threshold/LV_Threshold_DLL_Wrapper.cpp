@@ -9,6 +9,7 @@
 */
 
 #include "LV_Threshold/LV_Threshold.h"
+#include "LV_Threshold/errordef.h"
 #include "LV_Threshold/LV_Threshold_DLL_Wrapper.h"
 
 /**
@@ -28,7 +29,7 @@
 * \remarks Returned image has the same size as input image
 * \see LV_Threshold.cpp
 */
-extern "C" __declspec(dllexport) retCode LV_Thresh(const UINT16* input_image,
+extern "C" __declspec(dllexport) uint32_t LV_Thresh(const UINT16* input_image,
 												   UINT16* output_image,
 												   UINT16 nrows, UINT16 ncols,
 												   unsigned int w,
@@ -38,12 +39,12 @@ extern "C" __declspec(dllexport) retCode LV_Thresh(const UINT16* input_image,
 	_ASSERT(input_image);
 	_ASSERT(output_image);
 
-	if(w <= 0)
-		return setError::throwError("Maska mniejsza lub równa 0", &errDesc);
-	if( w%2 == 0)
-		return setError::throwError("Maska parzysta", &errDesc);
-	if(nrows <= w || ncols <= w)
-		return setError::throwError("Za duża maska", &errDesc);
+	if (w <= 0)
+		return IDS_ZEROMASK;
+	if (w % 2 == 0)
+		return IDS_EVENMASK;
+	if (nrows <= w || ncols <= w)
+		return IDS_BIGMASK;
 
 	Sauv(input_image, output_image, nrows, ncols, w, k);	// wywołanie funkcji
 	return retCode::LV_OK;
