@@ -4,8 +4,9 @@
 * \details Exports the following functions:
 * - LV_WeldDetectApprox  - Performs weld detection using approximation
 * \author  PB
-* \date    2014/10/18
+* \date    2015/01/03
 * \version 1.0 Implementation based on ISAR project with huge code revorking
+* \version 1.1 Fixed #35
 */
 
 #include "LV_WeldDetectApprox/LV_WeldDetectApprox_DLL_Wrapper.h"
@@ -13,6 +14,7 @@
 #include "LV_WeldDetectApprox/ParamEstimation.h"
 #include "LV_WeldDetectApprox/C_LinearWeld.h"
 #include "LV_WeldDetectApprox/CV_WeldPostProcess.h"
+#include "LV_WeldDetectApprox/errordef.h"
 #include <memory>
 
 /**
@@ -30,10 +32,11 @@
 * \see LV_WeldDetectApprox_tests.cpp
 * \see WeldDetecApprox_example.cpp
 */
-extern "C" __declspec(dllexport) retCode LV_WeldDetectApprox(	const UINT16* input_image,
-															 UINT16* output_image,
-															 UINT16 nrows, UINT16 ncols,
-															 char* errDesc)
+extern "C" __declspec(dllexport) uint32_t LV_WeldDetectApprox(
+	const UINT16* input_image,
+	UINT16* output_image,
+	UINT16 nrows, UINT16 ncols,
+	char* errDesc)
 {
 	_ASSERT(input_image);
 	_ASSERT(output_image);
@@ -60,12 +63,13 @@ extern "C" __declspec(dllexport) retCode LV_WeldDetectApprox(	const UINT16* inpu
 	std::unique_ptr<C_LinearWeld> obj(new C_LinearWeld(&rtg)); // main object
 	C_Point cp_x_start(static_cast<double>(start_x_point), 0.0);	// punkt startowy
 	ParamEstimation<UINT16>(input_image, ncols, nrows, start_x_point, A, E); // estimation of initial params
-	C_LineWeldApprox::setDefaultParams(static_cast<double>(A), 60, 0, static_cast<double>(E),
+	C_LineWeldApprox::setDefaultParams(static_cast<double>(A), 60, 0,
+		static_cast<double>(E),
 		65535,340,1,70000,
 		0,10,-1,-20000); // setting up initial params
 	obj->SetProcedureParameters(buffor_size,cp_x_start); // initialize starting point and buffor size
-	if(obj->Start(step, 0, weld_edge)==false)
-		return setError::throwError("Detekcja linii spawu zakkonczona niepowodzeniem", &errDesc);
+	if (obj->Start(step, 0, weld_edge) == false)
+		return IDS_GENERALERROR;
 
 	_lineOK = obj->getLineOK();
 	_weldPos = obj->getweldPos();

@@ -10,8 +10,8 @@
 #ifndef LV_Threshold_DLL_Warper_h__
 #define LV_Threshold_DLL_Warper_h__
 
-#include "setError/setError.h"
 #include "definitions.h"
+#include <inttypes.h>
 
 /// Exported method for median filtering using fast median alghoritm
 extern "C" __declspec(dllexport) uint32_t LV_Thresh(const UINT16* input_image,

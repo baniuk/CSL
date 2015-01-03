@@ -8,7 +8,7 @@
 #ifndef fastMedian_h__
 #define fastMedian_h__
 
-#include "setError/setError.h"
+#include "definitions.h"
 #include <inttypes.h>
 /**
 * \struct OBRAZ
