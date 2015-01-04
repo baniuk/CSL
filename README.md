@@ -23,18 +23,21 @@ This project depends on:
  6. SVN tool shoud be avaiable on system (**not local**) `%PATH%`
  7. Doxygen for documentation building (on local or system path)
  8. Graphviz package (on local or system path)
+ 9. MscGen package (on local or system path)
 
 ### Build ###
 The following scripts available:
 
- * `./clean-build.bat` - clears everything and run cmake and then make, results are in `bin` and `lib`. Runs also all tests
- * `./recreate-msvc.bat` - deletes all cmake outputs and generates MSVC projects and solution in `bin`
- * `./recreate-cmake.bat` - deletes all cmake outputs and generates MSVC makefiles in `bin`
+ * `./clean-build.bat` - clears everything and run cmake and then make, results are in `build` dir. Runs also all tests
+ * `./recreate-msvc.bat` - deletes all cmake outputs and generates MSVC projects and solution in `build`
+ * `./recreate-cmake.bat` - deletes all cmake outputs and generates MSVC makefiles in `build`
  * `./build_doc.bat` - calls doxygen and builds doc in `doc` dir
  
 ### Install ###
-Use `nmake install` to copy all dlls to `lib` directory. No other installation steps are performed.
+Use `nmake install` to copy all dlls to `bin` directory. No other installation steps are performed.
 
 Problems
 --------
-If using Visual Studio solution all environmental variables and paths must be set globally for user (`setx`)
+If using Visual Studio solution all environmental variables and paths must be set globally for user (`setx`) or Visual Studio must be started from *.bat* script where are paths are set locally.
+
+Building without internet is limited and may not work correctly, mainly because probelms with local access to SVN repository.
