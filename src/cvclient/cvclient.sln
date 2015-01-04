@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cvclient", "cvclient\cvclient.vcxproj", "{C52548D8-C960-4FD5-AC46-4C24464BC424}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cvlib", "..\cvlib\cvlib\cvlib.vcxproj", "{05AB0EA7-7CD1-4434-AB67-218666B24F0C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C52548D8-C960-4FD5-AC46-4C24464BC424}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C52548D8-C960-4FD5-AC46-4C24464BC424}.Debug|Win32.Build.0 = Debug|Win32
+		{C52548D8-C960-4FD5-AC46-4C24464BC424}.Release|Win32.ActiveCfg = Release|Win32
+		{C52548D8-C960-4FD5-AC46-4C24464BC424}.Release|Win32.Build.0 = Release|Win32
+		{05AB0EA7-7CD1-4434-AB67-218666B24F0C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{05AB0EA7-7CD1-4434-AB67-218666B24F0C}.Debug|Win32.Build.0 = Debug|Win32
+		{05AB0EA7-7CD1-4434-AB67-218666B24F0C}.Release|Win32.ActiveCfg = Release|Win32
+		{05AB0EA7-7CD1-4434-AB67-218666B24F0C}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
