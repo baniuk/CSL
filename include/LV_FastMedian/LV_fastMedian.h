@@ -41,6 +41,8 @@ void CopyWindow(OBRAZ *input_image,
 				unsigned int current_col,
 				unsigned short *out,
 				unsigned int *hist);
+/// Dodaje ramkę wokół obrazu
+void PadImage(OBRAZ *in, OBRAZ *out);
 /// Kopiuje jedną kolumnę obrazu
 void CopyOneColumn( OBRAZ *input_image, unsigned short mask, int r, int k, unsigned short *out );
 /// Exported method for median filtering using fast median alghoritm

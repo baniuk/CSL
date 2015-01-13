@@ -22,6 +22,20 @@
 #endif
 
 /**
+ * \brief Dodaje ramke dookoła obrazu
+ * \details Zwraca kopie struktury \c OBRAZ w której zmianiona jest tablica, 
+ * ale rozmiary w zmiennych zostay te same aby nie wpływac na algorytm. Funkcja
+ * \c getPoint uwzględnia to i jest w stanie zwrócić punkt dla ujemnego indeksu
+ * albo większego od rozmiaru zdefiniowanego w \c OBRAZ.cols i \c OBRAZ.rows 
+ * \param[in] in obraz oryginalny
+ * \param[out] out obraz powiększony
+ */
+void PadImage(OBRAZ *in, OBRAZ *out)
+{
+
+}
+
+/**
 * \brief Zwraca wartość z tablicy na pozycji [r,k], przy załozeniu że tablica jest interpretowana jako 2D
 * \param[in] image		struktura opisująca obraz
 * \param[in] r			rząd
@@ -32,6 +46,7 @@
 inline unsigned short getPoint(OBRAZ *image, unsigned int r, unsigned int k)
 {
 	_ASSERT(r*image->cols+k<image->tabsize);
+	/// \todo dodac obsługę ujemnych indeksów, dodatnie sa dla własciwego obrazu, ujemne oraz większe od granic dla ramek
 	return image->tab[r*image->cols+k];
 }
 
@@ -74,10 +89,7 @@ void CopyWindow( OBRAZ *input_image,
 	for (wr = static_cast<int>(current_row)-bok_maski,l=0;wr<static_cast<int>(current_row)+bok_maski+1;wr++)
 		for (wk = static_cast<int>(current_col)-bok_maski;wk<static_cast<int>(current_col)+bok_maski+1;wk++)
 		{
-			if(wr<0 || wk<0 || wk>=static_cast<int>(input_image->cols) || wr>=static_cast<int>(input_image->rows))	// jeśli okno wystaje poza obraz to wpisywane są w to miejsce zera
-				out[l] = 0;
-			else
-				out[l] = getPoint(input_image,wr,wk);	// kopiowanie danych z obrazu do osobnej tablicy reprezentującej okno
+			out[l] = getPoint(input_image,wr,wk);	// kopiowanie danych z obrazu do osobnej tablicy reprezentującej okno
 			hist[out[l]]++;	// obliczam histogram
 			l++;
 		}
@@ -243,10 +255,7 @@ void CopyOneColumn( OBRAZ *input_image, unsigned short mask, int r, int k, unsig
 	unsigned short a;
 	for (a=0;a<mask;a++)
 	{
-		if(r<0 || r>=static_cast<int>(input_image->rows) || k<0 || k>=static_cast<int>(input_image->cols))	// jeśli rząd lub kolumna poza obrazem t owpisywane są 0
-			out[a] = 0;
-		else
-			out[a] = getPoint(input_image,r,k);
+		out[a] = getPoint(input_image,r,k);
 		r++;
 	}
 }
