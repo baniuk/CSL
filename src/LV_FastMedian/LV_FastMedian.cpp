@@ -32,6 +32,8 @@
 */
 inline unsigned short getPoint(OBRAZ *image, int r, int k)
 {
+	if(r<0 || k<0 || r>=static_cast<int>(image->rows) || k>=static_cast<int>(image->cols))
+		return 0;
 	_ASSERT(r*image->cols+k<image->tabsize);
 	return image->tab[r*image->cols+k];
 }
