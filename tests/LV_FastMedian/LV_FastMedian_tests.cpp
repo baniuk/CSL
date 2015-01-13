@@ -14,7 +14,7 @@
 using namespace std;
 
 /// \copydoc ::LV_MedFilt
-typedef retCode (*pLV_MedFilt_t)(UINT16*, UINT16*, UINT16, UINT16, UINT16, char*);
+typedef retCode (*pLV_MedFilt_t)(UINT16*, UINT16*, UINT16, UINT16, UINT16);
 
 int main(int argc, char* argv[])
 {
@@ -87,12 +87,11 @@ TEST_F(DLL_Tests,_FastMedian_evenmask)
 	std::unique_ptr<double[]> data;
 	unsigned int rows,cols;
 	rows = cols = 1024;
-	char err[MAX_ERROR_STRING];
 	// konwersja INT
 	UINT16* inTab = new UINT16[rows*cols];
 	// tablica wyjściowa
 	UINT16 *outTab = new UINT16[rows*cols];
-	ret = pLV_MedFilt(inTab, outTab, rows, cols, 30, err);
+	ret = pLV_MedFilt(inTab, outTab, rows, cols, 30);
 	EXPECT_EQ(ret, IDS_EVENMASK);
 
 	delete[] inTab;
@@ -113,7 +112,6 @@ TEST_F(DLL_Tests,_FastMedian_imag2)
 	retCode ret;
 	std::unique_ptr<double[]> data;
 	unsigned int rows,cols;
-	char err[MAX_ERROR_STRING];
 	ASSERT_NO_THROW(C_MatlabExchange::ReadData("imag2.dat",data, rows, cols));
 	// konwersja INT
 	UINT16* inTab = new UINT16[rows*cols];
@@ -122,7 +120,7 @@ TEST_F(DLL_Tests,_FastMedian_imag2)
 
 	// tablica wyjściowa
 	UINT16 *outTab = new UINT16[rows*cols];
-	ret = pLV_MedFilt(inTab, outTab, rows, cols, 31, err);
+	ret = pLV_MedFilt(inTab, outTab, rows, cols, 31);
 	EXPECT_EQ(ret, retCode::LV_OK);
 
 	C_MatlabExchange out("imag2.out");
@@ -145,7 +143,6 @@ TEST_F(DLL_Tests,_FastMedian_testimag1)
 	retCode ret;
 	std::unique_ptr<double[]> data;
 	unsigned int rows,cols;
-	char err[MAX_ERROR_STRING];
 	ASSERT_NO_THROW(C_MatlabExchange::ReadData("testimag1.dat",data, rows, cols));
 	// konwersja INT
 	UINT16* inTab = new UINT16[rows*cols];
@@ -154,7 +151,7 @@ TEST_F(DLL_Tests,_FastMedian_testimag1)
 
 	// tablica wyjściowa
 	UINT16 *outTab = new UINT16[rows*cols];
-	ret = pLV_MedFilt(inTab, outTab, rows, cols, 31, err);
+	ret = pLV_MedFilt(inTab, outTab, rows, cols, 31);
 	EXPECT_EQ(ret, retCode::LV_OK);
 	
 	C_MatlabExchange out("testimag1.out");
@@ -177,7 +174,6 @@ TEST_F(DLL_Tests,_FastMedian_testimag6)
 	retCode ret;
 	std::unique_ptr<double[]> data;
 	unsigned int rows,cols;
-	char err[MAX_ERROR_STRING];
 	ASSERT_NO_THROW(C_MatlabExchange::ReadData("testimag6.dat",data, rows, cols));
 	// konwersja INT
 	UINT16* inTab = new UINT16[rows*cols];
@@ -186,7 +182,7 @@ TEST_F(DLL_Tests,_FastMedian_testimag6)
 
 	// tablica wyjściowa
 	UINT16 *outTab = new UINT16[rows*cols];
-	ret = pLV_MedFilt(inTab, outTab, rows, cols, 31, err);
+	ret = pLV_MedFilt(inTab, outTab, rows, cols, 31);
 	EXPECT_EQ(ret, retCode::LV_OK);
 	
 	C_MatlabExchange out("testimag6.out");
@@ -209,7 +205,6 @@ TEST_F(DLL_Tests,_FastMedian_testimag9)
 	retCode ret;
 	std::unique_ptr<double[]> data;
 	unsigned int rows,cols;
-	char err[MAX_ERROR_STRING];
 	ASSERT_NO_THROW(C_MatlabExchange::ReadData("testimag9.dat",data, rows, cols));
 	// konwersja INT
 	UINT16* inTab = new UINT16[rows*cols];
@@ -218,7 +213,7 @@ TEST_F(DLL_Tests,_FastMedian_testimag9)
 
 	// tablica wyjściowa
 	UINT16 *outTab = new UINT16[rows*cols];
-	ret = pLV_MedFilt(inTab, outTab, rows, cols, 31, err);
+	ret = pLV_MedFilt(inTab, outTab, rows, cols, 31);
 	EXPECT_EQ(ret, retCode::LV_OK);
 	
 	C_MatlabExchange out("testimag9.out");
@@ -241,7 +236,6 @@ TEST_F(DLL_Tests,_FastMedian_testimag17_m31)
 	retCode ret;
 	std::unique_ptr<double[]> data;
 	unsigned int rows,cols;
-	char err[MAX_ERROR_STRING];
 	ASSERT_NO_THROW(C_MatlabExchange::ReadData("testimag17.dat",data, rows, cols));
 	// konwersja INT
 	UINT16* inTab = new UINT16[rows*cols];
@@ -250,7 +244,7 @@ TEST_F(DLL_Tests,_FastMedian_testimag17_m31)
 
 	// tablica wyjściowa
 	UINT16 *outTab = new UINT16[rows*cols];
-	ret = pLV_MedFilt(inTab, outTab, rows, cols, 31, err);
+	ret = pLV_MedFilt(inTab, outTab, rows, cols, 31);
 	EXPECT_EQ(ret, retCode::LV_OK);
 	
 	C_MatlabExchange out("testimag17m31.out");
@@ -273,7 +267,6 @@ TEST_F(DLL_Tests,_FastMedian_testimag17_m51)
 	retCode ret;
 	std::unique_ptr<double[]> data;
 	unsigned int rows,cols;
-	char err[MAX_ERROR_STRING];
 	ASSERT_NO_THROW(C_MatlabExchange::ReadData("testimag17.dat",data, rows, cols));
 	// konwersja INT
 	UINT16* inTab = new UINT16[rows*cols];
@@ -282,7 +275,7 @@ TEST_F(DLL_Tests,_FastMedian_testimag17_m51)
 
 	// tablica wyjściowa
 	UINT16 *outTab = new UINT16[rows*cols];
-	ret = pLV_MedFilt(inTab, outTab, rows, cols, 51, err);
+	ret = pLV_MedFilt(inTab, outTab, rows, cols, 51);
 	EXPECT_EQ(ret, retCode::LV_OK);
 	
 	C_MatlabExchange out("testimag17m51.out");
@@ -305,7 +298,6 @@ TEST_F(DLL_Tests,_FastMedian_testimag17_m91)
 	retCode ret;
 	std::unique_ptr<double[]> data;
 	unsigned int rows,cols;
-	char err[MAX_ERROR_STRING];
 	ASSERT_NO_THROW(C_MatlabExchange::ReadData("testimag17.dat",data, rows, cols));
 	// konwersja INT
 	UINT16* inTab = new UINT16[rows*cols];
@@ -314,7 +306,7 @@ TEST_F(DLL_Tests,_FastMedian_testimag17_m91)
 
 	// tablica wyjściowa
 	UINT16 *outTab = new UINT16[rows*cols];
-	ret = pLV_MedFilt(inTab, outTab, rows, cols, 91, err);
+	ret = pLV_MedFilt(inTab, outTab, rows, cols, 91);
 	EXPECT_EQ(ret, retCode::LV_OK);
 	
 	C_MatlabExchange out("testimag17m91.out");
@@ -337,7 +329,6 @@ TEST_F(DLL_Tests,_FastMedian_testimag17_m3)
 	retCode ret;
 	std::unique_ptr<double[]> data;
 	unsigned int rows,cols;
-	char err[MAX_ERROR_STRING];
 	ASSERT_NO_THROW(C_MatlabExchange::ReadData("testimag17.dat",data, rows, cols));
 	// konwersja INT
 	UINT16* inTab = new UINT16[rows*cols];
@@ -346,11 +337,36 @@ TEST_F(DLL_Tests,_FastMedian_testimag17_m3)
 
 	// tablica wyjściowa
 	UINT16 *outTab = new UINT16[rows*cols];
-	ret = pLV_MedFilt(inTab, outTab, rows, cols, 3, err);
+	ret = pLV_MedFilt(inTab, outTab, rows, cols, 3);
 	EXPECT_EQ(ret, retCode::LV_OK);
 	
 	C_MatlabExchange out("testimag17m3.out");
 	out.AddEntry2D<UINT16>(outTab,rows,cols,"filtered_image");
+	delete[] inTab;
+	delete[] outTab;
+}
+
+/**
+* \test DLL_Tests:_FastMedian_toobigimage
+* \brief Testuje reakcje na zbyt duży obraz
+* \post wyjątek
+* \author PB
+* \date 2015/13/01
+*/
+TEST_F(DLL_Tests,_FastMedian_toobigimage)
+{
+	ASSERT_FALSE(init_error); // expect no error during initialization
+	retCode ret;
+	std::unique_ptr<double[]> data;
+	unsigned int rows = 65537;
+	unsigned int cols = 400;
+	// konwersja INT
+	UINT16* inTab = new UINT16[rows*cols];
+
+	// tablica wyjściowa
+	UINT16 *outTab = new UINT16[rows*cols];
+	EXPECT_THROW(ret = pLV_MedFilt(inTab, outTab, rows, cols, 3), runtime_error);
+	
 	delete[] inTab;
 	delete[] outTab;
 }
