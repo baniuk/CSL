@@ -16,6 +16,7 @@
 #include <vector>
 #include <algorithm>
 #include <memory>
+#include <exception>
 
 #ifndef SAFE_DELETE
 #define SAFE_DELETE(p)       { if(p) { delete[] (p);     (p)=nullptr; } }
@@ -29,7 +30,7 @@
 * \return wartość na pozycji tab[r,k]
 * \remarks W obrazie dane układane sa rzedami, zgodnie z C_MatrixContainer
 */
-inline unsigned short getPoint(OBRAZ *image, unsigned int r, unsigned int k)
+inline unsigned short getPoint(OBRAZ *image, int r, int k)
 {
 	_ASSERT(r*image->cols+k<image->tabsize);
 	return image->tab[r*image->cols+k];
@@ -165,6 +166,9 @@ void FastMedian_Huang(	OBRAZ *image,
 	left_column = new unsigned short[mask];	// lewa kolumna poprzedniej pozycji maski (maska jest zawsze kwadratowa)
 	right_column = new unsigned short[mask];// prawa kolumna bierzacej maski
 	window = new unsigned short[static_cast<unsigned int>(mask)*mask];
+	// ponieważ są konwersje pomiędzy int i uint zawężające obraz nie powinien być większy niż short int
+	if(image->rows > 65536 || image->cols > 65535)
+		throw std::runtime_error("Too big image");
 	/*
 	* Przeglądanie obrazu po rzędach a procedura szybkiej filtracji po
 	* kolumnach. Dla kazdego nowego rzędu powtarza się wszystko od początku.
