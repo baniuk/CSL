@@ -56,7 +56,7 @@ addLibrary(	SHARED 							# type
 # Test DLL (dummyDLL) must be copied to the same dir where tests are
 file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/copyDLL.bat "@echo off\n")
 file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/copyDLL.bat "set CYGWIN=nodosfilewarning \n")
-file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/copyDLL.bat "${CP_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Debug/${LOCAL_PROJECT_NAME}_dummyDLL.dll ${CMAKE_BINARY_DIR}/tests/LV_ErrorDecode/Debug/ \n")
+file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/copyDLL.bat "\"${CP_EXECUTABLE}\" ${CMAKE_CURRENT_BINARY_DIR}/Debug/${LOCAL_PROJECT_NAME}_dummyDLL.dll ${CMAKE_BINARY_DIR}/tests/LV_ErrorDecode/Debug/ \n")
 add_custom_command(	TARGET ${LOCAL_PROJECT_NAME}_dummyDLL
 					POST_BUILD
 					COMMAND ${CMAKE_CURRENT_BINARY_DIR}/copyDLL.bat
