@@ -10,14 +10,23 @@ configure_file(
 
 project(${LOCAL_PROJECT_NAME})
 
-set(libs setError)
+
+addLibrary (STATIC
+			${LOCAL_PROJECT_NAME}			# name of the project
+			${LOCAL_PROJECT_NAME}_static    # name of the LIBRARY
+			""
+			""
+			LV_FastMedian.cpp LV_fastMedian.h
+			)
+
+set(libs setError ${LOCAL_PROJECT_NAME}_static)
 set(dep setError)
 addLibrary(	SHARED 							# type
 			${LOCAL_PROJECT_NAME}			# name of the project
-			${LOCAL_PROJECT_NAME}			# name of the LIBRARY
+			${LOCAL_PROJECT_NAME}		    # name of the LIBRARY
 			"${libs}"						# libs to link
-			"${dep}"						# dependencies
-			dllmain.cpp LV_FastMedian.cpp LV_fastMedian.h
+			"${dep}"
+			dllmain.cpp
 			${CMAKE_CURRENT_BINARY_DIR}/resources.rc
 			errordef.rc) # files to build
 

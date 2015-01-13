@@ -46,6 +46,8 @@ void PadImage(OBRAZ *in, OBRAZ *out)
 */
 inline unsigned short getPoint(OBRAZ *image, int r, int k)
 {
+	if(r<0 || k<0 || r>=static_cast<int>(image->rows) || k>=static_cast<int>(image->cols))
+		return 0;
 	_ASSERT(r*image->cols+k<image->tabsize);
 	/// \todo dodac obsługę ujemnych indeksów, dodatnie sa dla własciwego obrazu, ujemne oraz większe od granic dla ramek
 	return image->tab[r*image->cols+k];
