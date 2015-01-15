@@ -5,7 +5,8 @@
 
 
 % Wyniki testu
-p  = '..\..\bin\tests\LV_FastMedian\';
+p  = '..\..\build\tests\LV_FastMedian\';
+addpath(p);
 %% TEST DLL_Tests,_FastMedian_imag2
 figure
 % dane wejœciowe
@@ -15,7 +16,7 @@ imshow(im,[]);
 title('input image')
 
 % dane wyjœciowe
-ImportDumpFile([p 'FastMedian.out']);
+ImportDumpFile([p 'imag2.out']);
 subplot(2,1,2)
 imshow(filtered_image,[]);
 title('output image')
