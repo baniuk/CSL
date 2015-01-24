@@ -26,7 +26,7 @@ addLibrary(	SHARED 							# type
 			${LOCAL_PROJECT_NAME}		    # name of the LIBRARY
 			"${libs}"						# libs to link
 			"${dep}"
-			dllmain.cpp
+			dllmain.cpp LV_FastMedian_DLL_Wrapper.cpp LV_FastMedian_DLL_Wrapper.h
 			${CMAKE_CURRENT_BINARY_DIR}/resources.rc
 			errordef.rc) # files to build
 

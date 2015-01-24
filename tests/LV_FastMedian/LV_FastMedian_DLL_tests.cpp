@@ -1,5 +1,5 @@
 ﻿/**
-* \file    LV_FastMedian_tests.cpp
+* \file    LV_FastMedian_DLL_tests.cpp
 * \brief	Tests of public and private functions in LV_FastMedian.dll
 * \author  PB
 * \date    2014/01/22
@@ -15,14 +15,6 @@ using namespace std;
 
 /// \copydoc ::LV_MedFilt
 typedef retCode (*pLV_MedFilt_t)(UINT16*, UINT16*, UINT16, UINT16, UINT16);
-
-int main(int argc, char* argv[])
-{
-	int ret = 0;
-	::testing::InitGoogleTest(&argc, argv);
-	ret = RUN_ALL_TESTS();
-	return ret;
-}
 
 /**
 * \brief Test fixture class
@@ -370,3 +362,4 @@ TEST_F(DLL_Tests,_FastMedian_toobigimage)
 	delete[] inTab;
 	delete[] outTab;
 }
+

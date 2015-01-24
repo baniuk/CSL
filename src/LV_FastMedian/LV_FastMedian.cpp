@@ -5,13 +5,9 @@
 * - LV_MedFilt  - Filtering using any mask
 * \author  PB
 * \date    2014/12/21
-* \version 1.0 Initial version based on ISAR project
-* \version 1.1 Fixed bug #3
-* \version 1.2 Fixed bugs #31, #33
 */
 
 #include "LV_FastMedian/LV_FastMedian.h"
-#include "LV_FastMEdian/errordef.h"
 #include <crtdbg.h>
 #include <vector>
 #include <algorithm>
@@ -23,20 +19,6 @@
 #endif
 
 /**
- * \brief Dodaje ramke dookoła obrazu
- * \details Zwraca kopie struktury \c OBRAZ w której zmianiona jest tablica, 
- * ale rozmiary w zmiennych zostay te same aby nie wpływac na algorytm. Funkcja
- * \c getPoint uwzględnia to i jest w stanie zwrócić punkt dla ujemnego indeksu
- * albo większego od rozmiaru zdefiniowanego w \c OBRAZ.cols i \c OBRAZ.rows 
- * \param[in] in obraz oryginalny
- * \param[out] out obraz powiększony
- */
-void PadImage(OBRAZ *in, OBRAZ *out)
-{
-
-}
-
-/**
 * \brief Zwraca wartość z tablicy na pozycji [r,k], przy załozeniu że tablica jest interpretowana jako 2D
 * \param[in] image		struktura opisująca obraz
 * \param[in] r			rząd
@@ -46,11 +28,11 @@ void PadImage(OBRAZ *in, OBRAZ *out)
 */
 inline unsigned short getPoint(OBRAZ *image, int r, int k)
 {
-	if(r<0 || k<0 || r>=static_cast<int>(image->rows) || k>=static_cast<int>(image->cols))
+	if (r < 0 || k < 0 || r >= static_cast<int>(image->rows) || k >= static_cast<int>(image->cols))
 		return 0;
-	_ASSERT(r*image->cols+k<image->tabsize);
+	_ASSERT(r*image->cols + k < image->tabsize);
 	/// \todo dodac obsługę ujemnych indeksów, dodatnie sa dla własciwego obrazu, ujemne oraz większe od granic dla ramek
-	return image->tab[r*image->cols+k];
+	return image->tab[r*image->cols + k];
 }
 
 /**
@@ -264,39 +246,4 @@ void CopyOneColumn( OBRAZ *input_image, unsigned short mask, int r, int k, unsig
 		out[a] = getPoint(input_image,r,k);
 		r++;
 	}
-}
-
-/**
-* \brief Performs median filtering of input image
-* \details Assumes that input image is 1D array. Any positive and non-zero mask can be used. Returns filtered copy of
-* input image (the same size)
-* \param[in] input_image 1D input image
-* \param[out] output_image	pointer to array of size of input image
-* \param[in] nrows	number of rows (height) of input/output image
-* \param[in] ncols number of cols (width) of input/output image
-* \param[in] mask filter mask uneven and nonzero
-* \return operation status, LV_OK on success or error code defined in errordef.h
-* \retval uint32_t
-* \remarks Returned image has the same size as input image
-*/
-extern "C" __declspec(dllexport) uint32_t LV_MedFilt(const UINT16* input_image,
-													UINT16* output_image,
-													UINT16 nrows, UINT16 ncols,
-													UINT16 mask)
-{
-	_ASSERT(input_image);
-	_ASSERT(output_image);
-	if (0 == mask)
-		return IDS_ZEROMASK;
-	if (mask < 0)
-		return IDS_LESSMASK;
-	if (mask % 2 == 0)
-		return IDS_EVENMASK;
-	OBRAZ obraz;	// lokalna kopia obrazu wejściowego (płytka)
-	obraz.tab = input_image;
-	obraz.rows = nrows;
-	obraz.cols = ncols;
-	obraz.tabsize = nrows*ncols;
-	FastMedian_Huang(&obraz,output_image,mask);
-	return retCode::LV_OK;
 }
