@@ -70,11 +70,39 @@ load originals
 
 % set 2
 % f:\Dokumenty\Dysk Google\Praca\Granty\CASELOT
-load new_originals
+load 'd:\Dokumenty\Dysk Google\Praca\Granty\CASELOT\new_originals.mat'
 for a=1:length(new_originals)
-    ExportArrayToFile([new_originals_names(a).name,'.dat'],new_originals{a})
-    figure; imshow(new_originals{a},[])
+    new_originals{a} = new_originals{a}';
 end
+new_originals{1} = imcrop(new_originals{1},[17.5 72.5 1509 642]);
+new_originals{2} = imcrop(new_originals{2},[12.5 109.5 1516 538]);
+new_originals{3} = imcrop(new_originals{3},[28.5 92.5 1322 709]);
+new_originals{4} = imcrop(new_originals{4},[34.5 52.5 1482 736]);
+new_originals{5} = imcrop(new_originals{5},[16.5 63.5 1504 736]);
+new_originals{6} = imcrop(new_originals{6},[29.5 39.5 1465 808]);
+new_originals{7} = imcrop(new_originals{7},[10.5 41.5 1509 801]);
+new_originals{8} = imcrop(new_originals{8},[25.5 26.5 1499 824]);
+new_originals{9} = imcrop(new_originals{9},[11.5 79.5 1515 744]);
+new_originals{10} = imcrop(new_originals{10},[65.5 63.5 1459 765]);
+new_originals{11} = imcrop(new_originals{11},[12.5 71.5 1507 782]);
+new_originals{12} = imcrop(new_originals{12},[13.5 22.5 1507 831]);
+new_originals{13} = imcrop(new_originals{13},[55.5 16.5 1473 838]);
+new_originals{14} = imcrop(new_originals{14},[85.5 36.5 1445 798]);
+new_originals{15} = imcrop(new_originals{15},[42.5 37.5 1486 817]);
+new_originals{16} = imcrop(new_originals{16},[11.5 22.5 1512 837]);
+new_originals{17} = imcrop(new_originals{17},[263.5 281.5 1057 288]);
+new_originals{18} = imcrop(new_originals{18},[12.5 160.5 1517 563]);
+new_originals{19} = imcrop(new_originals{19},[57.5 298.5 1471 275]);
+new_originals{20} = imcrop(new_originals{20},[144.5 53.5 1385 781]);
+new_originals{21} = imcrop(new_originals{21},[35.5 144.5 1493 577]);
+new_originals{22} = imcrop(new_originals{22},[17.5 138.5 1511 596]);
+new_originals{23} = imcrop(new_originals{23},[63.5 151.5 1240 592]);
+for a=1:length(new_originals)
+    figure;imshow(new_originals{a},[]);
+    ExportArrayToFile([new_originals_names(a).name,'.dat'], new_originals{a})
+end
+
+
 %% TEST STATIC_WeldDetexApprox._WeldDetexApprox_7
 figure
 % dane wejœciowe
