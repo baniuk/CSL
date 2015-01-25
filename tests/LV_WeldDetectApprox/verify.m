@@ -5,7 +5,7 @@
 
 
 % Wyniki testu
-p  = '..\..\bin\tests\LV_WeldDetectApprox\';
+p  = '..\..\build\tests\LV_WeldDetectApprox\';
 %% Przygotowanie danych ------------
 % TEST STATIC_WeldPostProcess, _getRawPointer
 % przygotowanie danych - uruchomiæ TEST STATIC_WeldDetexApprox._WeldDetexApprox_1

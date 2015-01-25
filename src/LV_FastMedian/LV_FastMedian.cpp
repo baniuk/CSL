@@ -12,7 +12,6 @@
 #include <vector>
 #include <algorithm>
 #include <memory>
-#include <exception>
 
 #ifndef SAFE_DELETE
 #define SAFE_DELETE(p)       { if(p) { delete[] (p);     (p)=nullptr; } }
@@ -28,10 +27,17 @@
 */
 inline unsigned short getPoint(OBRAZ *image, int r, int k)
 {
-	if (r < 0 || k < 0 || r >= static_cast<int>(image->rows) || k >= static_cast<int>(image->cols))
-		return 0;
+	int lastIndexCol = static_cast<int>(image->cols) - 1; // ostatnia koluna w tablicy
+	int lastIndexRow = static_cast<int>(image->rows) - 1; // ostatni wiersz w tablicy
+	if (r < 0)
+		r = -r;
+	if (k < 0)
+		k = -k;
+	if (k > lastIndexCol)
+		k = lastIndexCol - (k - lastIndexCol);
+	if (r > lastIndexRow)
+		r = lastIndexRow - (r - lastIndexRow);
 	_ASSERT(r*image->cols + k < image->tabsize);
-	/// \todo dodac obsługę ujemnych indeksów, dodatnie sa dla własciwego obrazu, ujemne oraz większe od granic dla ramek
 	return image->tab[r*image->cols + k];
 }
 
@@ -141,7 +147,7 @@ unsigned short getMedianHist( const unsigned int *hist, unsigned int tabsize )
 * \todo Add progress feature
 * \todo Add error_codes support
 */
-void FastMedian_Huang(	OBRAZ *image,
+retCode FastMedian_Huang(	OBRAZ *image,
 					  unsigned short *tabout,
 					  unsigned short mask)
 {
@@ -158,13 +164,14 @@ void FastMedian_Huang(	OBRAZ *image,
 	unsigned short picval;					// pomocnicza wartość piksela obrazu
 	unsigned int th = (mask*mask)/2;			// parametr pomocniczy
 
+	// ponieważ są konwersje pomiędzy int i uint zawężające obraz nie powinien być większy niż short int
+	if (image->rows > 65535 || image->cols > 65535)
+		return LV_FAIL;
+	
 	hist = new unsigned int[GRAYSCALE];		// zakładam głębię 16 bit
 	left_column = new unsigned short[mask];	// lewa kolumna poprzedniej pozycji maski (maska jest zawsze kwadratowa)
 	right_column = new unsigned short[mask];// prawa kolumna bierzacej maski
 	window = new unsigned short[static_cast<unsigned int>(mask)*mask];
-	// ponieważ są konwersje pomiędzy int i uint zawężające obraz nie powinien być większy niż short int
-	if(image->rows > 65536 || image->cols > 65535)
-		throw std::runtime_error("Too big image");
 	/*
 	* Przeglądanie obrazu po rzędach a procedura szybkiej filtracji po
 	* kolumnach. Dla kazdego nowego rzędu powtarza się wszystko od początku.
@@ -225,6 +232,7 @@ void FastMedian_Huang(	OBRAZ *image,
 	SAFE_DELETE(left_column);
 	SAFE_DELETE(right_column);
 	SAFE_DELETE(window);
+	return LV_OK;
 }
 
 /**

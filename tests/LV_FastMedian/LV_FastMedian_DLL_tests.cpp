@@ -338,28 +338,3 @@ TEST_F(DLL_Tests,_FastMedian_testimag17_m3)
 	delete[] outTab;
 }
 
-/**
-* \test DLL_Tests:_FastMedian_toobigimage
-* \brief Testuje reakcje na zbyt duży obraz
-* \post wyjątek
-* \author PB
-* \date 2015/13/01
-*/
-TEST_F(DLL_Tests,_FastMedian_toobigimage)
-{
-	ASSERT_FALSE(init_error); // expect no error during initialization
-	retCode ret;
-	std::unique_ptr<double[]> data;
-	unsigned int rows = 65537;
-	unsigned int cols = 400;
-	// konwersja INT
-	UINT16* inTab = new UINT16[rows*cols];
-
-	// tablica wyjściowa
-	UINT16 *outTab = new UINT16[rows*cols];
-	EXPECT_THROW(ret = pLV_MedFilt(inTab, outTab, rows, cols, 3), runtime_error);
-	
-	delete[] inTab;
-	delete[] outTab;
-}
-

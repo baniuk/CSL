@@ -5,8 +5,9 @@
 
 
 % Wyniki testu
-p  = '..\..\build\tests\LV_FastMedian\';
+p  = '..\..\build\tests\LV_FastMedian\Debug\';
 addpath(p);
+addpath('..\..\build\Externals\PBToolset-prefix\src\PBToolset\src\MatlabExchange\')
 %% TEST DLL_Tests,_FastMedian_imag2
 figure
 % dane wejœciowe

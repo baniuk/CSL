@@ -24,7 +24,7 @@ struct OBRAZ
 };
 
 /// Filtruje obraz medianą
-void FastMedian_Huang(	OBRAZ *image,
+retCode FastMedian_Huang(	OBRAZ *image,
 					  unsigned short *tabout,
 					  unsigned short mask);
 
