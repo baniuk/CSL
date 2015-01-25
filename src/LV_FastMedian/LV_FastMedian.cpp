@@ -5,18 +5,13 @@
 * - LV_MedFilt  - Filtering using any mask
 * \author  PB
 * \date    2014/12/21
-* \version 1.0 Initial version based on ISAR project
-* \version 1.1 Fixed bug #3
-* \version 1.2 Fixed bugs #31, #33
 */
 
 #include "LV_FastMedian/LV_FastMedian.h"
-#include "LV_FastMEdian/errordef.h"
 #include <crtdbg.h>
 #include <vector>
 #include <algorithm>
 #include <memory>
-#include <exception>
 
 #ifndef SAFE_DELETE
 #define SAFE_DELETE(p)       { if(p) { delete[] (p);     (p)=nullptr; } }
@@ -32,10 +27,18 @@
 */
 inline unsigned short getPoint(OBRAZ *image, int r, int k)
 {
-	if(r<0 || k<0 || r>=static_cast<int>(image->rows) || k>=static_cast<int>(image->cols))
-		return 0;
-	_ASSERT(r*image->cols+k<image->tabsize);
-	return image->tab[r*image->cols+k];
+	int lastIndexCol = static_cast<int>(image->cols) - 1; // ostatnia koluna w tablicy
+	int lastIndexRow = static_cast<int>(image->rows) - 1; // ostatni wiersz w tablicy
+	if (r < 0)
+		r = -r;
+	if (k < 0)
+		k = -k;
+	if (k > lastIndexCol)
+		k = lastIndexCol - (k - lastIndexCol);
+	if (r > lastIndexRow)
+		r = lastIndexRow - (r - lastIndexRow);
+	_ASSERT(r*image->cols + k < image->tabsize);
+	return image->tab[r*image->cols + k];
 }
 
 /**
@@ -77,10 +80,7 @@ void CopyWindow( OBRAZ *input_image,
 	for (wr = static_cast<int>(current_row)-bok_maski,l=0;wr<static_cast<int>(current_row)+bok_maski+1;wr++)
 		for (wk = static_cast<int>(current_col)-bok_maski;wk<static_cast<int>(current_col)+bok_maski+1;wk++)
 		{
-			if(wr<0 || wk<0 || wk>=static_cast<int>(input_image->cols) || wr>=static_cast<int>(input_image->rows))	// jeśli okno wystaje poza obraz to wpisywane są w to miejsce zera
-				out[l] = 0;
-			else
-				out[l] = getPoint(input_image,wr,wk);	// kopiowanie danych z obrazu do osobnej tablicy reprezentującej okno
+			out[l] = getPoint(input_image,wr,wk);	// kopiowanie danych z obrazu do osobnej tablicy reprezentującej okno
 			hist[out[l]]++;	// obliczam histogram
 			l++;
 		}
@@ -147,7 +147,7 @@ unsigned short getMedianHist( const unsigned int *hist, unsigned int tabsize )
 * \todo Add progress feature
 * \todo Add error_codes support
 */
-void FastMedian_Huang(	OBRAZ *image,
+retCode FastMedian_Huang(	OBRAZ *image,
 					  unsigned short *tabout,
 					  unsigned short mask)
 {
@@ -164,13 +164,14 @@ void FastMedian_Huang(	OBRAZ *image,
 	unsigned short picval;					// pomocnicza wartość piksela obrazu
 	unsigned int th = (mask*mask)/2;			// parametr pomocniczy
 
+	// ponieważ są konwersje pomiędzy int i uint zawężające obraz nie powinien być większy niż short int
+	if (image->rows > 65535 || image->cols > 65535)
+		return LV_FAIL;
+	
 	hist = new unsigned int[GRAYSCALE];		// zakładam głębię 16 bit
 	left_column = new unsigned short[mask];	// lewa kolumna poprzedniej pozycji maski (maska jest zawsze kwadratowa)
 	right_column = new unsigned short[mask];// prawa kolumna bierzacej maski
 	window = new unsigned short[static_cast<unsigned int>(mask)*mask];
-	// ponieważ są konwersje pomiędzy int i uint zawężające obraz nie powinien być większy niż short int
-	if(image->rows > 65536 || image->cols > 65535)
-		throw std::runtime_error("Too big image");
 	/*
 	* Przeglądanie obrazu po rzędach a procedura szybkiej filtracji po
 	* kolumnach. Dla kazdego nowego rzędu powtarza się wszystko od początku.
@@ -231,6 +232,7 @@ void FastMedian_Huang(	OBRAZ *image,
 	SAFE_DELETE(left_column);
 	SAFE_DELETE(right_column);
 	SAFE_DELETE(window);
+	return LV_OK;
 }
 
 /**
@@ -249,45 +251,7 @@ void CopyOneColumn( OBRAZ *input_image, unsigned short mask, int r, int k, unsig
 	unsigned short a;
 	for (a=0;a<mask;a++)
 	{
-		if(r<0 || r>=static_cast<int>(input_image->rows) || k<0 || k>=static_cast<int>(input_image->cols))	// jeśli rząd lub kolumna poza obrazem t owpisywane są 0
-			out[a] = 0;
-		else
-			out[a] = getPoint(input_image,r,k);
+		out[a] = getPoint(input_image,r,k);
 		r++;
 	}
-}
-
-/**
-* \brief Performs median filtering of input image
-* \details Assumes that input image is 1D array. Any positive and non-zero mask can be used. Returns filtered copy of
-* input image (the same size)
-* \param[in] input_image 1D input image
-* \param[out] output_image	pointer to array of size of input image
-* \param[in] nrows	number of rows (height) of input/output image
-* \param[in] ncols number of cols (width) of input/output image
-* \param[in] mask filter mask uneven and nonzero
-* \return operation status, LV_OK on success or error code defined in errordef.h
-* \retval uint32_t
-* \remarks Returned image has the same size as input image
-*/
-extern "C" __declspec(dllexport) uint32_t LV_MedFilt(const UINT16* input_image,
-													UINT16* output_image,
-													UINT16 nrows, UINT16 ncols,
-													UINT16 mask)
-{
-	_ASSERT(input_image);
-	_ASSERT(output_image);
-	if (0 == mask)
-		return IDS_ZEROMASK;
-	if (mask < 0)
-		return IDS_LESSMASK;
-	if (mask % 2 == 0)
-		return IDS_EVENMASK;
-	OBRAZ obraz;	// lokalna kopia obrazu wejściowego (płytka)
-	obraz.tab = input_image;
-	obraz.rows = nrows;
-	obraz.cols = ncols;
-	obraz.tabsize = nrows*ncols;
-	FastMedian_Huang(&obraz,output_image,mask);
-	return retCode::LV_OK;
 }

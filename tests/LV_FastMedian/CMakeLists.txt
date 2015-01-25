@@ -22,6 +22,6 @@ configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/testimag17.dat
 				COPYONLY)
 
 project(${LOCAL_PROJECT_NAME})
-set(dependencies PBToolset)
-set(libs LV_FastMedian_static MatlabExchange)
+set(dependencies PBToolset LV_FastMedian)
+set(libs MatlabExchange LV_FastMedian_static )
 addTest(${LOCAL_PROJECT_NAME} "${libs}" "${dependencies}")

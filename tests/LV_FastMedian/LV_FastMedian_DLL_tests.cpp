@@ -1,5 +1,5 @@
 ﻿/**
-* \file    LV_FastMedian_tests.cpp
+* \file    LV_FastMedian_DLL_tests.cpp
 * \brief	Tests of public and private functions in LV_FastMedian.dll
 * \author  PB
 * \date    2014/01/22
@@ -15,14 +15,6 @@ using namespace std;
 
 /// \copydoc ::LV_MedFilt
 typedef retCode (*pLV_MedFilt_t)(UINT16*, UINT16*, UINT16, UINT16, UINT16);
-
-int main(int argc, char* argv[])
-{
-	int ret = 0;
-	::testing::InitGoogleTest(&argc, argv);
-	ret = RUN_ALL_TESTS();
-	return ret;
-}
 
 /**
 * \brief Test fixture class
@@ -346,27 +338,3 @@ TEST_F(DLL_Tests,_FastMedian_testimag17_m3)
 	delete[] outTab;
 }
 
-/**
-* \test DLL_Tests:_FastMedian_toobigimage
-* \brief Testuje reakcje na zbyt duży obraz
-* \post wyjątek
-* \author PB
-* \date 2015/13/01
-*/
-TEST_F(DLL_Tests,_FastMedian_toobigimage)
-{
-	ASSERT_FALSE(init_error); // expect no error during initialization
-	retCode ret;
-	std::unique_ptr<double[]> data;
-	unsigned int rows = 65537;
-	unsigned int cols = 400;
-	// konwersja INT
-	UINT16* inTab = new UINT16[rows*cols];
-
-	// tablica wyjściowa
-	UINT16 *outTab = new UINT16[rows*cols];
-	EXPECT_THROW(ret = pLV_MedFilt(inTab, outTab, rows, cols, 3), runtime_error);
-	
-	delete[] inTab;
-	delete[] outTab;
-}

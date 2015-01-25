@@ -24,12 +24,12 @@ struct OBRAZ
 };
 
 /// Filtruje obraz medianą
-void FastMedian_Huang(	OBRAZ *image,
+retCode FastMedian_Huang(	OBRAZ *image,
 					  unsigned short *tabout,
 					  unsigned short mask);
 
 /// Dokonuje konwersji z pozycji [x,y] do liniowej
-inline unsigned short getPoint(OBRAZ *image, unsigned int r, unsigned int k);
+inline unsigned short getPoint(OBRAZ *image, int r, int k);
 /// Zwraca medianę z wektora
 unsigned short getMedian(const unsigned short *tab, unsigned int tabsize);
 /// Zwraca medianę z histogramu
@@ -43,11 +43,6 @@ void CopyWindow(OBRAZ *input_image,
 				unsigned int *hist);
 /// Kopiuje jedną kolumnę obrazu
 void CopyOneColumn( OBRAZ *input_image, unsigned short mask, int r, int k, unsigned short *out );
-/// Exported method for median filtering using fast median alghoritm
-extern "C" __declspec(dllexport) uint32_t LV_MedFilt(const UINT16* input_image,
-													UINT16* output_image,
-													UINT16 nrows, UINT16 ncols,
-													UINT16 mask);
 /// Number of gray levels in the image
 #define GRAYSCALE 65536
 
