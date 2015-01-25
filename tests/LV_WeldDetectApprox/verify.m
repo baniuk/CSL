@@ -8,8 +8,8 @@
 tools = '..\..\build\Externals\PBToolset-prefix\src\PBToolset\src\MatlabExchange\';
 addpath(tools);
 % Wyniki testu
-p  = '..\..\build\tests\LV_WeldDetectApprox\';
-% p  = '..\..\build\tests\LV_WeldDetectApprox\Debug'; % VC
+% p  = '..\..\build\tests\LV_WeldDetectApprox\';
+p  = '..\..\build\tests\LV_WeldDetectApprox\Debug'; % VC
 % p  = '..\..\build\tests\LV_WeldDetectApprox\Release'; % VC
 %% Przygotowanie danych ------------
 % TEST STATIC_WeldPostProcess, _getRawPointer
@@ -67,6 +67,14 @@ load originals
 % ExportArrayToFile('testimag19.dat',originals{19});
 % ExportArrayToFile('testimag20.dat',originals{20});
 % ExportArrayToFile('testimag21.dat',originals{21});
+
+% set 2
+% f:\Dokumenty\Dysk Google\Praca\Granty\CASELOT
+load new_originals
+for a=1:length(new_originals)
+    ExportArrayToFile([new_originals_names(a).name,'.dat'],new_originals{a})
+    figure; imshow(new_originals{a},[])
+end
 %% TEST STATIC_WeldDetexApprox._WeldDetexApprox_7
 figure
 % dane wejœciowe
