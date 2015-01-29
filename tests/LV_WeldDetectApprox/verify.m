@@ -9,7 +9,7 @@ tools = '..\..\build\Externals\PBToolset-prefix\src\PBToolset\src\MatlabExchange
 addpath(tools);
 % Wyniki testu
 % p  = '..\..\build\tests\LV_WeldDetectApprox\';
-p  = '..\..\build\tests\LV_WeldDetectApprox\Debug'; % VC
+p  = '..\..\build\tests\LV_WeldDetectApprox\Debug\'; % VC
 % p  = '..\..\build\tests\LV_WeldDetectApprox\Release'; % VC
 %% Przygotowanie danych ------------
 % TEST STATIC_WeldPostProcess, _getRawPointer
@@ -72,7 +72,7 @@ load originals
 % f:\Dokumenty\Dysk Google\Praca\Granty\CASELOT
 load 'd:\Dokumenty\Dysk Google\Praca\Granty\CASELOT\new_originals.mat'
 for a=1:length(new_originals)
-    new_originals{a} = new_originals{a}';
+    new_originals{a} = imcomplement(new_originals{a}');
 end
 new_originals{1} = imcrop(new_originals{1},[17.5 72.5 1509 642]);
 new_originals{2} = imcrop(new_originals{2},[12.5 109.5 1516 538]);
@@ -190,14 +190,30 @@ max(paramEstimationImage(:,11))
 median(paramEstimationImage(:,11))
 %% TEST STATIC_WeldPostProcess, _getRawPointer
 ImportDumpFile([p 'weldpostprocess.out']);imshow(fillpolygon,[])
-%% TEST DLL_Tests,_LV_WeldDetectApprox
+%% TEST DLL_Tests,_LV_WeldDetectApprox,dataSet1
 
 for a=1:21
     figure
-    rtg1 = readbinarymatrix([p ['testimag' num2str(a) '.dat']]);
+    rtg1 = ImportArrayfromFile([p ['testimag' num2str(a) '.dat']]);
     ImportDumpFile([p ['DLL_testimag' num2str(a) '.dat.out']]);
     subplot(2,1,1)
     imshow(rtg1,[]);
     subplot(2,1,2)
     imshow(eval(['testimag' num2str(a)]),[]);
+end
+%% TEST DLL_Tests,_LV_WeldDetectApprox,dataSet2
+cases = dir([p,'DLL_Sample*']);
+if isempty(cases)
+    error('No test cases found');
+end
+for a=1:length(cases)
+    figure
+    name = cases(a).name;
+    rtg1 = ImportArrayfromFile([p name(5:end-4)]); % bez .out (orginal) i DLL_
+    ImportDumpFile([p name]);
+    subplot(2,1,1);
+    imshow(rtg1,[]);
+    subplot(2,1,2)
+    imshow(eval(fixNames(name(5:end-8))),[]);
+    title(name)
 end
