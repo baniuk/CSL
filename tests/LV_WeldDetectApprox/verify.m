@@ -9,8 +9,8 @@ tools = '..\..\build\Externals\PBToolset-prefix\src\PBToolset\src\MatlabExchange
 addpath(tools);
 % Wyniki testu
 p  = '..\..\build\tests\LV_WeldDetectApprox\';
-% p  = '..\..\build\tests\LV_WeldDetectApprox\Debug'; % VC
-% p  = '..\..\build\tests\LV_WeldDetectApprox\Release'; % VC
+% p  = '..\..\build\tests\LV_WeldDetectApprox\Debug\'; % VC
+% p  = '..\..\build\tests\LV_WeldDetectApprox\Release\'; % VC
 %% Przygotowanie danych ------------
 % TEST STATIC_WeldPostProcess, _getRawPointer
 % przygotowanie danych - uruchomiæ TEST STATIC_WeldDetexApprox._WeldDetexApprox_1
@@ -67,6 +67,42 @@ load originals
 % ExportArrayToFile('testimag19.dat',originals{19});
 % ExportArrayToFile('testimag20.dat',originals{20});
 % ExportArrayToFile('testimag21.dat',originals{21});
+
+% set 2
+% f:\Dokumenty\Dysk Google\Praca\Granty\CASELOT
+load 'd:\Dokumenty\Dysk Google\Praca\Granty\CASELOT\new_originals.mat'
+for a=1:length(new_originals)
+    new_originals{a} = imcomplement(new_originals{a}');
+end
+new_originals{1} = imcrop(new_originals{1},[17.5 72.5 1509 642]);
+new_originals{2} = imcrop(new_originals{2},[12.5 109.5 1516 538]);
+new_originals{3} = imcrop(new_originals{3},[28.5 92.5 1322 709]);
+new_originals{4} = imcrop(new_originals{4},[34.5 52.5 1482 736]);
+new_originals{5} = imcrop(new_originals{5},[16.5 63.5 1504 736]);
+new_originals{6} = imcrop(new_originals{6},[29.5 39.5 1465 808]);
+new_originals{7} = imcrop(new_originals{7},[10.5 41.5 1509 801]);
+new_originals{8} = imcrop(new_originals{8},[25.5 26.5 1499 824]);
+new_originals{9} = imcrop(new_originals{9},[11.5 79.5 1515 744]);
+new_originals{10} = imcrop(new_originals{10},[65.5 63.5 1459 765]);
+new_originals{11} = imcrop(new_originals{11},[12.5 71.5 1507 782]);
+new_originals{12} = imcrop(new_originals{12},[13.5 22.5 1507 831]);
+new_originals{13} = imcrop(new_originals{13},[55.5 16.5 1473 838]);
+new_originals{14} = imcrop(new_originals{14},[85.5 36.5 1445 798]);
+new_originals{15} = imcrop(new_originals{15},[42.5 37.5 1486 817]);
+new_originals{16} = imcrop(new_originals{16},[11.5 22.5 1512 837]);
+new_originals{17} = imcrop(new_originals{17},[263.5 281.5 1057 288]);
+new_originals{18} = imcrop(new_originals{18},[12.5 160.5 1517 563]);
+new_originals{19} = imcrop(new_originals{19},[57.5 298.5 1471 275]);
+new_originals{20} = imcrop(new_originals{20},[144.5 53.5 1385 781]);
+new_originals{21} = imcrop(new_originals{21},[35.5 144.5 1493 577]);
+new_originals{22} = imcrop(new_originals{22},[17.5 138.5 1511 596]);
+new_originals{23} = imcrop(new_originals{23},[63.5 151.5 1240 592]);
+for a=1:length(new_originals)
+    figure;imshow(new_originals{a},[]);
+    ExportArrayToFile([new_originals_names(a).name,'.dat'], new_originals{a})
+end
+
+
 %% TEST STATIC_WeldDetexApprox._WeldDetexApprox_7
 figure
 % dane wejœciowe
@@ -154,14 +190,30 @@ max(paramEstimationImage(:,11))
 median(paramEstimationImage(:,11))
 %% TEST STATIC_WeldPostProcess, _getRawPointer
 ImportDumpFile([p 'weldpostprocess.out']);imshow(fillpolygon,[])
-%% TEST DLL_Tests,_LV_WeldDetectApprox
+%% TEST DLL_Tests,_LV_WeldDetectApprox,dataSet1
 
 for a=1:21
     figure
-    rtg1 = readbinarymatrix([p ['testimag' num2str(a) '.dat']]);
+    rtg1 = ImportArrayfromFile([p ['testimag' num2str(a) '.dat']]);
     ImportDumpFile([p ['DLL_testimag' num2str(a) '.dat.out']]);
     subplot(2,1,1)
     imshow(rtg1,[]);
     subplot(2,1,2)
     imshow(eval(['testimag' num2str(a)]),[]);
+end
+%% TEST DLL_Tests,_LV_WeldDetectApprox,dataSet2
+cases = dir([p,'DLL_Sample*']);
+if isempty(cases)
+    error('No test cases found');
+end
+for a=1:length(cases)
+    figure
+    name = cases(a).name;
+    rtg1 = ImportArrayfromFile([p name(5:end-4)]); % bez .out (orginal) i DLL_
+    ImportDumpFile([p name]);
+    subplot(2,1,1);
+    imshow(rtg1,[]);
+    subplot(2,1,2)
+    imshow(eval(fixNames(name(5:end-8))),[]);
+    title(name)
 end

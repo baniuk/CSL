@@ -23,7 +23,7 @@
 * in the centre part of image. Thicness of the line should be significally smaller than \c y size of the image. In this version there is no extensive
 * error checking. It can happen that when weld detection failed the procedure return invalid mask.
 * \return operation status, \c LV_OK on success, \c LV_FAIL is returned when the procedure failed on approximation.
-* \param[in] input_image 1D input image
+* \param[in] input_image 1D input image. Weld line mus be brighter than background
 * \param[out] output_image	pointer to array of type \c UINT16 of size of input image. It is mask with \c white weld line
 * \param[in] nrows	number of rows (height) of input/output image
 * \param[in] ncols number of cols (width) of input/output image
@@ -31,6 +31,8 @@
 * \retval retCode
 * \see LV_WeldDetectApprox_tests.cpp
 * \see WeldDetecApprox_example.cpp
+* \warning Take care on proper interpretation of gray levels. The weld line
+* must be brighter than background
 */
 extern "C" __declspec(dllexport) uint32_t LV_WeldDetectApprox(
 	const UINT16* input_image,

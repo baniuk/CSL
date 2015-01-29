@@ -115,9 +115,38 @@ TEST_P(DLL_Tests,_LV_WeldDetectApprox)
 	delete[] outTab;
 }
 
+// run test for old dataset
 INSTANTIATE_TEST_CASE_P(
-	start,
+	dataSet1,
 	DLL_Tests,
 	::testing::Values("testimag1.dat","testimag2.dat","testimag3.dat","testimag4.dat","testimag5.dat","testimag6.dat","testimag7.dat","testimag8.dat","testimag9.dat",
 	"testimag10.dat","testimag11.dat","testimag12.dat","testimag13.dat","testimag14.dat","testimag15.dat","testimag16.dat","testimag17.dat","testimag18.dat",
 	"testimag19.dat","testimag20.dat","testimag21.dat"));
+
+// run test for new dataset
+INSTANTIATE_TEST_CASE_P(
+	dataSet2,
+	DLL_Tests,
+	::testing::Values("Sample-01-60kV-12mA-8s-IQI.tif.dat",
+	"Sample-01-70kV-15mA-8s-IQI.tif.dat",
+	"Sample-02-60kV-12mA-8s-IQI.tif.dat",
+	"Sample-03-60kV-15mA-8s-IQI.tif.dat",
+	"Sample-04-60kV-12mA-8s-IQI.tif.dat",
+	"Sample-05-60kV-12mA-8s-IQI.tif.dat",
+	"Sample-06-60kV-12mA-8s-IQI-A.tif.dat",
+	"Sample-06-60kV-12mA-8s-IQI-B.tif.dat",
+	"Sample-07-60kV-15mA-8s-IQI.tif.dat",
+	"Sample-08-70kV-15mA-11s-IQI.tif.dat",
+	"Sample-09-60kV-12mA-8s-IQI-A.tif.dat",
+	"Sample-09-60kV-12mA-8s-IQI-B.tif.dat",
+	"Sample-10-60kV-12mA-8s-IQI.tif.dat",
+	"Sample-11-60kV-12mA-8s-IQI.tif.dat",
+	"Sample-12-60kV-12mA-8s-IQI-A.tif.dat",
+	"Sample-12-60kV-12mA-8s-IQI-B.tif.dat",
+	"Sample-13-65kV-12mA-8s-IQI.tif.dat",
+	"Sample-14-70kV-15mA-8s-IQI.tif.dat",
+	"Sample-15-70kV-15mA-8s-IQI.tif.dat",
+	"Sample-17-60kV-12mA-8s-IQI.tif.dat",
+	"Sample-18-70kV-15mA-8s-IQI-A.tif.dat",
+	"Sample-18-70kV-15mA-8s-IQI-B.tif.dat",
+	"Sample-20-60kV-12mA-8s-IQI.tif.dat"));
