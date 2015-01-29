@@ -57,9 +57,9 @@ addLibrary(	SHARED 							# type
 file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/copyDLL.bat "@echo off\n")
 file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/copyDLL.bat "set CYGWIN=nodosfilewarning \n")
 if(${CMAKE_GENERATOR} MATCHES "^(Visual Studio)")
-	file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/copyDLL.bat "\"${CP_EXECUTABLE}\" ${CMAKE_CURRENT_BINARY_DIR}/Debug/${LOCAL_PROJECT_NAME}_dummyDLL.dll ${CMAKE_BINARY_DIR}/tests/LV_ErrorDecode/Debug/ \n")
+	file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/copyDLL.bat "\"${CP_EXECUTABLE}\" ${CMAKE_CURRENT_BINARY_DIR}/Debug/${LOCAL_PROJECT_NAME}_dummyDLL.dll ${CMAKE_BINARY_DIR}/tests/LV_ErrorDecode/${CMAKE_BUILD_TYPE} \n")
 else()
-	file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/copyDLL.bat "\"${CP_EXECUTABLE}\" ${CMAKE_CURRENT_BINARY_DIR}/${LOCAL_PROJECT_NAME}_dummyDLL.dll ${CMAKE_BINARY_DIR}/tests/LV_ErrorDecode/Debug/ \n")
+	file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/copyDLL.bat "\"${CP_EXECUTABLE}\" ${CMAKE_CURRENT_BINARY_DIR}/${LOCAL_PROJECT_NAME}_dummyDLL.dll ${CMAKE_BINARY_DIR}/tests/LV_ErrorDecode/ \n")
 endif()
 
 add_custom_command(	TARGET ${LOCAL_PROJECT_NAME}_dummyDLL
