@@ -11,7 +11,7 @@ addpath('..\..\build\Externals\PBToolset-prefix\src\PBToolset\src\MatlabExchange
 %% TEST DLL_Tests,_FastMedian_imag2
 figure
 % dane wejœciowe
-im = readbinarymatrix([p 'imag2.dat']);
+im = ImportArrayfromFile([p 'imag2.dat']);
 subplot(2,1,1)
 imshow(im,[]);
 title('input image')
@@ -24,7 +24,7 @@ title('output image')
 %% TEST DLL_Tests,_FastMedian_testimag1
 figure
 % dane wejœciowe
-im = readbinarymatrix([p 'testimag1.dat']);
+im = ImportArrayfromFile([p 'testimag1.dat']);
 subplot(2,1,1)
 imshow(im,[]);
 title('input image')
@@ -37,7 +37,7 @@ title('output image')
 %% TEST DLL_Tests,_FastMedian_testimag6
 figure
 % dane wejœciowe
-im = readbinarymatrix([p 'testimag6.dat']);
+im = ImportArrayfromFile([p 'testimag6.dat']);
 subplot(2,1,1)
 imshow(im,[]);
 title('input image')
@@ -50,7 +50,7 @@ title('output image')
 %% TEST DLL_Tests,_FastMedian_testimag9
 figure
 % dane wejœciowe
-im = readbinarymatrix([p 'testimag9.dat']);
+im = ImportArrayfromFile([p 'testimag9.dat']);
 subplot(2,1,1)
 imshow(im,[]);
 title('input image')
@@ -63,7 +63,7 @@ title('output image')
 %% TEST DLL_Tests,_FastMedian_testimag17_m31
 figure
 % dane wejœciowe
-im = readbinarymatrix([p 'testimag17.dat']);
+im = ImportArrayfromFile([p 'testimag17.dat']);
 subplot(2,1,1)
 imshow(im,[]);
 title('input image')
@@ -76,7 +76,7 @@ title('output image')
 %% TEST DLL_Tests,_FastMedian_testimag17_m51
 figure
 % dane wejœciowe
-im = readbinarymatrix([p 'testimag17.dat']);
+im = ImportArrayfromFile([p 'testimag17.dat']);
 subplot(2,1,1)
 imshow(im,[]);
 title('input image')
@@ -89,7 +89,7 @@ title('output image')
 %% TEST DLL_Tests,_FastMedian_testimag17_m91
 figure
 % dane wejœciowe
-im = readbinarymatrix([p 'testimag17.dat']);
+im = ImportArrayfromFile([p 'testimag17.dat']);
 subplot(2,1,1)
 imshow(im,[]);
 title('input image')
@@ -102,7 +102,7 @@ title('output image')
 %% TEST DLL_Tests,_FastMedian_testimag17_m3
 figure
 % dane wejœciowe
-im = readbinarymatrix([p 'testimag17.dat']);
+im = ImportArrayfromFile([p 'testimag17.dat']);
 subplot(2,1,1)
 imshow(im,[]);
 title('input image')
