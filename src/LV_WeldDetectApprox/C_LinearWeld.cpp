@@ -105,8 +105,8 @@ bool C_LinearWeld::Start(unsigned int step,unsigned int ile, double weld_edge)
 		// aproxymacja
 		/// \todo dodać tu sprawdzanie czy zwraca poprawną ilość iteracji
 		iter = app->getLineApprox(150);
-		_RPT1(_CRT_WARN,"\t\tITER: %d",iter);
 #ifdef _DEBUG
+		_RPT1(_CRT_WARN,"\t\tITER: %d",iter);
 		const double *pdeb;pdeb = app->getApproxParams_p();
 		_RPT5(_CRT_WARN,"\t\tRES: A=%.2lf B=%.2lf C=%.2lf D=%.2lf E=%.2lf",pdeb[A],pdeb[B],pdeb[C],pdeb[D],pdeb[E]);
 		pdeb = app->getApproxParams_ub();

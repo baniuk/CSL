@@ -8,9 +8,9 @@
 tools = '..\..\build\Externals\PBToolset-prefix\src\PBToolset\src\MatlabExchange\';
 addpath(tools);
 % Wyniki testu
-% p  = '..\..\build\tests\LV_WeldDetectApprox\';
-p  = '..\..\build\tests\LV_WeldDetectApprox\Debug\'; % VC
-% p  = '..\..\build\tests\LV_WeldDetectApprox\Release'; % VC
+p  = '..\..\build\tests\LV_WeldDetectApprox\';
+% p  = '..\..\build\tests\LV_WeldDetectApprox\Debug\'; % VC
+% p  = '..\..\build\tests\LV_WeldDetectApprox\Release\'; % VC
 %% Przygotowanie danych ------------
 % TEST STATIC_WeldPostProcess, _getRawPointer
 % przygotowanie danych - uruchomiæ TEST STATIC_WeldDetexApprox._WeldDetexApprox_1
