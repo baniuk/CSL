@@ -27,7 +27,6 @@
 * \param[out] output_image	pointer to array of type \c UINT16 of size of input image. It is mask with \c white weld line
 * \param[in] nrows	number of rows (height) of input/output image
 * \param[in] ncols number of cols (width) of input/output image
-* \param[out] errDesc description of the error
 * \retval retCode
 * \see LV_WeldDetectApprox_tests.cpp
 * \see WeldDetecApprox_example.cpp
@@ -37,8 +36,7 @@
 extern "C" __declspec(dllexport) uint32_t LV_WeldDetectApprox(
 	const UINT16* input_image,
 	UINT16* output_image,
-	UINT16 nrows, UINT16 ncols,
-	char* errDesc)
+	UINT16 nrows, UINT16 ncols)
 {
 	_ASSERT(input_image);
 	_ASSERT(output_image);

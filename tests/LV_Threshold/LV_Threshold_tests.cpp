@@ -14,7 +14,7 @@
 using namespace std;
 
 /// \copydoc ::LV_Thresh
-typedef retCode (*pLV_Thresh_t)(UINT16*, UINT16*, UINT16, UINT16, unsigned int, double, char*);
+typedef retCode (*pLV_Thresh_t)(UINT16*, UINT16*, UINT16, UINT16, unsigned int, double);
 
 int main(int argc, char* argv[])
 {
@@ -86,7 +86,6 @@ TEST_F(DLL_Tests,_Threshold)
 	std::unique_ptr<double[]> data;
 	retCode ret;
 	unsigned int rows,cols;
-	char err[MAX_ERROR_STRING];
 	ASSERT_NO_THROW(C_MatlabExchange::ReadData("im8bit.dat",data, rows, cols));
 	// konwersja INT
 	UINT16* inTab = new UINT16[rows*cols];
@@ -95,7 +94,7 @@ TEST_F(DLL_Tests,_Threshold)
 
 	// tablica wyjściowa
 	UINT16 *outTab = new UINT16[rows*cols];
-	ret = pLV_Thresh(inTab, outTab, rows, cols, 23, 0.05, err);
+	ret = pLV_Thresh(inTab, outTab, rows, cols, 23, 0.05);
 	ASSERT_EQ(ret, retCode::LV_OK);
 
 	C_MatlabExchange out("LV_Threshold_tests_DLL.out");
@@ -119,7 +118,6 @@ TEST_F(DLL_Tests,_WrongParam)
 	std::unique_ptr<double[]> data;
 	retCode ret;
 	unsigned int rows,cols;
-	char err[MAX_ERROR_STRING];
 	ASSERT_NO_THROW(C_MatlabExchange::ReadData("im8bit.dat",data, rows, cols));
 	// konwersja INT
 	UINT16* inTab = new UINT16[rows*cols];
@@ -128,7 +126,7 @@ TEST_F(DLL_Tests,_WrongParam)
 
 	// tablica wyjściowa
 	UINT16 *outTab = new UINT16[rows*cols];
-	ret = pLV_Thresh(inTab, outTab, rows, cols, 1001, 0.05, err);
+	ret = pLV_Thresh(inTab, outTab, rows, cols, 1001, 0.05);
 	ASSERT_EQ(ret, retCode::LV_FAIL);
 
 	delete[] inTab;

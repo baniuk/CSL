@@ -19,7 +19,6 @@
 extern "C" __declspec(dllexport) uint32_t LV_WeldDetectApprox(
 	const UINT16* input_image,
 	UINT16* output_image,
-	UINT16 nrows, UINT16 ncols,
-	char* errDesc);
+	UINT16 nrows, UINT16 ncols);
 
 #endif // LV_WeldDetectApprox_DLL_Warper_h__

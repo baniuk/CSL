@@ -15,7 +15,7 @@
 using namespace std;
 
 /// \copydoc ::LV_WeldDetectApprox
-typedef retCode (*pLV_WeldDetectApprox_t)(UINT16*, UINT16*, UINT16, UINT16, char*);
+typedef retCode (*pLV_WeldDetectApprox_t)(UINT16*, UINT16*, UINT16, UINT16);
 
 #if GTEST_HAS_PARAM_TEST
 using ::testing::TestWithParam;
@@ -84,7 +84,6 @@ TEST_P(DLL_Tests,_LV_WeldDetectApprox)
 
 	// obs³uga b³êdów
 	retCode ret;
-	char err[MAX_ERROR_STRING];
 
 	// input data
 	unsigned int rows, cols;
@@ -99,7 +98,7 @@ TEST_P(DLL_Tests,_LV_WeldDetectApprox)
 	UINT16* outTab = new UINT16[rows*cols];
 
 	// wywo³anie
-	ret = pLV_WeldDetectApprox(inTab, outTab, rows, cols, err);
+	ret = pLV_WeldDetectApprox(inTab, outTab, rows, cols);
 	EXPECT_EQ(ret, retCode::LV_OK);
 
 	// nagranie wyników
