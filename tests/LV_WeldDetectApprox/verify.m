@@ -216,4 +216,5 @@ for a=1:length(cases)
     subplot(2,1,2)
     imshow(eval(fixNames(name(5:end-8))),[]);
     title(name)
+    print(fixNames(name(5:end-8)),'-dpng')
 end
