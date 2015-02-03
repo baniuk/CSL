@@ -1,0 +1,8 @@
+#include "LV_Features/errordef.h"
+
+STRINGTABLE
+{
+	IDS_BADSIZE, "Input images differ in size - results may be improper"
+	IDS_TOOMANYOBJECTS, "Number of objects exceed allowed limit"
+	IDS_TOOLESSOBJECTS, "Za malo wad - obiekt jednorodny"
+}
