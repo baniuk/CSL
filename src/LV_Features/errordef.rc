@@ -1,0 +1,8 @@
+#include "LV_Features/errordef.h"
+
+STRINGTABLE
+{
+	IDS_ZEROMASK, "Maska równa 0"
+	IDS_LESSMASK, "Maska mniejsza od 0"
+	IDS_EVENMASK, "Maska parzysta"
+}
