@@ -18,13 +18,19 @@ TODO \todo Document this method after implementing correct header
 */
 extern "C" __declspec(dllexport) uint32_t LV_Features(const UINT16* input_image,
 												   UINT16* output_image,
-												   UINT16 nrows, UINT16 ncols,
-												   unsigned int w,
-												   double k,
-												   char* errDesc)
+												   UINT16 nrows, UINT16 ncols)
 {
 	_ASSERT(input_image);
 	_ASSERT(output_image);
 	/// \todo finish 
-	return retCode::LV_OK;
+	char numOfProc = 1; // fixed number of proceses
+	char deb = 0;	// debug off
+
+// 	return Features(C_Image_Container& original,
+// 		C_Image_Container& indexed,
+// 		C_Image_Container& bw,
+// 		C_Matrix_Container& out,
+// 		numOfProc,
+// 		deb);
+
 }

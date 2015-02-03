@@ -9,12 +9,13 @@
 #define _USE_MATH_DEFINES
 //#include "C_DumpAll.h"
 #include <math.h>
-#include "stdlib.h"
+#include <stdlib.h>
 #include <stdio.h>
 #include <tchar.h>
 #include <crtdbg.h>
 #include <process.h>
 #include "LV_Features/LV_Features.h"
+#include "LV_Features/errordef.h"
 
 HANDLE hThread1[8];
 
@@ -44,37 +45,10 @@ struct E	{
 
 E EX[8];
 
-void  func(void *data);
-void cov(C_Matrix_Container* X, C_Matrix_Container* Y);
-unsigned int unique(C_Matrix_Container* input,C_Matrix_Container* licznosc);
-BOOL isintable(double* tab,double val,unsigned int tab_size);
-void RemoveVal(C_Matrix_Container* input,double val);
-void GetMinMax(double* data, double& min, double& max,unsigned int ile);
-void CutImage(C_Image_Container*im,C_Image_Container *out, double *xc, double *yc, unsigned int ile);
-BOOL MatrixMulti(C_Matrix_Container* in1, C_Matrix_Container* in2, C_Matrix_Container* out);
-
-void PB_feat1(unsigned int current_flaw, unsigned int current_flaw_offset,C_Image_Container *res, C_Matrix_Container *x_coord, C_Matrix_Container *y_coord, unsigned int current_flaw_size,double* out1,double* out2,double* out6,double* out7_1,double* out7_2,double* out7_3,double* out7_4,double* out7_5,double* out8,double* out9);
-void PB_feat2(	unsigned int current_flaw, unsigned int current_flaw_offset,C_Image_Container *res,C_Image_Container *org, C_Matrix_Container *x_coord, C_Matrix_Container *y_coord, unsigned int current_flaw_size,
-				double Mout[]);
-void PB_texture(unsigned int current_flaw, unsigned int current_flaw_offset,C_Image_Container *org, C_Matrix_Container *x_coord, C_Matrix_Container *y_coord, unsigned int current_flaw_size,double* out1,double* out2);
-double PB_stdcirc(C_Image_Container *in,double gx,double gy);
-double PB_getIndexNumber(C_Image_Container *res);
-void featuresMC(C_Image_Container* BwIm,C_Image_Container* BwPer,double Area,double Perimeter,double* Cx,double* Cy,double *Width,double *Length,double *Elongation,double *Rectangulity,double *Compactness,double *Iacf);
-
-unsigned long LN_Area(C_Image_Container*);
-double LN_Perimeter(C_Image_Container *in, C_Image_Container *out);
-double LN_wspMal(double A, double p);
-double LN_wspBB(C_Image_Container *in, double A, double Gx, double Gy);
-double LN_wspDan(C_Image_Container *in, double A);
-double LN_wspHar(C_Image_Container *in, double gx, double gy, double ilePikseli);
-void LN_morf(C_Matrix_Container* F, int M[3][3], bool bit);
-void LN_CenterOfGravity(C_Image_Container *in, double A, double *Gx, double *Gy);
-
-void cISAR_CalcFeatures(C_Image_Container& original, C_Image_Container& indexed, C_Image_Container& bw,
+uint32_t Features(C_Image_Container& original, C_Image_Container& indexed, C_Image_Container& bw,
 						C_Matrix_Container& out,
 						char NUMOFPROC,
-						char deb,
-						C_Error& err)
+						char deb)
 {
 
 	unsigned int num_of_points=0; // ile jest wszystkich punktów
@@ -98,16 +72,16 @@ void cISAR_CalcFeatures(C_Image_Container& original, C_Image_Container& indexed,
 //	DumpAllCF.AddEntry(&bw,"bw");
 #endif
 	if(original._cols!=indexed._cols)
-		err.SetError("cf: Input images differ in size - results may be improper");
+		return IDS_BADSIZE;
 	else
 		if(original._cols!=bw._cols)
-			err.SetError("cf: Input images differ in size - results may be improper");
+			return IDS_BADSIZE;
 		else
 			if(original._rows!=indexed._rows)
-				err.SetError("cf: Input images differ in size - results may be improper");
+				return IDS_BADSIZE;
 			else
 				if(original._rows!=bw._rows)
-					err.SetError("cf: Input images differ in size - results may be improper");
+					return IDS_BADSIZE;
 
 	// konwersja indeksed do postaci liniowej, gdzie wady sa numerowane od 0 do N
 
@@ -143,14 +117,10 @@ void cISAR_CalcFeatures(C_Image_Container& original, C_Image_Container& indexed,
 
 //-------------------------------------------------------------------------------------
 	num_of_flaws = unique(&indexed,&licznosc)-1; // bo w indexed jeszcze tlo jest
-	if(num_of_flaws>MAX_NUM_FLAW)	{
-		err.SetError("cf: Number of objects exceed allowed limit !!");
-		num_of_flaws = MAX_NUM_FLAW;
-	}
-	if(num_of_flaws<1) {
-		err.SetError("cf: Za malo wad - obiekt jednorodny");
-		return;
-	}
+	if (num_of_flaws > MAX_NUM_FLAW)
+		return IDS_TOOMANYOBJECTS;
+	if(num_of_flaws<1)
+		return IDS_TOOLESSOBJECTS;
 
 	for(a=1;a<licznosc.GetNumofElements();a++)	// od jedeynki zeby zer nie liczyc
 		num_of_points+=(unsigned int)licznosc.data[a];
@@ -240,6 +210,7 @@ void cISAR_CalcFeatures(C_Image_Container& original, C_Image_Container& indexed,
 	WaitForMultipleObjects(NUMOFPROC,hThread1,TRUE,INFINITE);
 
 	features.CloneObject(&out);
+	return retCode::LV_OK;
 }
 void func(void *data)
 {
@@ -299,13 +270,13 @@ void func(void *data)
 			x_coord.data[current_flaw_offset:current_flaw_offset+current_flaw_size]
 		*/
 // do debugowania i wyswietlania w matlabie
-	if(ex1->deb==1)
-	{
-		sprintf_s(str,50,"org%d.out",current_flaw);
-		org.DumpBinary(str);
-		sprintf_s(str,50,"ind%d.out",current_flaw);
-		res.DumpBinary(str);
-	}
+		if (ex1->deb == 1)
+		{
+			sprintf_s(str, 50, "org%d.out", current_flaw);
+			org.DumpBinary(str);
+			sprintf_s(str, 50, "ind%d.out", current_flaw);
+			res.DumpBinary(str);
+		}
 
 
 		ll=0;
@@ -416,7 +387,6 @@ void func(void *data)
 		ex1->features[ff++] = Mout[35];
 
 	}
-	
 	_endthread();
 }
 double PB_getIndexNumber(C_Image_Container *res)

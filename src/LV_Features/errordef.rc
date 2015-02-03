@@ -2,7 +2,7 @@
 
 STRINGTABLE
 {
-	IDS_ZEROMASK, "Maska równa 0"
-	IDS_LESSMASK, "Maska mniejsza od 0"
-	IDS_EVENMASK, "Maska parzysta"
+	IDS_BADSIZE, "Input images differ in size - results may be improper"
+	IDS_TOOMANYOBJECTS, "Number of objects exceed allowed limit"
+	IDS_TOOLESSOBJECTS, "Za malo wad - obiekt jednorodny"
 }

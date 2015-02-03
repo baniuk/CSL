@@ -13,6 +13,7 @@
  * \li 0x01000000 - 0x010000FF - LV_FastMedian
  * \li 0x02000000 - 0x020000FF - LV_Threshold
  * \li 0x03000000 - 0x030000FF - LV_WeldDetectApprox
+ * \li 0x04000000 - 0x040000FF - LV_Features
  * \li 0xFFFFFF00 - 0xFFFFFFFE - LV_ErrorDecode_dummyDLL.dll - only for tests
  * \n\n
  * \b Possible \b outputs \n
