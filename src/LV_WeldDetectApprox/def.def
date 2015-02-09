@@ -1,0 +1,2 @@
+LIBRARY	"M_LV_WeldDetectApprox.dll"
+EXPORTS mexFunction

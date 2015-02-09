@@ -46,5 +46,28 @@ addLibrary(	SHARED 							# type
 			${CMAKE_CURRENT_BINARY_DIR}/resources.rc
 			errordef.rc) # files to build
 
+# optional wrapper for Matlab
+if (NOT $ENV{MATLABDIR} STREQUAL "" )
+	SET(MATLABDIR $ENV{MATLABDIR})
+	MESSAGE(STATUS "Matlab dir ${MATLABDIR}")
+	IF (CMAKE_CL_64)
+		SET(_prefix "win64")
+	ELSE()
+		SET(_prefix "win32")
+	ENDIF()
+	INCLUDE_DIRECTORIES("${MATLABDIR}/extern/include/")
+	LINK_DIRECTORIES("${MATLABDIR}/extern/lib/${_prefix}/microsoft/")
+	set(libs setError ${LOCAL_PROJECT_NAME}_static ${LOCAL_PROJECT_NAME}_WeldPostProcess_static libmex.lib libmx.lib libmat.lib)
+	set(dep setError PBToolset)
+	addLibrary( SHARED
+				${LOCAL_PROJECT_NAME}			# name of the project
+				M_${LOCAL_PROJECT_NAME}			# name of the project
+				"${libs}"						# libs to link
+				"${dep}"						# dependencies
+				M_WeldDetectApprox_DLL_Wrapper.cpp M_WeldDetectApprox_DLL_Wrapper.h
+				def.def) # files to build
+else ()
+	message(WARNING "Matlab mex files no built because MATLABDIR env is not set")
+endif ()
 # instalacja - kopiowanie wyników do katalogu po nmake install (nie potrzebne do testów)
 install (TARGETS ${LOCAL_PROJECT_NAME} RUNTIME DESTINATION ${${ROOT_PROJECT_NAME}_SOURCE_DIR}/bin)
