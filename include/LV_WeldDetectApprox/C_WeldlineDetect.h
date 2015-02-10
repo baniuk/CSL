@@ -27,7 +27,7 @@
 */
 struct Matrix_Container
 {
-	const double* data; ///< image data in rows
+	const double* data = nullptr; ///< image data in rows
 	unsigned int _rows; ///< number of rows
 	unsigned int _cols; ///< number of columns
 };
