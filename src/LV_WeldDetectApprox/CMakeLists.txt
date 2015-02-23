@@ -36,7 +36,7 @@ addLibrary(	STATIC 							# type
 			CV_WeldPostProcess.cpp CV_WeldPostProcess.h) # files to build
 
 set(libs setError ${LOCAL_PROJECT_NAME}_static ${LOCAL_PROJECT_NAME}_WeldPostProcess_static)
-set(dep setError PBToolset)
+set(dep setError PBToolset ${LOCAL_PROJECT_NAME}_static ${LOCAL_PROJECT_NAME}_WeldPostProcess_static)
 addLibrary(	SHARED 							# type
 			${LOCAL_PROJECT_NAME}			# name of the project
 			${LOCAL_PROJECT_NAME}			# name of the LIBRARY
@@ -46,5 +46,34 @@ addLibrary(	SHARED 							# type
 			${CMAKE_CURRENT_BINARY_DIR}/resources.rc
 			errordef.rc) # files to build
 
+# optional wrapper for Matlab
+if (NOT $ENV{MATLABDIR} STREQUAL "" )
+	SET(MATLABDIR $ENV{MATLABDIR})
+	MESSAGE(STATUS "Found Matlab: ${MATLABDIR}")
+	IF (CMAKE_CL_64)
+		SET(_prefix ".mexw64")
+		set(_dir "win64")
+	ELSE()
+		SET(_prefix ".mexw32")
+		set(_dir "win32")
+	ENDIF()
+	INCLUDE_DIRECTORIES("${MATLABDIR}/extern/include/")
+	LINK_DIRECTORIES("${MATLABDIR}/extern/lib/${_dir}/microsoft/")
+	set(libs setError ${LOCAL_PROJECT_NAME}_static ${LOCAL_PROJECT_NAME}_WeldPostProcess_static libmex.lib libmx.lib libmat.lib)
+	set(dep setError PBToolset ${LOCAL_PROJECT_NAME}_static ${LOCAL_PROJECT_NAME}_WeldPostProcess_static)
+	file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/def.def "LIBRARY	M_${LOCAL_PROJECT_NAME}${_prefix}\n")
+	file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/def.def "EXPORTS mexFunction\n")
+	addLibrary( SHARED
+				${LOCAL_PROJECT_NAME}			# name of the project
+				M_${LOCAL_PROJECT_NAME}			# name of the project
+				"${libs}"						# libs to link
+				"${dep}"						# dependencies
+				M_WeldDetectApprox_DLL_Wrapper.cpp M_WeldDetectApprox_DLL_Wrapper.h
+				${CMAKE_CURRENT_BINARY_DIR}/def.def
+				${CMAKE_CURRENT_BINARY_DIR}/resources.rc) # files to build
+	set_target_properties(M_${LOCAL_PROJECT_NAME} PROPERTIES SUFFIX ${_prefix})
+else ()
+	message(WARNING "Matlab mex files no built because MATLABDIR env is not set")
+endif ()
 # instalacja - kopiowanie wyników do katalogu po nmake install (nie potrzebne do testów)
 install (TARGETS ${LOCAL_PROJECT_NAME} RUNTIME DESTINATION ${${ROOT_PROJECT_NAME}_SOURCE_DIR}/bin)

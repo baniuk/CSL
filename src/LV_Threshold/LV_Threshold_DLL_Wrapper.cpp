@@ -21,7 +21,6 @@
 * \param[in] ncols number of cols (width) of input/output image
 * \param[in] w window size (nonzero and uneven)
 * \param[in] k Sauvola parameter
-* \param[out] errDesc description of the error
 * \return operation status, LV_OK on success, LV_FAIL on:
 * \li mask equals 0 or is even
 * \li image is smaller than mask
@@ -33,8 +32,7 @@ extern "C" __declspec(dllexport) uint32_t LV_Thresh(const UINT16* input_image,
 												   UINT16* output_image,
 												   UINT16 nrows, UINT16 ncols,
 												   unsigned int w,
-												   double k,
-												   char* errDesc)
+												   double k)
 {
 	_ASSERT(input_image);
 	_ASSERT(output_image);

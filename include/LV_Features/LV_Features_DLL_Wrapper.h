@@ -17,9 +17,6 @@
 /// \todo This is only fake method - implement correct one
 extern "C" __declspec(dllexport) uint32_t LV_Features(const UINT16* input_image,
 												   UINT16* output_image,
-												   UINT16 nrows, UINT16 ncols,
-												   unsigned int w,
-												   double k,
-												   char* errDesc);
+												   UINT16 nrows, UINT16 ncols);
 
 #endif // LV_Features_DLL_Wrapper_h__
