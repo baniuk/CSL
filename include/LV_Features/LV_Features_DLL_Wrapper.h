@@ -14,9 +14,11 @@
 #include "definitions.h"
 #include <inttypes.h>
 
-/// \todo This is only fake method - implement correct one
-extern "C" __declspec(dllexport) uint32_t LV_Features(const UINT16* input_image,
-												   UINT16* output_image,
-												   UINT16 nrows, UINT16 ncols);
+extern "C" __declspec(dllexport) uint32_t LV_Features(
+	const UINT16* input_image,
+	const UINT16* bw_image,
+	const UINT16* indexed_image,
+	double* output_data,
+	UINT16 nrows, UINT16 ncols);
 
 #endif // LV_Features_DLL_Wrapper_h__

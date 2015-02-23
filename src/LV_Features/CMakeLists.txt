@@ -10,7 +10,7 @@ configure_file(
 
 project(${LOCAL_PROJECT_NAME})
 
-set(lib f2c blas tmglib lapack)
+set(lib f2c blas tmglib lapack libf2c)
 set(dep clapack)
 addLibrary (STATIC
 			${LOCAL_PROJECT_NAME}			# name of the project

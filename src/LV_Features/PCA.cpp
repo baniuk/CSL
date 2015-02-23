@@ -4,10 +4,12 @@
  * \author PB
  * \date 2015/02/03
  */
-#include "LV_Features/PCA.h"
+extern "C" {
 #include <f2c.h>
 #include <blaswrap.h>
 #include <clapack.h>
+}
+#include "LV_Features/PCA.h"
 
 void PCA(double* a,integer Na,integer LDA,double *D)
 {

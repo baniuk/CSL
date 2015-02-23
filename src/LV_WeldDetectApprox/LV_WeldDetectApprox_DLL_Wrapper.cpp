@@ -18,7 +18,7 @@
 #include <memory>
 
 /**
-* \brief Exported procedure for werld detection
+* \brief Exported procedure for weld detection
 * \details Detect weld line on radiogram assuming that there are not white frames on image and weld line is moreless
 * in the centre part of image. Thicness of the line should be significally smaller than \c y size of the image. In this version there is no extensive
 * error checking. It can happen that when weld detection failed the procedure return invalid mask.
