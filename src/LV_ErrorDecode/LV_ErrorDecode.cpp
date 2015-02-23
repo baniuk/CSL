@@ -23,6 +23,8 @@ std::string getDllName(uint32_t errCode)
 		libName = "LV_Threshold.dll";
 	if (errCode >= 0x03000000 && errCode <= 0x030000FF)
 		libName = "LV_WeldDetectApprox.dll";
+	if (errCode >= 0x04000000 && errCode <= 0x040000FF)
+		libName = "LV_Features.dll";
 	if (errCode >= 0xFFFFFF00 && errCode < 0xFFFFFFFE)
 		libName = "LV_ErrorDecode_dummyDLL.dll";
 	return libName;
