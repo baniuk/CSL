@@ -37,4 +37,9 @@
 * -# ::getErrorDesc \copybrief getErrorDesc \n
 * -# ::LV_getErrorDesc \copybrief LV_getErrorDesc \n
 * See LV_ErrorDecode.h for details
+* \subsubsection LV_Features
+* \copybrief LV_Features.cpp
+* 
+* \b Exports:
+* -# ::LV_Features \copybrief LV_Features \n
 */

@@ -19,8 +19,10 @@
 * \li original image
 * \li indexed image
 * \li binary image
+* 
 * Features are calculated for all obiects found in binary image and numbered in accordance to 
 * indexed image.
+* 
 * \return operation status, \c LV_OK on success, \c LV_FAIL is returned when the procedure failed.
 * \param[in] input_image 1D input image.
 * \param[in] bw_image thresholded \c input_image
