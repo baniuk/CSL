@@ -1,0 +1,18 @@
+WeŸmy sobie numery b³êdów:
+
+1. Funkcja
+LVMIX_ERROR1
+
+0xF1000000 - 0xF10000FF
+
+2.
+
+0xF1001000 - 0xF10010FF
+
+3.
+
+0xF1002000 - 0xF10020FF
+
+
+itd.
+
